@@ -53,6 +53,7 @@ jobs:
             -e NODE_ENV=development \
             -e PORT=3000 \
             -e SIGN_PRIVATE_KEY=${{ secrets.SIGN_PRIVATE_KEY }} \
+            -e DATABASE_URL=${{ secrets.DATA_BASE_URL }} \
             -e SUBSCRIBER_ID=${{ vars.SUBSCRIBER_ID }} \
             -e UKID=${{ vars.UKID }} \
             -e ONDC_ENV=${{ vars.ONDC_ENV }} \
@@ -62,6 +63,5 @@ jobs:
             -e REDIS_PASSWORD=${{ vars.REDIS_PASSWORD }} \
             -e REDIS_PORT=${{ vars.REDIS_PORT }} \
             -e MOCK_SERVICE_URL=${{ vars.MOCK_SERVICE_URL }} \
-            -e DATABASE_URL=${{ secrets.DATA_BASE_URL }} \
             -p 3000:3000 ${{ vars.DOCKER_USERNAME }}/automation-api-service:latest
           EOF
