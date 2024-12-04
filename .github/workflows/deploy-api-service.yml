@@ -53,7 +53,7 @@ jobs:
             -e NODE_ENV=development \
             -e PORT=3000 \
             -e SIGN_PRIVATE_KEY=${{ secrets.SIGN_PRIVATE_KEY }} \
-            -e DATABASE_URL=${{ secrets.DATA_BASE_URL }} \
+            -e DATABASE_URL=${{ vars.DATA_BASE_URL }} \
             -e SUBSCRIBER_ID=${{ vars.SUBSCRIBER_ID }} \
             -e UKID=${{ vars.UKID }} \
             -e ONDC_ENV=${{ vars.ONDC_ENV }} \
