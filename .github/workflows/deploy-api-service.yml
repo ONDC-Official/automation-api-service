@@ -50,18 +50,18 @@ jobs:
             # Run the new container
             # docker run -d --name automation-api-service -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/automation-api-service:latest
              docker run -d docker run \
-            -e NODE_ENV=${{ secrets.NODE_ENV }} \
-            -e PORT=${{ secrets.PORT }} \
+            -e NODE_ENV=development \
+            -e PORT=3000 \
             -e SIGN_PRIVATE_KEY=${{ secrets.SIGN_PRIVATE_KEY }} \
-            -e SUBSCRIBER_ID=${{ secrets.SUBSCRIBER_ID }} \
-            -e UKID=${{ secrets.UKID }} \
-            -e ONDC_ENV=${{ secrets.ONDC_ENV }} \
-            -e SUBSCRIBER_URL=${{ secrets.SUBSCRIBER_URL }} \
-            -e REDIS_USERNAME=${{ secrets.REDIS_USERNAME }} \
-            -e REDIS_HOST=${{ secrets.REDIS_HOST }} \
-            -e REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }} \
-            -e REDIS_PORT=${{ secrets.REDIS_PORT }} \
-            -e MOCK_SERVICE_URL=${{ secrets.MOCK_SERVICE_URL }} \
+            -e SUBSCRIBER_ID=${{ vars.SUBSCRIBER_ID }} \
+            -e UKID=${{ vars.UKID }} \
+            -e ONDC_ENV=${{ vars.ONDC_ENV }} \
+            -e SUBSCRIBER_URL=${{ vars.SUBSCRIBER_URL }} \
+            -e REDIS_USERNAME=${{ vars.REDIS_USERNAME }} \
+            -e REDIS_HOST=${{ vars.REDIS_HOST }} \
+            -e REDIS_PASSWORD=${{ vars.REDIS_PASSWORD }} \
+            -e REDIS_PORT=${{ vars.REDIS_PORT }} \
+            -e MOCK_SERVICE_URL=${{ vars.MOCK_SERVICE_URL }} \
             -e DATABASE_URL=${{ secrets.DATA_BASE_URL }} \
-            -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/automation-api-service:latest
+            -p 3000:3000 ${{ vars.DOCKER_USERNAME }}/automation-api-service:latest
           EOF
