@@ -1,4 +1,4 @@
-name: yugabyte-integration deployment
+name: authentication-api-service deployment
 
 on:
   workflow_dispatch:
