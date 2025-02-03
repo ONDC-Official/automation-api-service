@@ -29,7 +29,7 @@ jobs:
           echo "Cloning repository from staging branch"
           git clone --single-branch --branch staging https://github.com/ONDC-Official/automation-api-service.git \$REPO_DIR
           EOF
-
+ 
       - name: Install Docker Compose (if not installed)
         run: |
           ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
