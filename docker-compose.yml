@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: automation-api-service
+    container_name: ${CONTAINER_NAME}
     ports:
       - "3032:3000"
     env_file:
