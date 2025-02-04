@@ -7,7 +7,7 @@ on:
 jobs:
   ssh-ec2:
     runs-on: ubuntu-latest
-    environment: 
+    environment:  
           name: staging
           url: https://github.com
 
