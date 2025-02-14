@@ -1,8 +1,8 @@
 import axios from "axios";
 import logger from "../utils/logger";
 import { RedisService } from "ondc-automation-cache-lib";
-import { loadData } from "../utils/data-utils/cache-utils";
-import { getAxiosErrorMessage } from "../utils/axiosUtils";
+import { TransactionCacheService } from "./session-service-rewrite";
+import { generateHash } from "../utils/hash";
 
 export class DataService {
 	saveSessionToDB = async (
@@ -13,26 +13,38 @@ export class DataService {
 		requestId: string
 	) => {
 		try {
+			logger.info("Saving data to DB");
 			const dbUrl = process.env.DATA_BASE_URL;
-			const sessionData = await loadData(subscriberUri);
+			const sessionData =
+				await new TransactionCacheService().tryLoadTransaction(
+					payload.context.transaction_id,
+					subscriberUri
+				);
+			let key = `${new TransactionCacheService().createTransactionKey(
+				payload.context.transaction_id,
+				subscriberUri
+			)}`;
+			key = generateHash(key);
 			if (sessionData === undefined) {
 				logger.error(
-					"Session data not found for subscriber URL: skipping presitant saving " +
+					"Session data not found for subscriber URL: skipping persistent saving " +
 						subscriberUri
 				);
 				return;
 			}
-			const checkSessionUrl = `${dbUrl}/api/sessions/check/${sessionData.active_session_id}`;
+			const checkSessionUrl = `${dbUrl}/api/sessions/check/${
+				sessionData.sessionId ?? key
+			}`;
 			const postUrl = `${dbUrl}/api/sessions`;
 			const exists = await axios.get(checkSessionUrl);
 			if (!exists.data) {
 				logger.info("Session does not exist in DB, creating new session");
 				const sessionPayload = {
-					sessionId: sessionData.active_session_id,
-					npType: sessionData.type,
-					npId: sessionData.context_cache.subscriber_id,
-					domain: sessionData.domain,
-					version: sessionData.version,
+					sessionId: sessionData.sessionId ?? key,
+					npType: sessionData.subscriberType,
+					npId: sessionData,
+					domain: payload.context.domain,
+					version: payload.context.version,
 					sessionType: "AUTOMATION",
 					sessionActive: true,
 				};
@@ -50,20 +62,20 @@ export class DataService {
 				jsonRequest: payload,
 				jsonResponse: { response: response },
 				httpStatus: code,
-				flowId: sessionData.current_flow_id,
+				flowId: sessionData.flowId,
 				sessionDetails: {
-					sessionId: sessionData.active_session_id,
+					sessionId: sessionData.sessionId ?? key,
 				},
 			};
+
 			const res = await axios.post(postUrl + "/payload", requestBody);
 			logger.info(
 				`Data saved to DB with response: ${res.data} and payloadID: ${requestId}`
 			);
 		} catch (error) {
-			logger.error("Error in saving data to DB ", getAxiosErrorMessage(error));
+			logger.error("Error in saving data to DB ", error);
 		}
 	};
-
 	checkSessionExistence = async (subscriberUri: string) => {
 		return await RedisService.keyExists(subscriberUri);
 	};
