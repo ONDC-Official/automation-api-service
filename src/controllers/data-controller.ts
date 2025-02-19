@@ -84,9 +84,10 @@ export class DataController {
 		code: number,
 		reqId: string
 	) {
-		const sessionId = (req as ApiServiceRequest).requestProperties?.sessionId ?? 'unknown';
-		saveLog(sessionId, 'Saving payload data to database');
-		
+		const sessionId =
+			(req as ApiServiceRequest).requestProperties?.sessionId ?? "unknown";
+		saveLog(sessionId, "Saving payload data to database");
+
 		let url = computeSubscriberUri(
 			req.body.context,
 			req.params.action,
@@ -95,12 +96,19 @@ export class DataController {
 		if (fromMock) {
 			url = (req.query.subscriber_url as string) ?? url;
 		}
+		const auth = req.headers.authorization ?? "no-auth";
 		this.dataService
-			.saveSessionToDB(url, req.body, responseBody, code, reqId)
-			.then(() => saveLog(sessionId, 'Successfully saved payload data to database'))
+			.saveSessionToDB(url, req.body, auth, responseBody, code, reqId)
+			.then(() =>
+				saveLog(sessionId, "Successfully saved payload data to database")
+			)
 			.catch((err) => {
 				logger.error("Error in saving payload data to DB", err);
-				saveLog(sessionId, `Error saving payload data to database: ${err}`, 'error');
+				saveLog(
+					sessionId,
+					`Error saving payload data to database: ${err}`,
+					"error"
+				);
 			});
 	}
 }

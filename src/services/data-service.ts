@@ -8,6 +8,7 @@ export class DataService {
 	saveSessionToDB = async (
 		subscriberUri: string,
 		payload: any,
+		reqHeader: any,
 		response: any,
 		code: number,
 		requestId: string
@@ -59,6 +60,7 @@ export class DataService {
 				action: action.toUpperCase(),
 				bppId: payload.context.bpp_id ?? "",
 				bapId: payload.context.bap_id,
+				reqHeader: reqHeader,
 				jsonRequest: payload,
 				jsonResponse: { response: response },
 				httpStatus: code,
