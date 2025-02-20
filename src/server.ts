@@ -22,10 +22,16 @@ const createServer = (): Application => {
 		});
 	}
 
+	var domain = process.env.DOMAIN;
+	var version = process.env.VERSION;
+	if (!domain || !version) {
+		throw new Error("Domain and version are required in env");
+	}
+
 	// Routes
-	app.use("/api", routes);
-	app.use("/api-service/mock", router);
-	app.use("/test", testRoutes);
+	app.use(`${domain}/${version}/api`, routes);
+	app.use(`${domain}/${version}/api-service/mock`, router);
+	app.use(`${domain}/${version}/test`, testRoutes);
 
 	// Health Check
 	app.get("/health", (req: Request, res: Response) => {
