@@ -1,6 +1,4 @@
-import fs from "fs";
-import yaml from "js-yaml";
-import path from "path";
+import axios from "axios";
 
 interface Config {
 	supportedActions: Record<string, string[]>;
@@ -10,22 +8,38 @@ interface Config {
 	>;
 }
 
-function loadConfig(): Config {
+let supportedActions: Config["supportedActions"] = {};
+let apiProperties: Config["apiProperties"] = {};
+
+// Function to load config from API
+async function loadConfig(): Promise<void> {
 	try {
-		const fileContents = fs.readFileSync(
-			path.resolve(__dirname, "./supported-actions.yaml"),
-			"utf8"
-		);
-		const config = yaml.load(fileContents) as Config;
-		return config;
+		const domain = process.env.DOMAIN;
+		const version = process.env.VERSION;
+
+		if (!domain || !version) {
+			throw new Error(
+				"DOMAIN and VERSION must be set in the environment variables."
+			);
+		}
+
+		const url = `https://dev-automation.ondc.org/config-service/api-service/supportedActions?domain=${encodeURIComponent(
+			domain
+		)}&version=${encodeURIComponent(version)}`;
+
+		const response = await axios.get(url);
+		const config = response.data as Config;
+
+		supportedActions = config.supportedActions;
+		apiProperties = config.apiProperties;
 	} catch (error) {
-		console.error("Error loading YAML config:", error);
+		console.error("Error loading config from API:", error);
 		throw error;
 	}
 }
 
-// Load the configuration
-const { supportedActions, apiProperties } = loadConfig();
+// Load the config immediately and export a promise
+const configPromise = loadConfig();
 
-// Export for use in other files
-export { supportedActions, apiProperties };
+// Exporting config variables and the promise
+export { configPromise, supportedActions, apiProperties };
