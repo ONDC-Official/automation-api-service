@@ -1,10 +1,6 @@
 import express from "express";
 import { ValidationController } from "../controllers/validation-controller";
-import { CommunicationController } from "../controllers/communication-controller";
-import { DataController } from "../controllers/data-controller";
-import logger from "../utils/logger";
 import { setAckResponse } from "../utils/ackUtils";
-import { readFileSync } from "fs";
 
 const router = express();
 router.use(express.json());
@@ -21,7 +17,6 @@ router.post(
 	"/:action",
 	validationController.validateRequestBodyNp,
 	validationController.validateL0,
-	// validationController.validateSingleL1,
 	validationController.validateL1,
 	(req, res, next) => {
 		res.send(setAckResponse(true));
