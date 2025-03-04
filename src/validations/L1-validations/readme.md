@@ -26,11 +26,6 @@
 	  - **condition Enum_Required_9_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_9_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
 	
-	- **condition Enum_Required_10_CITY_CODE**: all of the following sub conditions must be met:
-	
-	  - **condition Enum_Required_10_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
-	  - **condition Enum_Required_10_CITY_CODE.2**: $.context.location.city.code must be present in the payload
-	
 	- **condition Enum_Required_11_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
 	  - **condition Enum_Required_11_CONTEXT_DOMAIN.1**: every element of $.context.domain must be in ["ONDC:TRV11"]
@@ -110,11 +105,6 @@
 	
 	  - **condition Enum_Required_14_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_14_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
-	
-	- **condition Enum_Required_15_CITY_CODE**: all of the following sub conditions must be met:
-	
-	  - **condition Enum_Required_15_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
-	  - **condition Enum_Required_15_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_16_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -222,11 +212,6 @@
 	
 	  - **condition Enum_Required_17_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_17_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
-	
-	- **condition Enum_Required_18_CITY_CODE**: all of the following sub conditions must be met:
-	
-	  - **condition Enum_Required_18_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
-	  - **condition Enum_Required_18_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_19_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -343,11 +328,6 @@
 	  - **condition Enum_Required_22_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_22_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
 	
-	- **condition Enum_Required_23_CITY_CODE**: all of the following sub conditions must be met:
-	
-	  - **condition Enum_Required_23_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
-	  - **condition Enum_Required_23_CITY_CODE.2**: $.context.location.city.code must be present in the payload
-	
 	- **condition Enum_Required_24_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
 	  - **condition Enum_Required_24_CONTEXT_DOMAIN.1**: every element of $.context.domain must be in ["ONDC:TRV11"]
@@ -440,11 +420,6 @@
 	  - **condition Enum_Required_11_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_11_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
 	
-	- **condition Enum_Required_12_CITY_CODE**: all of the following sub conditions must be met:
-	
-	  - **condition Enum_Required_12_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
-	  - **condition Enum_Required_12_CITY_CODE.2**: $.context.location.city.code must be present in the payload
-	
 	- **condition Enum_Required_13_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
 	  - **condition Enum_Required_13_CONTEXT_DOMAIN.1**: every element of $.context.domain must be in ["ONDC:TRV11"]
@@ -485,11 +460,6 @@
 	
 	  - **condition Enum_Required_14_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_14_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
-	
-	- **condition Enum_Required_15_CITY_CODE**: all of the following sub conditions must be met:
-	
-	  - **condition Enum_Required_15_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
-	  - **condition Enum_Required_15_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_16_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -534,11 +504,6 @@
 	
 	  - **condition Enum_Required_13_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_13_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
-	
-	- **condition Enum_Required_14_CITY_CODE**: all of the following sub conditions must be met:
-	
-	  - **condition Enum_Required_14_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
-	  - **condition Enum_Required_14_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_15_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -634,11 +599,6 @@
 	
 	  - **condition Enum_Required_20_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_20_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
-	
-	- **condition Enum_Required_21_CITY_CODE**: all of the following sub conditions must be met:
-	
-	  - **condition Enum_Required_21_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
-	  - **condition Enum_Required_21_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_22_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -789,11 +749,6 @@
 	  - **condition Enum_Required_34_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_34_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
 	
-	- **condition Enum_Required_35_CITY_CODE**: all of the following sub conditions must be met:
-	
-	  - **condition Enum_Required_35_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
-	  - **condition Enum_Required_35_CITY_CODE.2**: $.context.location.city.code must be present in the payload
-	
 	- **condition Enum_Required_36_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
 	  - **condition Enum_Required_36_CONTEXT_DOMAIN.1**: every element of $.context.domain must be in ["ONDC:TRV11"]
@@ -940,11 +895,6 @@
 	
 	  - **condition Enum_Required_35_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_35_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
-	
-	- **condition Enum_Required_36_CITY_CODE**: all of the following sub conditions must be met:
-	
-	  - **condition Enum_Required_36_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
-	  - **condition Enum_Required_36_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_37_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -1113,11 +1063,6 @@
 	
 	  - **condition Enum_Required_44_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_44_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
-	
-	- **condition Enum_Required_45_CITY_CODE**: all of the following sub conditions must be met:
-	
-	  - **condition Enum_Required_45_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
-	  - **condition Enum_Required_45_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_46_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -1305,11 +1250,6 @@
 	  - **condition Enum_Required_39_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_39_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
 	
-	- **condition Enum_Required_40_CITY_CODE**: all of the following sub conditions must be met:
-	
-	  - **condition Enum_Required_40_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
-	  - **condition Enum_Required_40_CITY_CODE.2**: $.context.location.city.code must be present in the payload
-	
 	- **condition Enum_Required_41_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
 	  - **condition Enum_Required_41_CONTEXT_DOMAIN.1**: every element of $.context.domain must be in ["ONDC:TRV11"]
@@ -1486,11 +1426,6 @@
 	  - **condition Enum_Required_40_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_40_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
 	
-	- **condition Enum_Required_41_CITY_CODE**: all of the following sub conditions must be met:
-	
-	  - **condition Enum_Required_41_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
-	  - **condition Enum_Required_41_CITY_CODE.2**: $.context.location.city.code must be present in the payload
-	
 	- **condition Enum_Required_42_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
 	  - **condition Enum_Required_42_CONTEXT_DOMAIN.1**: every element of $.context.domain must be in ["ONDC:TRV11"]
@@ -1657,11 +1592,6 @@
 	
 	  - **condition Enum_Required_44_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_44_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
-	
-	- **condition Enum_Required_45_CITY_CODE**: all of the following sub conditions must be met:
-	
-	  - **condition Enum_Required_45_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
-	  - **condition Enum_Required_45_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_46_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	

@@ -341,41 +341,6 @@ export default function on_confirm(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Enum_Required_45_CITY_CODE(
-            input: validationInput,
-        ): validationOutput {
-            const scope = payloadUtils.getJsonPath(input.payload, "$");
-            let subResults: validationOutput = [];
-            let valid = true;
-            for (const testObj of scope) {
-                testObj._EXTERNAL = input.externalData;
-                const enumList = ["std:080"];
-                const enumPath = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.context.location.city.code",
-                );
-
-                const validate =
-                    validations.allIn(enumPath, enumList) &&
-                    validations.arePresent(enumPath);
-
-                if (!validate) {
-                    return [
-                        {
-                            valid: false,
-                            code: 30000,
-                            description: `- **condition Enum_Required_45_CITY_CODE**: all of the following sub conditions must be met:
-
-  - **condition Enum_Required_45_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
-  - **condition Enum_Required_45_CITY_CODE.2**: $.context.location.city.code must be present in the payload`,
-                        },
-                    ];
-                }
-
-                delete testObj._EXTERNAL;
-            }
-            return [{ valid: valid, code: 200 }, ...subResults];
-        }
         function Enum_Required_46_CONTEXT_DOMAIN(
             input: validationInput,
         ): validationOutput {
@@ -2199,7 +2164,6 @@ export default function on_confirm(input: validationInput): validationOutput {
             Attri_Required_9_CONTEXT_BPP_URI,
             Enum_Required_43_CONTEXT_ACTION,
             Enum_Required_44_COUNTRY_CODE,
-            Enum_Required_45_CITY_CODE,
             Enum_Required_46_CONTEXT_DOMAIN,
             on_confirm_Message_TESTS,
         ];
