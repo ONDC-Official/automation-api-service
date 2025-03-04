@@ -296,8 +296,6 @@
 	
 	- **condition Attri_Required_9_CONTEXT_BPP_URI**: $.context.bpp_uri must be present in the payload
 	
-	- **condition Attri_Required_10_ORDER_ID**: $.message.order.id must be present in the payload
-	
 	- **condition Attri_Required_11_ITEMS_ID**: $.message.order.items[*].id must be present in the payload
 	
 	- **condition Attri_Required_12_SELECTED_COUNT**: $.message.order.items[*].quantity.selected.count must be present in the payload
