@@ -62,15 +62,24 @@ export class CommunicationController {
 			}
 			const subUrl = req.requestProperties.subscriberUrl;
 			const useGateway = req.requestProperties.difficulty.useGateway;
+
 			if (useGateway) {
-				logger.info("Forwarding request to Gateway server");
+				logger.info(
+					"Forwarding request to Gateway server",
+					req.params.action,
+					subUrl
+				);
 				const response = await this.communicationService.forwardApiToGateway(
 					req.body
 				);
 				res.status(response.status).send(response.data);
 				return;
 			} else {
-				logger.info("Forwarding request to NP server");
+				logger.info(
+					"Forwarding request to NP server",
+					req.params.action,
+					subUrl
+				);
 				const response = await this.communicationService.forwardApiToNp(
 					req.body,
 					req.params.action,

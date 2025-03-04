@@ -36,6 +36,12 @@ export class SessionController {
 				properties.sessionId,
 				`Received ${action} with Transaction ID: ${properties.transactionId}`
 			);
+
+		if (properties.defaultMode) {
+			logger.info("Default mode is enabled for this request responding 204");
+			res.status(204).send("content not found");
+			return;
+		}
 		next();
 	};
 
