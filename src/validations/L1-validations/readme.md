@@ -1071,8 +1071,6 @@
 	
 	- **on_confirm_Message_TESTS** : All the following sub conditions must pass as per the api requirement
 	
-		- **condition Attri_Required_10_ORDER_ID**: $.message.order.id must be present in the payload
-		
 		- **condition Attri_Required_11_ITEMS_ID**: $.message.order.items[*].id must be present in the payload
 		
 		- **condition Attri_Required_12_DESCRIPTOR_NAME**: $.message.order.items[*].descriptor.name must be present in the payload

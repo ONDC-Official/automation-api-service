@@ -392,35 +392,6 @@ export default function on_confirm(input: validationInput): validationOutput {
                 const skipCheck = validations.arePresent(errorBlock);
                 if (skipCheck) continue;
 
-                function Attri_Required_10_ORDER_ID(
-                    input: validationInput,
-                ): validationOutput {
-                    const scope = payloadUtils.getJsonPath(input.payload, "$");
-                    let subResults: validationOutput = [];
-                    let valid = true;
-                    for (const testObj of scope) {
-                        testObj._EXTERNAL = input.externalData;
-                        const attr = payloadUtils.getJsonPath(
-                            testObj,
-                            "$.message.order.id",
-                        );
-
-                        const validate = validations.arePresent(attr);
-
-                        if (!validate) {
-                            return [
-                                {
-                                    valid: false,
-                                    code: 30000,
-                                    description: `- **condition Attri_Required_10_ORDER_ID**: $.message.order.id must be present in the payload`,
-                                },
-                            ];
-                        }
-
-                        delete testObj._EXTERNAL;
-                    }
-                    return [{ valid: valid, code: 200 }, ...subResults];
-                }
                 function Attri_Required_11_ITEMS_ID(
                     input: validationInput,
                 ): validationOutput {
@@ -2075,7 +2046,6 @@ export default function on_confirm(input: validationInput): validationOutput {
                 }
 
                 const testFunctions: testFunctionArray = [
-                    Attri_Required_10_ORDER_ID,
                     Attri_Required_11_ITEMS_ID,
                     Attri_Required_12_DESCRIPTOR_NAME,
                     Attri_Required_13_PRICE_CURRENCY,
