@@ -291,19 +291,25 @@ export default function search(input: validationInput): validationOutput {
             let valid = true;
             for (const testObj of scope) {
                 testObj._EXTERNAL = input.externalData;
+                const enumList = ["std:080"];
                 const enumPath = payloadUtils.getJsonPath(
                     testObj,
                     "$.context.location.city.code",
                 );
 
-                const validate = validations.arePresent(enumPath);
+                const validate =
+                    validations.allIn(enumPath, enumList) &&
+                    validations.arePresent(enumPath);
 
                 if (!validate) {
                     return [
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Enum_Required_10_CITY_CODE**: $.context.location.city.code must be present in the payload`,
+                            description: `- **condition Enum_Required_10_CITY_CODE**: all of the following sub conditions must be met:
+
+  - **condition Enum_Required_10_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
+  - **condition Enum_Required_10_CITY_CODE.2**: $.context.location.city.code must be present in the payload`,
                         },
                     ];
                 }

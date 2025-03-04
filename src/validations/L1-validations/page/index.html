@@ -39,7 +39,11 @@
 <li><strong>condition Enum_Required_9_COUNTRY_CODE.2</strong>: $.context.location.country.code must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_10_CITY_CODE</strong>: $.context.location.city.code must be present in the payload</p>
+<li><p><strong>condition Enum_Required_10_CITY_CODE</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition Enum_Required_10_CITY_CODE.1</strong>: every element of $.context.location.city.code must be in [&quot;std:080&quot;]</li>
+<li><strong>condition Enum_Required_10_CITY_CODE.2</strong>: $.context.location.city.code must be present in the payload</li>
+</ul>
 </li>
 <li><p><strong>condition Enum_Required_11_CONTEXT_DOMAIN</strong>: all of the following sub conditions must be met:</p>
 <ul>
@@ -137,7 +141,11 @@
 <li><strong>condition Enum_Required_14_COUNTRY_CODE.2</strong>: $.context.location.country.code must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_15_CITY_CODE</strong>: $.context.location.city.code must be present in the payload</p>
+<li><p><strong>condition Enum_Required_15_CITY_CODE</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition Enum_Required_15_CITY_CODE.1</strong>: every element of $.context.location.city.code must be in [&quot;std:080&quot;]</li>
+<li><strong>condition Enum_Required_15_CITY_CODE.2</strong>: $.context.location.city.code must be present in the payload</li>
+</ul>
 </li>
 <li><p><strong>condition Enum_Required_16_CONTEXT_DOMAIN</strong>: all of the following sub conditions must be met:</p>
 <ul>
@@ -269,7 +277,11 @@
 <li><strong>condition Enum_Required_17_COUNTRY_CODE.2</strong>: $.context.location.country.code must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_18_CITY_CODE</strong>: $.context.location.city.code must be present in the payload</p>
+<li><p><strong>condition Enum_Required_18_CITY_CODE</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition Enum_Required_18_CITY_CODE.1</strong>: every element of $.context.location.city.code must be in [&quot;std:080&quot;]</li>
+<li><strong>condition Enum_Required_18_CITY_CODE.2</strong>: $.context.location.city.code must be present in the payload</li>
+</ul>
 </li>
 <li><p><strong>condition Enum_Required_19_CONTEXT_DOMAIN</strong>: all of the following sub conditions must be met:</p>
 <ul>
@@ -375,6 +387,8 @@
 </li>
 <li><p><strong>condition Attri_Required_9_CONTEXT_BPP_URI</strong>: $.context.bpp_uri must be present in the payload</p>
 </li>
+<li><p><strong>condition Attri_Required_10_ORDER_ID</strong>: $.message.order.id must be present in the payload</p>
+</li>
 <li><p><strong>condition Attri_Required_11_ITEMS_ID</strong>: $.message.order.items[*].id must be present in the payload</p>
 </li>
 <li><p><strong>condition Attri_Required_12_SELECTED_COUNT</strong>: $.message.order.items[*].quantity.selected.count must be present in the payload</p>
@@ -407,7 +421,11 @@
 <li><strong>condition Enum_Required_22_COUNTRY_CODE.2</strong>: $.context.location.country.code must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_23_CITY_CODE</strong>: $.context.location.city.code must be present in the payload</p>
+<li><p><strong>condition Enum_Required_23_CITY_CODE</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition Enum_Required_23_CITY_CODE.1</strong>: every element of $.context.location.city.code must be in [&quot;std:080&quot;]</li>
+<li><strong>condition Enum_Required_23_CITY_CODE.2</strong>: $.context.location.city.code must be present in the payload</li>
+</ul>
 </li>
 <li><p><strong>condition Enum_Required_24_CONTEXT_DOMAIN</strong>: all of the following sub conditions must be met:</p>
 <ul>
@@ -523,7 +541,11 @@
 <li><strong>condition Enum_Required_11_COUNTRY_CODE.2</strong>: $.context.location.country.code must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_12_CITY_CODE</strong>: $.context.location.city.code must be present in the payload</p>
+<li><p><strong>condition Enum_Required_12_CITY_CODE</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition Enum_Required_12_CITY_CODE.1</strong>: every element of $.context.location.city.code must be in [&quot;std:080&quot;]</li>
+<li><strong>condition Enum_Required_12_CITY_CODE.2</strong>: $.context.location.city.code must be present in the payload</li>
+</ul>
 </li>
 <li><p><strong>condition Enum_Required_13_CONTEXT_DOMAIN</strong>: all of the following sub conditions must be met:</p>
 <ul>
@@ -571,7 +593,11 @@
 <li><strong>condition Enum_Required_14_COUNTRY_CODE.2</strong>: $.context.location.country.code must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_15_CITY_CODE</strong>: $.context.location.city.code must be present in the payload</p>
+<li><p><strong>condition Enum_Required_15_CITY_CODE</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition Enum_Required_15_CITY_CODE.1</strong>: every element of $.context.location.city.code must be in [&quot;std:080&quot;]</li>
+<li><strong>condition Enum_Required_15_CITY_CODE.2</strong>: $.context.location.city.code must be present in the payload</li>
+</ul>
 </li>
 <li><p><strong>condition Enum_Required_16_CONTEXT_DOMAIN</strong>: all of the following sub conditions must be met:</p>
 <ul>
@@ -581,7 +607,7 @@
 </li>
 <li><p><strong>condition Enum_Required_17_DESCRIPTOR_CODE</strong>: all of the following sub conditions must be met:</p>
 <ul>
-<li><strong>condition Enum_Required_17_DESCRIPTOR_CODE.1</strong>: every element of $.message.descriptor.code must be in [&quot;SOFT_CANCEL&quot;, &quot;CONFIRM_CANCEL&quot;]</li>
+<li><strong>condition Enum_Required_17_DESCRIPTOR_CODE.1</strong>: every element of $.message.descriptor.code must be in [&quot;SOFT-CANCEL&quot;, &quot;CONFIRM-CANCEL&quot;]</li>
 <li><strong>condition Enum_Required_17_DESCRIPTOR_CODE.2</strong>: $.message.descriptor.code must be present in the payload</li>
 </ul>
 </li>
@@ -623,7 +649,11 @@
 <li><strong>condition Enum_Required_13_COUNTRY_CODE.2</strong>: $.context.location.country.code must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_14_CITY_CODE</strong>: $.context.location.city.code must be present in the payload</p>
+<li><p><strong>condition Enum_Required_14_CITY_CODE</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition Enum_Required_14_CITY_CODE.1</strong>: every element of $.context.location.city.code must be in [&quot;std:080&quot;]</li>
+<li><strong>condition Enum_Required_14_CITY_CODE.2</strong>: $.context.location.city.code must be present in the payload</li>
+</ul>
 </li>
 <li><p><strong>condition Enum_Required_15_CONTEXT_DOMAIN</strong>: all of the following sub conditions must be met:</p>
 <ul>
@@ -745,7 +775,11 @@
 <li><strong>condition Enum_Required_20_COUNTRY_CODE.2</strong>: $.context.location.country.code must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_21_CITY_CODE</strong>: $.context.location.city.code must be present in the payload</p>
+<li><p><strong>condition Enum_Required_21_CITY_CODE</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition Enum_Required_21_CITY_CODE.1</strong>: every element of $.context.location.city.code must be in [&quot;std:080&quot;]</li>
+<li><strong>condition Enum_Required_21_CITY_CODE.2</strong>: $.context.location.city.code must be present in the payload</li>
+</ul>
 </li>
 <li><p><strong>condition Enum_Required_22_CONTEXT_DOMAIN</strong>: all of the following sub conditions must be met:</p>
 <ul>
@@ -799,11 +833,11 @@
 <li><strong>condition Enum_Required_26_FULFILLMENTS_TYPE.2</strong>: $.message.catalog.providers[<em>].fulfillments[</em>].type must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_27_FULFILLMENTS_TYPE</strong>: every element of $.message.catalog.providers[<em>].fulfillments[</em>].type must be in [&quot;START&quot;, &quot;END&quot;, &quot;INTERMEDIATE_STOP&quot;, &quot;TRANSIT_STOP&quot;]</p>
+<li><p><strong>condition Enum_Required_27_FULFILLMENTS_TYPE</strong>: every element of $.message.catalog.providers[<em>].fulfillments[</em>].stops[*].type must be in [&quot;START&quot;, &quot;END&quot;, &quot;INTERMEDIATE_STOP&quot;, &quot;TRANSIT_STOP&quot;]</p>
 <blockquote>
 <p>Note: <strong>Condition Enum_Required_27_FULFILLMENTS_TYPE</strong> can be skipped if the following conditions are met:</p>
 <ul>
-<li><strong>condition B</strong>: $.message.catalog.providers[<em>].fulfillments[</em>].type must <strong>not</strong> be present in the payload</li>
+<li><strong>condition B</strong>: $.message.catalog.providers[<em>].fulfillments[</em>].stops[*].type must <strong>not</strong> be present in the payload</li>
 </ul>
 </blockquote>
 </li>
@@ -927,7 +961,11 @@
 <li><strong>condition Enum_Required_34_COUNTRY_CODE.2</strong>: $.context.location.country.code must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_35_CITY_CODE</strong>: $.context.location.city.code must be present in the payload</p>
+<li><p><strong>condition Enum_Required_35_CITY_CODE</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition Enum_Required_35_CITY_CODE.1</strong>: every element of $.context.location.city.code must be in [&quot;std:080&quot;]</li>
+<li><strong>condition Enum_Required_35_CITY_CODE.2</strong>: $.context.location.city.code must be present in the payload</li>
+</ul>
 </li>
 <li><p><strong>condition Enum_Required_36_CONTEXT_DOMAIN</strong>: all of the following sub conditions must be met:</p>
 <ul>
@@ -1001,11 +1039,11 @@
 <li><strong>condition Enum_Required_39_FULFILLMENTS_TYPE.2</strong>: $.message.order.fulfillments[*].type must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_40_FULFILLMENTS_TYPE</strong>: every element of $.message.order.fulfillments[*].type must be in [&quot;START&quot;, &quot;END&quot;, &quot;INTERMEDIATE_STOP&quot;, &quot;TRANSIT_STOP&quot;]</p>
+<li><p><strong>condition Enum_Required_40_FULFILLMENTS_TYPE</strong>: every element of $.message.order.fulfillments[<em>].stops[</em>].type must be in [&quot;START&quot;, &quot;END&quot;, &quot;INTERMEDIATE_STOP&quot;, &quot;TRANSIT_STOP&quot;]</p>
 <blockquote>
 <p>Note: <strong>Condition Enum_Required_40_FULFILLMENTS_TYPE</strong> can be skipped if the following conditions are met:</p>
 <ul>
-<li><strong>condition B</strong>: $.message.order.fulfillments[*].type must <strong>not</strong> be present in the payload</li>
+<li><strong>condition B</strong>: $.message.order.fulfillments[<em>].stops[</em>].type must <strong>not</strong> be present in the payload</li>
 </ul>
 </blockquote>
 </li>
@@ -1099,7 +1137,11 @@
 <li><strong>condition Enum_Required_35_COUNTRY_CODE.2</strong>: $.context.location.country.code must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_36_CITY_CODE</strong>: $.context.location.city.code must be present in the payload</p>
+<li><p><strong>condition Enum_Required_36_CITY_CODE</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition Enum_Required_36_CITY_CODE.1</strong>: every element of $.context.location.city.code must be in [&quot;std:080&quot;]</li>
+<li><strong>condition Enum_Required_36_CITY_CODE.2</strong>: $.context.location.city.code must be present in the payload</li>
+</ul>
 </li>
 <li><p><strong>condition Enum_Required_37_CONTEXT_DOMAIN</strong>: all of the following sub conditions must be met:</p>
 <ul>
@@ -1175,11 +1217,11 @@
 <li><strong>condition Enum_Required_40_FULFILLMENTS_TYPE.2</strong>: $.message.order.fulfillments[*].type must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_41_FULFILLMENTS_TYPE</strong>: every element of $.message.order.fulfillments[*].type must be in [&quot;START&quot;, &quot;END&quot;, &quot;INTERMEDIATE_STOP&quot;, &quot;TRANSIT_STOP&quot;]</p>
+<li><p><strong>condition Enum_Required_41_FULFILLMENTS_TYPE</strong>: every element of $.message.order.fulfillments[<em>].stops[</em>].type must be in [&quot;START&quot;, &quot;END&quot;, &quot;INTERMEDIATE_STOP&quot;, &quot;TRANSIT_STOP&quot;]</p>
 <blockquote>
 <p>Note: <strong>Condition Enum_Required_41_FULFILLMENTS_TYPE</strong> can be skipped if the following conditions are met:</p>
 <ul>
-<li><strong>condition B</strong>: $.message.order.fulfillments[*].type must <strong>not</strong> be present in the payload</li>
+<li><strong>condition B</strong>: $.message.order.fulfillments[<em>].stops[</em>].type must <strong>not</strong> be present in the payload</li>
 </ul>
 </blockquote>
 </li>
@@ -1295,7 +1337,11 @@
 <li><strong>condition Enum_Required_44_COUNTRY_CODE.2</strong>: $.context.location.country.code must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_45_CITY_CODE</strong>: $.context.location.city.code must be present in the payload</p>
+<li><p><strong>condition Enum_Required_45_CITY_CODE</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition Enum_Required_45_CITY_CODE.1</strong>: every element of $.context.location.city.code must be in [&quot;std:080&quot;]</li>
+<li><strong>condition Enum_Required_45_CITY_CODE.2</strong>: $.context.location.city.code must be present in the payload</li>
+</ul>
 </li>
 <li><p><strong>condition Enum_Required_46_CONTEXT_DOMAIN</strong>: all of the following sub conditions must be met:</p>
 <ul>
@@ -1389,11 +1435,11 @@
 <li><strong>condition Enum_Required_49_FULFILLMENTS_TYPE.2</strong>: $.message.order.fulfillments[*].type must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_50_FULFILLMENTS_TYPE</strong>: every element of $.message.order.fulfillments[*].type must be in [&quot;START&quot;, &quot;END&quot;, &quot;INTERMEDIATE_STOP&quot;, &quot;TRANSIT_STOP&quot;]</p>
+<li><p><strong>condition Enum_Required_50_FULFILLMENTS_TYPE</strong>: every element of $.message.order.fulfillments[<em>].stops[</em>].type must be in [&quot;START&quot;, &quot;END&quot;, &quot;INTERMEDIATE_STOP&quot;, &quot;TRANSIT_STOP&quot;]</p>
 <blockquote>
 <p>Note: <strong>Condition Enum_Required_50_FULFILLMENTS_TYPE</strong> can be skipped if the following conditions are met:</p>
 <ul>
-<li><strong>condition B</strong>: $.message.order.fulfillments[*].type must <strong>not</strong> be present in the payload</li>
+<li><strong>condition B</strong>: $.message.order.fulfillments[<em>].stops[</em>].type must <strong>not</strong> be present in the payload</li>
 </ul>
 </blockquote>
 </li>
@@ -1509,7 +1555,11 @@
 <li><strong>condition Enum_Required_39_COUNTRY_CODE.2</strong>: $.context.location.country.code must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_40_CITY_CODE</strong>: $.context.location.city.code must be present in the payload</p>
+<li><p><strong>condition Enum_Required_40_CITY_CODE</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition Enum_Required_40_CITY_CODE.1</strong>: every element of $.context.location.city.code must be in [&quot;std:080&quot;]</li>
+<li><strong>condition Enum_Required_40_CITY_CODE.2</strong>: $.context.location.city.code must be present in the payload</li>
+</ul>
 </li>
 <li><p><strong>condition Enum_Required_41_CONTEXT_DOMAIN</strong>: all of the following sub conditions must be met:</p>
 <ul>
@@ -1593,11 +1643,11 @@
 <li><strong>condition Enum_Required_44_FULFILLMENTS_TYPE.2</strong>: $.message.order.fulfillments[*].type must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_45_FULFILLMENTS_TYPE</strong>: every element of $.message.order.fulfillments[*].type must be in [&quot;START&quot;, &quot;END&quot;, &quot;INTERMEDIATE_STOP&quot;, &quot;TRANSIT_STOP&quot;]</p>
+<li><p><strong>condition Enum_Required_45_FULFILLMENTS_TYPE</strong>: every element of $.message.order.fulfillments[<em>].stops[</em>].type must be in [&quot;START&quot;, &quot;END&quot;, &quot;INTERMEDIATE_STOP&quot;, &quot;TRANSIT_STOP&quot;]</p>
 <blockquote>
 <p>Note: <strong>Condition Enum_Required_45_FULFILLMENTS_TYPE</strong> can be skipped if the following conditions are met:</p>
 <ul>
-<li><strong>condition B</strong>: $.message.order.fulfillments[*].type must <strong>not</strong> be present in the payload</li>
+<li><strong>condition B</strong>: $.message.order.fulfillments[<em>].stops[</em>].type must <strong>not</strong> be present in the payload</li>
 </ul>
 </blockquote>
 </li>
@@ -1713,7 +1763,11 @@
 <li><strong>condition Enum_Required_40_COUNTRY_CODE.2</strong>: $.context.location.country.code must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_41_CITY_CODE</strong>: $.context.location.city.code must be present in the payload</p>
+<li><p><strong>condition Enum_Required_41_CITY_CODE</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition Enum_Required_41_CITY_CODE.1</strong>: every element of $.context.location.city.code must be in [&quot;std:080&quot;]</li>
+<li><strong>condition Enum_Required_41_CITY_CODE.2</strong>: $.context.location.city.code must be present in the payload</li>
+</ul>
 </li>
 <li><p><strong>condition Enum_Required_42_CONTEXT_DOMAIN</strong>: all of the following sub conditions must be met:</p>
 <ul>
@@ -1799,11 +1853,11 @@
 <li><strong>condition Enum_Required_45_FULFILLMENTS_TYPE.2</strong>: $.message.order.fulfillments[*].type must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_46_FULFILLMENTS_TYPE</strong>: every element of $.message.order.fulfillments[*].type must be in [&quot;START&quot;, &quot;END&quot;, &quot;INTERMEDIATE_STOP&quot;, &quot;TRANSIT_STOP&quot;]</p>
+<li><p><strong>condition Enum_Required_46_FULFILLMENTS_TYPE</strong>: every element of $.message.order.fulfillments[<em>].stops[</em>].type must be in [&quot;START&quot;, &quot;END&quot;, &quot;INTERMEDIATE_STOP&quot;, &quot;TRANSIT_STOP&quot;]</p>
 <blockquote>
 <p>Note: <strong>Condition Enum_Required_46_FULFILLMENTS_TYPE</strong> can be skipped if the following conditions are met:</p>
 <ul>
-<li><strong>condition B</strong>: $.message.order.fulfillments[*].type must <strong>not</strong> be present in the payload</li>
+<li><strong>condition B</strong>: $.message.order.fulfillments[<em>].stops[</em>].type must <strong>not</strong> be present in the payload</li>
 </ul>
 </blockquote>
 </li>
@@ -1905,7 +1959,11 @@
 <li><strong>condition Enum_Required_44_COUNTRY_CODE.2</strong>: $.context.location.country.code must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_45_CITY_CODE</strong>: $.context.location.city.code must be present in the payload</p>
+<li><p><strong>condition Enum_Required_45_CITY_CODE</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition Enum_Required_45_CITY_CODE.1</strong>: every element of $.context.location.city.code must be in [&quot;std:080&quot;]</li>
+<li><strong>condition Enum_Required_45_CITY_CODE.2</strong>: $.context.location.city.code must be present in the payload</li>
+</ul>
 </li>
 <li><p><strong>condition Enum_Required_46_CONTEXT_DOMAIN</strong>: all of the following sub conditions must be met:</p>
 <ul>
@@ -2001,11 +2059,11 @@
 <li><strong>condition Enum_Required_49_FULFILLMENTS_TYPE.2</strong>: $.message.order.fulfillments[*].type must be present in the payload</li>
 </ul>
 </li>
-<li><p><strong>condition Enum_Required_50_FULFILLMENTS_TYPE</strong>: every element of $.message.order.fulfillments[*].type must be in [&quot;START&quot;, &quot;END&quot;, &quot;INTERMEDIATE_STOP&quot;, &quot;TRANSIT_STOP&quot;]</p>
+<li><p><strong>condition Enum_Required_50_FULFILLMENTS_TYPE</strong>: every element of $.message.order.fulfillments[<em>].stops[</em>].type must be in [&quot;START&quot;, &quot;END&quot;, &quot;INTERMEDIATE_STOP&quot;, &quot;TRANSIT_STOP&quot;]</p>
 <blockquote>
 <p>Note: <strong>Condition Enum_Required_50_FULFILLMENTS_TYPE</strong> can be skipped if the following conditions are met:</p>
 <ul>
-<li><strong>condition B</strong>: $.message.order.fulfillments[*].type must <strong>not</strong> be present in the payload</li>
+<li><strong>condition B</strong>: $.message.order.fulfillments[<em>].stops[</em>].type must <strong>not</strong> be present in the payload</li>
 </ul>
 </blockquote>
 </li>

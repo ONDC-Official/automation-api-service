@@ -26,7 +26,10 @@
 	  - **condition Enum_Required_9_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_9_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
 	
-	- **condition Enum_Required_10_CITY_CODE**: $.context.location.city.code must be present in the payload
+	- **condition Enum_Required_10_CITY_CODE**: all of the following sub conditions must be met:
+	
+	  - **condition Enum_Required_10_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
+	  - **condition Enum_Required_10_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_11_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -108,7 +111,10 @@
 	  - **condition Enum_Required_14_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_14_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
 	
-	- **condition Enum_Required_15_CITY_CODE**: $.context.location.city.code must be present in the payload
+	- **condition Enum_Required_15_CITY_CODE**: all of the following sub conditions must be met:
+	
+	  - **condition Enum_Required_15_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
+	  - **condition Enum_Required_15_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_16_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -217,7 +223,10 @@
 	  - **condition Enum_Required_17_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_17_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
 	
-	- **condition Enum_Required_18_CITY_CODE**: $.context.location.city.code must be present in the payload
+	- **condition Enum_Required_18_CITY_CODE**: all of the following sub conditions must be met:
+	
+	  - **condition Enum_Required_18_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
+	  - **condition Enum_Required_18_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_19_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -302,6 +311,8 @@
 	
 	- **condition Attri_Required_9_CONTEXT_BPP_URI**: $.context.bpp_uri must be present in the payload
 	
+	- **condition Attri_Required_10_ORDER_ID**: $.message.order.id must be present in the payload
+	
 	- **condition Attri_Required_11_ITEMS_ID**: $.message.order.items[*].id must be present in the payload
 	
 	- **condition Attri_Required_12_SELECTED_COUNT**: $.message.order.items[*].quantity.selected.count must be present in the payload
@@ -332,7 +343,10 @@
 	  - **condition Enum_Required_22_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_22_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
 	
-	- **condition Enum_Required_23_CITY_CODE**: $.context.location.city.code must be present in the payload
+	- **condition Enum_Required_23_CITY_CODE**: all of the following sub conditions must be met:
+	
+	  - **condition Enum_Required_23_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
+	  - **condition Enum_Required_23_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_24_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -426,7 +440,10 @@
 	  - **condition Enum_Required_11_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_11_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
 	
-	- **condition Enum_Required_12_CITY_CODE**: $.context.location.city.code must be present in the payload
+	- **condition Enum_Required_12_CITY_CODE**: all of the following sub conditions must be met:
+	
+	  - **condition Enum_Required_12_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
+	  - **condition Enum_Required_12_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_13_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -469,7 +486,10 @@
 	  - **condition Enum_Required_14_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_14_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
 	
-	- **condition Enum_Required_15_CITY_CODE**: $.context.location.city.code must be present in the payload
+	- **condition Enum_Required_15_CITY_CODE**: all of the following sub conditions must be met:
+	
+	  - **condition Enum_Required_15_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
+	  - **condition Enum_Required_15_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_16_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -478,7 +498,7 @@
 	
 	- **condition Enum_Required_17_DESCRIPTOR_CODE**: all of the following sub conditions must be met:
 	
-	  - **condition Enum_Required_17_DESCRIPTOR_CODE.1**: every element of $.message.descriptor.code must be in ["SOFT_CANCEL", "CONFIRM_CANCEL"]
+	  - **condition Enum_Required_17_DESCRIPTOR_CODE.1**: every element of $.message.descriptor.code must be in ["SOFT-CANCEL", "CONFIRM-CANCEL"]
 	  - **condition Enum_Required_17_DESCRIPTOR_CODE.2**: $.message.descriptor.code must be present in the payload
 
 - **update** : All the following sub conditions must pass as per the api requirement
@@ -515,7 +535,10 @@
 	  - **condition Enum_Required_13_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_13_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
 	
-	- **condition Enum_Required_14_CITY_CODE**: $.context.location.city.code must be present in the payload
+	- **condition Enum_Required_14_CITY_CODE**: all of the following sub conditions must be met:
+	
+	  - **condition Enum_Required_14_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
+	  - **condition Enum_Required_14_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_15_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -612,7 +635,10 @@
 	  - **condition Enum_Required_20_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_20_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
 	
-	- **condition Enum_Required_21_CITY_CODE**: $.context.location.city.code must be present in the payload
+	- **condition Enum_Required_21_CITY_CODE**: all of the following sub conditions must be met:
+	
+	  - **condition Enum_Required_21_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
+	  - **condition Enum_Required_21_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_22_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -660,11 +686,11 @@
 		  - **condition Enum_Required_26_FULFILLMENTS_TYPE.1**: every element of $.message.catalog.providers[*].fulfillments[*].type must be in ["ROUTE", "TRIP"]
 		  - **condition Enum_Required_26_FULFILLMENTS_TYPE.2**: $.message.catalog.providers[*].fulfillments[*].type must be present in the payload
 		
-		- **condition Enum_Required_27_FULFILLMENTS_TYPE**: every element of $.message.catalog.providers[*].fulfillments[*].type must be in ["START", "END", "INTERMEDIATE_STOP", "TRANSIT_STOP"]
+		- **condition Enum_Required_27_FULFILLMENTS_TYPE**: every element of $.message.catalog.providers[*].fulfillments[*].stops[*].type must be in ["START", "END", "INTERMEDIATE_STOP", "TRANSIT_STOP"]
 		
 			> Note: **Condition Enum_Required_27_FULFILLMENTS_TYPE** can be skipped if the following conditions are met:
 			>
-			> - **condition B**: $.message.catalog.providers[*].fulfillments[*].type must **not** be present in the payload
+			> - **condition B**: $.message.catalog.providers[*].fulfillments[*].stops[*].type must **not** be present in the payload
 		
 		- **condition Enum_Required_28_AUTHORIZATION_TYPE**: every element of $.message.catalog.providers[*].fulfillments[*].stops[*].authorization.type must be in ["QR"]
 		
@@ -763,7 +789,10 @@
 	  - **condition Enum_Required_34_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_34_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
 	
-	- **condition Enum_Required_35_CITY_CODE**: $.context.location.city.code must be present in the payload
+	- **condition Enum_Required_35_CITY_CODE**: all of the following sub conditions must be met:
+	
+	  - **condition Enum_Required_35_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
+	  - **condition Enum_Required_35_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_36_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -833,11 +862,11 @@
 		  - **condition Enum_Required_39_FULFILLMENTS_TYPE.1**: every element of $.message.order.fulfillments[*].type must be in ["ROUTE", "TRIP"]
 		  - **condition Enum_Required_39_FULFILLMENTS_TYPE.2**: $.message.order.fulfillments[*].type must be present in the payload
 		
-		- **condition Enum_Required_40_FULFILLMENTS_TYPE**: every element of $.message.order.fulfillments[*].type must be in ["START", "END", "INTERMEDIATE_STOP", "TRANSIT_STOP"]
+		- **condition Enum_Required_40_FULFILLMENTS_TYPE**: every element of $.message.order.fulfillments[*].stops[*].type must be in ["START", "END", "INTERMEDIATE_STOP", "TRANSIT_STOP"]
 		
 			> Note: **Condition Enum_Required_40_FULFILLMENTS_TYPE** can be skipped if the following conditions are met:
 			>
-			> - **condition B**: $.message.order.fulfillments[*].type must **not** be present in the payload
+			> - **condition B**: $.message.order.fulfillments[*].stops[*].type must **not** be present in the payload
 		
 		- **condition Enum_Required_41_AUTHORIZATION_TYPE**: every element of $.message.order.fulfillments[*].stops[*].authorization.type must be in ["QR"]
 		
@@ -912,7 +941,10 @@
 	  - **condition Enum_Required_35_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_35_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
 	
-	- **condition Enum_Required_36_CITY_CODE**: $.context.location.city.code must be present in the payload
+	- **condition Enum_Required_36_CITY_CODE**: all of the following sub conditions must be met:
+	
+	  - **condition Enum_Required_36_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
+	  - **condition Enum_Required_36_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_37_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -984,11 +1016,11 @@
 		  - **condition Enum_Required_40_FULFILLMENTS_TYPE.1**: every element of $.message.order.fulfillments[*].type must be in ["ROUTE", "TRIP"]
 		  - **condition Enum_Required_40_FULFILLMENTS_TYPE.2**: $.message.order.fulfillments[*].type must be present in the payload
 		
-		- **condition Enum_Required_41_FULFILLMENTS_TYPE**: every element of $.message.order.fulfillments[*].type must be in ["START", "END", "INTERMEDIATE_STOP", "TRANSIT_STOP"]
+		- **condition Enum_Required_41_FULFILLMENTS_TYPE**: every element of $.message.order.fulfillments[*].stops[*].type must be in ["START", "END", "INTERMEDIATE_STOP", "TRANSIT_STOP"]
 		
 			> Note: **Condition Enum_Required_41_FULFILLMENTS_TYPE** can be skipped if the following conditions are met:
 			>
-			> - **condition B**: $.message.order.fulfillments[*].type must **not** be present in the payload
+			> - **condition B**: $.message.order.fulfillments[*].stops[*].type must **not** be present in the payload
 		
 		- **condition Enum_Required_42_AUTHORIZATION_TYPE**: every element of $.message.order.fulfillments[*].stops[*].authorization.type must be in ["QR"]
 		
@@ -1082,7 +1114,10 @@
 	  - **condition Enum_Required_44_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_44_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
 	
-	- **condition Enum_Required_45_CITY_CODE**: $.context.location.city.code must be present in the payload
+	- **condition Enum_Required_45_CITY_CODE**: all of the following sub conditions must be met:
+	
+	  - **condition Enum_Required_45_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
+	  - **condition Enum_Required_45_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_46_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -1172,11 +1207,11 @@
 		  - **condition Enum_Required_49_FULFILLMENTS_TYPE.1**: every element of $.message.order.fulfillments[*].type must be in ["ROUTE", "TRIP"]
 		  - **condition Enum_Required_49_FULFILLMENTS_TYPE.2**: $.message.order.fulfillments[*].type must be present in the payload
 		
-		- **condition Enum_Required_50_FULFILLMENTS_TYPE**: every element of $.message.order.fulfillments[*].type must be in ["START", "END", "INTERMEDIATE_STOP", "TRANSIT_STOP"]
+		- **condition Enum_Required_50_FULFILLMENTS_TYPE**: every element of $.message.order.fulfillments[*].stops[*].type must be in ["START", "END", "INTERMEDIATE_STOP", "TRANSIT_STOP"]
 		
 			> Note: **Condition Enum_Required_50_FULFILLMENTS_TYPE** can be skipped if the following conditions are met:
 			>
-			> - **condition B**: $.message.order.fulfillments[*].type must **not** be present in the payload
+			> - **condition B**: $.message.order.fulfillments[*].stops[*].type must **not** be present in the payload
 		
 		- **condition Enum_Required_51_AUTHORIZATION_TYPE**: every element of $.message.order.fulfillments[*].stops[*].authorization.type must be in ["QR"]
 		
@@ -1270,7 +1305,10 @@
 	  - **condition Enum_Required_39_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_39_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
 	
-	- **condition Enum_Required_40_CITY_CODE**: $.context.location.city.code must be present in the payload
+	- **condition Enum_Required_40_CITY_CODE**: all of the following sub conditions must be met:
+	
+	  - **condition Enum_Required_40_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
+	  - **condition Enum_Required_40_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_41_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -1350,11 +1388,11 @@
 		  - **condition Enum_Required_44_FULFILLMENTS_TYPE.1**: every element of $.message.order.fulfillments[*].type must be in ["ROUTE", "TRIP"]
 		  - **condition Enum_Required_44_FULFILLMENTS_TYPE.2**: $.message.order.fulfillments[*].type must be present in the payload
 		
-		- **condition Enum_Required_45_FULFILLMENTS_TYPE**: every element of $.message.order.fulfillments[*].type must be in ["START", "END", "INTERMEDIATE_STOP", "TRANSIT_STOP"]
+		- **condition Enum_Required_45_FULFILLMENTS_TYPE**: every element of $.message.order.fulfillments[*].stops[*].type must be in ["START", "END", "INTERMEDIATE_STOP", "TRANSIT_STOP"]
 		
 			> Note: **Condition Enum_Required_45_FULFILLMENTS_TYPE** can be skipped if the following conditions are met:
 			>
-			> - **condition B**: $.message.order.fulfillments[*].type must **not** be present in the payload
+			> - **condition B**: $.message.order.fulfillments[*].stops[*].type must **not** be present in the payload
 		
 		- **condition Enum_Required_46_AUTHORIZATION_TYPE**: every element of $.message.order.fulfillments[*].stops[*].authorization.type must be in ["QR"]
 		
@@ -1448,7 +1486,10 @@
 	  - **condition Enum_Required_40_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_40_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
 	
-	- **condition Enum_Required_41_CITY_CODE**: $.context.location.city.code must be present in the payload
+	- **condition Enum_Required_41_CITY_CODE**: all of the following sub conditions must be met:
+	
+	  - **condition Enum_Required_41_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
+	  - **condition Enum_Required_41_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_42_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -1530,11 +1571,11 @@
 		  - **condition Enum_Required_45_FULFILLMENTS_TYPE.1**: every element of $.message.order.fulfillments[*].type must be in ["ROUTE", "TRIP"]
 		  - **condition Enum_Required_45_FULFILLMENTS_TYPE.2**: $.message.order.fulfillments[*].type must be present in the payload
 		
-		- **condition Enum_Required_46_FULFILLMENTS_TYPE**: every element of $.message.order.fulfillments[*].type must be in ["START", "END", "INTERMEDIATE_STOP", "TRANSIT_STOP"]
+		- **condition Enum_Required_46_FULFILLMENTS_TYPE**: every element of $.message.order.fulfillments[*].stops[*].type must be in ["START", "END", "INTERMEDIATE_STOP", "TRANSIT_STOP"]
 		
 			> Note: **Condition Enum_Required_46_FULFILLMENTS_TYPE** can be skipped if the following conditions are met:
 			>
-			> - **condition B**: $.message.order.fulfillments[*].type must **not** be present in the payload
+			> - **condition B**: $.message.order.fulfillments[*].stops[*].type must **not** be present in the payload
 		
 		- **condition Enum_Required_47_AUTHORIZATION_TYPE**: all of the following sub conditions must be met:
 		
@@ -1617,7 +1658,10 @@
 	  - **condition Enum_Required_44_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
 	  - **condition Enum_Required_44_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload
 	
-	- **condition Enum_Required_45_CITY_CODE**: $.context.location.city.code must be present in the payload
+	- **condition Enum_Required_45_CITY_CODE**: all of the following sub conditions must be met:
+	
+	  - **condition Enum_Required_45_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
+	  - **condition Enum_Required_45_CITY_CODE.2**: $.context.location.city.code must be present in the payload
 	
 	- **condition Enum_Required_46_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
 	
@@ -1708,11 +1752,11 @@
 		  - **condition Enum_Required_49_FULFILLMENTS_TYPE.1**: every element of $.message.order.fulfillments[*].type must be in ["ROUTE", "TRIP"]
 		  - **condition Enum_Required_49_FULFILLMENTS_TYPE.2**: $.message.order.fulfillments[*].type must be present in the payload
 		
-		- **condition Enum_Required_50_FULFILLMENTS_TYPE**: every element of $.message.order.fulfillments[*].type must be in ["START", "END", "INTERMEDIATE_STOP", "TRANSIT_STOP"]
+		- **condition Enum_Required_50_FULFILLMENTS_TYPE**: every element of $.message.order.fulfillments[*].stops[*].type must be in ["START", "END", "INTERMEDIATE_STOP", "TRANSIT_STOP"]
 		
 			> Note: **Condition Enum_Required_50_FULFILLMENTS_TYPE** can be skipped if the following conditions are met:
 			>
-			> - **condition B**: $.message.order.fulfillments[*].type must **not** be present in the payload
+			> - **condition B**: $.message.order.fulfillments[*].stops[*].type must **not** be present in the payload
 		
 		- **condition Enum_Required_51_AUTHORIZATION_TYPE**: every element of $.message.order.fulfillments[*].stops[*].authorization.type must be in ["QR"]
 		

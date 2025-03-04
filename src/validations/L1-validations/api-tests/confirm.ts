@@ -271,6 +271,35 @@ export default function confirm(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
+        function Attri_Required_10_ORDER_ID(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(
+                    testObj,
+                    "$.message.order.id",
+                );
+
+                const validate = validations.arePresent(attr);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition Attri_Required_10_ORDER_ID**: $.message.order.id must be present in the payload`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
         function Attri_Required_11_ITEMS_ID(
             input: validationInput,
         ): validationOutput {
@@ -639,19 +668,25 @@ export default function confirm(input: validationInput): validationOutput {
             let valid = true;
             for (const testObj of scope) {
                 testObj._EXTERNAL = input.externalData;
+                const enumList = ["std:080"];
                 const enumPath = payloadUtils.getJsonPath(
                     testObj,
                     "$.context.location.city.code",
                 );
 
-                const validate = validations.arePresent(enumPath);
+                const validate =
+                    validations.allIn(enumPath, enumList) &&
+                    validations.arePresent(enumPath);
 
                 if (!validate) {
                     return [
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Enum_Required_23_CITY_CODE**: $.context.location.city.code must be present in the payload`,
+                            description: `- **condition Enum_Required_23_CITY_CODE**: all of the following sub conditions must be met:
+
+  - **condition Enum_Required_23_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
+  - **condition Enum_Required_23_CITY_CODE.2**: $.context.location.city.code must be present in the payload`,
                         },
                     ];
                 }
@@ -1085,6 +1120,7 @@ export default function confirm(input: validationInput): validationOutput {
             Attri_Required_7_CONTEXT_TTL,
             Attri_Required_8_CONTEXT_BPP_ID,
             Attri_Required_9_CONTEXT_BPP_URI,
+            Attri_Required_10_ORDER_ID,
             Attri_Required_11_ITEMS_ID,
             Attri_Required_12_SELECTED_COUNT,
             Attri_Required_13_PROVIDER_ID,

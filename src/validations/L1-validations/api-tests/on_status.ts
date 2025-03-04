@@ -349,19 +349,25 @@ export default function on_status(input: validationInput): validationOutput {
             let valid = true;
             for (const testObj of scope) {
                 testObj._EXTERNAL = input.externalData;
+                const enumList = ["std:080"];
                 const enumPath = payloadUtils.getJsonPath(
                     testObj,
                     "$.context.location.city.code",
                 );
 
-                const validate = validations.arePresent(enumPath);
+                const validate =
+                    validations.allIn(enumPath, enumList) &&
+                    validations.arePresent(enumPath);
 
                 if (!validate) {
                     return [
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Enum_Required_45_CITY_CODE**: $.context.location.city.code must be present in the payload`,
+                            description: `- **condition Enum_Required_45_CITY_CODE**: all of the following sub conditions must be met:
+
+  - **condition Enum_Required_45_CITY_CODE.1**: every element of $.context.location.city.code must be in ["std:080"]
+  - **condition Enum_Required_45_CITY_CODE.2**: $.context.location.city.code must be present in the payload`,
                         },
                     ];
                 }
@@ -1501,7 +1507,7 @@ export default function on_status(input: validationInput): validationOutput {
                         ];
                         const enumPath = payloadUtils.getJsonPath(
                             testObj,
-                            "$.message.order.fulfillments[*].type",
+                            "$.message.order.fulfillments[*].stops[*].type",
                         );
 
                         const skipCheck = !validations.arePresent(enumPath);
@@ -1514,11 +1520,11 @@ export default function on_status(input: validationInput): validationOutput {
                                 {
                                     valid: false,
                                     code: 30000,
-                                    description: `- **condition Enum_Required_50_FULFILLMENTS_TYPE**: every element of $.message.order.fulfillments[*].type must be in ["START", "END", "INTERMEDIATE_STOP", "TRANSIT_STOP"]
+                                    description: `- **condition Enum_Required_50_FULFILLMENTS_TYPE**: every element of $.message.order.fulfillments[*].stops[*].type must be in ["START", "END", "INTERMEDIATE_STOP", "TRANSIT_STOP"]
 
 	> Note: **Condition Enum_Required_50_FULFILLMENTS_TYPE** can be skipped if the following conditions are met:
 	>
-	> - **condition B**: $.message.order.fulfillments[*].type must **not** be present in the payload`,
+	> - **condition B**: $.message.order.fulfillments[*].stops[*].type must **not** be present in the payload`,
                                 },
                             ];
                         }
