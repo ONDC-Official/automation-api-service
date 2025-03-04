@@ -153,7 +153,7 @@
 		>
 		> - **condition B**: $.message.order.status must **not** be present in the payload
 	
-	- **condition Enum_Required_24_BREAKUP_TITLE**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+	- **condition Enum_Required_24_BREAKUP_TITLE**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 	
 		> Note: **Condition Enum_Required_24_BREAKUP_TITLE** can be skipped if the following conditions are met:
 		>
@@ -260,7 +260,7 @@
 		>
 		> - **condition B**: $.message.order.status must **not** be present in the payload
 	
-	- **condition Enum_Required_27_BREAKUP_TITLE**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+	- **condition Enum_Required_27_BREAKUP_TITLE**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 	
 		> Note: **Condition Enum_Required_27_BREAKUP_TITLE** can be skipped if the following conditions are met:
 		>
@@ -384,7 +384,7 @@
 	  - **condition Enum_Required_33_PAYMENTS_TYPE.1**: every element of $.message.order.payments[*].type must be in ["PRE-ORDER", "ON-FULFILLMENT", "POST-FULFILLMENT"]
 	  - **condition Enum_Required_33_PAYMENTS_TYPE.2**: $.message.order.payments[*].type must be present in the payload
 	
-	- **condition Enum_Required_34_BREAKUP_TITLE**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+	- **condition Enum_Required_34_BREAKUP_TITLE**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 	
 		> Note: **Condition Enum_Required_34_BREAKUP_TITLE** can be skipped if the following conditions are met:
 		>
@@ -564,7 +564,7 @@
 		>
 		> - **condition B**: $.message.order.payments[*].type must **not** be present in the payload
 	
-	- **condition Enum_Required_25_BREAKUP_TITLE**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+	- **condition Enum_Required_25_BREAKUP_TITLE**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 	
 		> Note: **Condition Enum_Required_25_BREAKUP_TITLE** can be skipped if the following conditions are met:
 		>
@@ -843,7 +843,7 @@
 		
 		- **condition Enum_Required_44_BREAKUP_TITLE**: all of the following sub conditions must be met:
 		
-		  - **condition Enum_Required_44_BREAKUP_TITLE.1**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+		  - **condition Enum_Required_44_BREAKUP_TITLE.1**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 		  - **condition Enum_Required_44_BREAKUP_TITLE.2**: $.message.order.quote.breakup[*].title must be present in the payload
 		
 		- **condition ROUTE_INFO_Tag_Required_45_DESCRIPTOR_CODE**: every element of $.message.order.fulfillments[*].tags[*].descriptor.code must be in ["ROUTE_INFO", "TICKET_INFO", "TRIP_DETAILS"]
@@ -1001,7 +1001,7 @@
 		
 		- **condition Enum_Required_47_BREAKUP_TITLE**: all of the following sub conditions must be met:
 		
-		  - **condition Enum_Required_47_BREAKUP_TITLE.1**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+		  - **condition Enum_Required_47_BREAKUP_TITLE.1**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 		  - **condition Enum_Required_47_BREAKUP_TITLE.2**: $.message.order.quote.breakup[*].title must be present in the payload
 		
 		- **condition ROUTE_INFO_Tag_Required_48_DESCRIPTOR_CODE**: every element of $.message.order.fulfillments[*].tags[*].descriptor.code must be in ["ROUTE_INFO", "TICKET_INFO", "TRIP_DETAILS"]
@@ -1187,7 +1187,7 @@
 		
 		- **condition Enum_Required_56_BREAKUP_TITLE**: all of the following sub conditions must be met:
 		
-		  - **condition Enum_Required_56_BREAKUP_TITLE.1**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+		  - **condition Enum_Required_56_BREAKUP_TITLE.1**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 		  - **condition Enum_Required_56_BREAKUP_TITLE.2**: $.message.order.quote.breakup[*].title must be present in the payload
 		
 		- **condition ROUTE_INFO_Tag_Required_57_DESCRIPTOR_CODE**: every element of $.message.order.fulfillments[*].tags[*].descriptor.code must be in ["ROUTE_INFO", "TICKET_INFO", "TRIP_DETAILS"]
@@ -1363,7 +1363,7 @@
 		
 		- **condition Enum_Required_51_BREAKUP_TITLE**: all of the following sub conditions must be met:
 		
-		  - **condition Enum_Required_51_BREAKUP_TITLE.1**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+		  - **condition Enum_Required_51_BREAKUP_TITLE.1**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 		  - **condition Enum_Required_51_BREAKUP_TITLE.2**: $.message.order.quote.breakup[*].title must be present in the payload
 		
 		- **condition ROUTE_INFO_Tag_Required_52_DESCRIPTOR_CODE**: every element of $.message.order.fulfillments[*].tags[*].descriptor.code must be in ["ROUTE_INFO", "TICKET_INFO", "TRIP_DETAILS"]
@@ -1540,7 +1540,7 @@
 		
 		- **condition Enum_Required_52_BREAKUP_TITLE**: all of the following sub conditions must be met:
 		
-		  - **condition Enum_Required_52_BREAKUP_TITLE.1**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+		  - **condition Enum_Required_52_BREAKUP_TITLE.1**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 		  - **condition Enum_Required_52_BREAKUP_TITLE.2**: $.message.order.quote.breakup[*].title must be present in the payload
 		
 		- **condition ROUTE_INFO_Tag_Required_53_DESCRIPTOR_CODE**: every element of $.message.order.fulfillments[*].tags[*].descriptor.code must be in ["ROUTE_INFO", "TICKET_INFO", "TRIP_DETAILS"]
@@ -1717,7 +1717,7 @@
 		
 		- **condition Enum_Required_56_BREAKUP_TITLE**: all of the following sub conditions must be met:
 		
-		  - **condition Enum_Required_56_BREAKUP_TITLE.1**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+		  - **condition Enum_Required_56_BREAKUP_TITLE.1**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 		  - **condition Enum_Required_56_BREAKUP_TITLE.2**: $.message.order.quote.breakup[*].title must be present in the payload
 		
 		- **condition ROUTE_INFO_Tag_Required_57_DESCRIPTOR_CODE**: every element of $.message.order.fulfillments[*].tags[*].descriptor.code must be in ["ROUTE_INFO", "TICKET_INFO", "TRIP_DETAILS"]

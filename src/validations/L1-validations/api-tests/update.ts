@@ -785,7 +785,7 @@ export default function update(input: validationInput): validationOutput {
             for (const testObj of scope) {
                 testObj._EXTERNAL = input.externalData;
                 const enumList = [
-                    "BASE_PRICE",
+                    "BASE_FARE",
                     "REFUND",
                     "CANCELLATION_CHARGES",
                     "OFFER",
@@ -806,7 +806,7 @@ export default function update(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Enum_Required_25_BREAKUP_TITLE**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+                            description: `- **condition Enum_Required_25_BREAKUP_TITLE**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 
 	> Note: **Condition Enum_Required_25_BREAKUP_TITLE** can be skipped if the following conditions are met:
 	>

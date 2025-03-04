@@ -1688,7 +1688,7 @@ export default function on_confirm(input: validationInput): validationOutput {
                     for (const testObj of scope) {
                         testObj._EXTERNAL = input.externalData;
                         const enumList = [
-                            "BASE_PRICE",
+                            "BASE_FARE",
                             "REFUND",
                             "CANCELLATION_CHARGES",
                             "OFFER",
@@ -1710,7 +1710,7 @@ export default function on_confirm(input: validationInput): validationOutput {
                                     code: 30000,
                                     description: `- **condition Enum_Required_56_BREAKUP_TITLE**: all of the following sub conditions must be met:
 
-  - **condition Enum_Required_56_BREAKUP_TITLE.1**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+  - **condition Enum_Required_56_BREAKUP_TITLE.1**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
   - **condition Enum_Required_56_BREAKUP_TITLE.2**: $.message.order.quote.breakup[*].title must be present in the payload`,
                                 },
                             ];
