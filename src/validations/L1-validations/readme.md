@@ -1638,8 +1638,6 @@
 		
 		- **condition Attri_Required_31_PARAMS_AMOUNT**: $.message.order.payments[*].params.amount must be present in the payload
 		
-		- **condition Attri_Required_32_CANCEL_BY_DURATION**: $.message.order.cancellation_terms[*].cancel_by.duration must be present in the payload
-		
 		- **condition Attri_Required_33_ITEMS_CATEGORY_IDS**: $.message.order.items[*].category_ids[*] must be present in the payload
 		
 		- **condition Attri_Required_34_RANGE_START**: $.message.order.provider.time.range.start must be present in the payload

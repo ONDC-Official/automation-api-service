@@ -1,13 +1,9 @@
-version: "3.8"
-
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: automation-api-service
+  redis:
+    image: redis:latest
+    container_name: redis-server
     ports:
-      - "3032:3000"
-    env_file:
-      - .env
-    restart: always
+      - "6379:6379" # Expose port 6379 to the host
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
