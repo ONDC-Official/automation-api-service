@@ -471,7 +471,7 @@ export default function cancel(input: validationInput): validationOutput {
             let valid = true;
             for (const testObj of scope) {
                 testObj._EXTERNAL = input.externalData;
-                const enumList = ["SOFT-CANCEL", "CONFIRM-CANCEL"];
+                const enumList = ["SOFT_CANCEL", "CONFIRM_CANCEL"];
                 const enumPath = payloadUtils.getJsonPath(
                     testObj,
                     "$.message.descriptor.code",
@@ -488,7 +488,7 @@ export default function cancel(input: validationInput): validationOutput {
                             code: 30000,
                             description: `- **condition Enum_Required_17_DESCRIPTOR_CODE**: all of the following sub conditions must be met:
 
-  - **condition Enum_Required_17_DESCRIPTOR_CODE.1**: every element of $.message.descriptor.code must be in ["SOFT-CANCEL", "CONFIRM-CANCEL"]
+  - **condition Enum_Required_17_DESCRIPTOR_CODE.1**: every element of $.message.descriptor.code must be in ["SOFT_CANCEL", "CONFIRM_CANCEL"]
   - **condition Enum_Required_17_DESCRIPTOR_CODE.2**: $.message.descriptor.code must be present in the payload`,
                         },
                     ];

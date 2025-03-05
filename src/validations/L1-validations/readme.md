@@ -466,7 +466,7 @@
 	
 	- **condition Enum_Required_17_DESCRIPTOR_CODE**: all of the following sub conditions must be met:
 	
-	  - **condition Enum_Required_17_DESCRIPTOR_CODE.1**: every element of $.message.descriptor.code must be in ["SOFT-CANCEL", "CONFIRM-CANCEL"]
+	  - **condition Enum_Required_17_DESCRIPTOR_CODE.1**: every element of $.message.descriptor.code must be in ["SOFT_CANCEL", "CONFIRM_CANCEL"]
 	  - **condition Enum_Required_17_DESCRIPTOR_CODE.2**: $.message.descriptor.code must be present in the payload
 
 - **update** : All the following sub conditions must pass as per the api requirement
