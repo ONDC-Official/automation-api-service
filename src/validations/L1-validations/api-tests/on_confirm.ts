@@ -972,35 +972,6 @@ export default function on_confirm(input: validationInput): validationOutput {
                     }
                     return [{ valid: valid, code: 200 }, ...subResults];
                 }
-                function Attri_Required_31_CANCEL_BY_DURATION(
-                    input: validationInput,
-                ): validationOutput {
-                    const scope = payloadUtils.getJsonPath(input.payload, "$");
-                    let subResults: validationOutput = [];
-                    let valid = true;
-                    for (const testObj of scope) {
-                        testObj._EXTERNAL = input.externalData;
-                        const attr = payloadUtils.getJsonPath(
-                            testObj,
-                            "$.message.order.cancellation_terms[*].cancel_by.duration",
-                        );
-
-                        const validate = validations.arePresent(attr);
-
-                        if (!validate) {
-                            return [
-                                {
-                                    valid: false,
-                                    code: 30000,
-                                    description: `- **condition Attri_Required_31_CANCEL_BY_DURATION**: $.message.order.cancellation_terms[*].cancel_by.duration must be present in the payload`,
-                                },
-                            ];
-                        }
-
-                        delete testObj._EXTERNAL;
-                    }
-                    return [{ valid: valid, code: 200 }, ...subResults];
-                }
                 function Attri_Required_32_ORDER_STATUS(
                     input: validationInput,
                 ): validationOutput {
@@ -2066,7 +2037,6 @@ export default function on_confirm(input: validationInput): validationOutput {
                     Attri_Required_28_PARAMS_TRANSACTION_ID,
                     Attri_Required_29_PARAMS_CURRENCY,
                     Attri_Required_30_PARAMS_AMOUNT,
-                    Attri_Required_31_CANCEL_BY_DURATION,
                     Attri_Required_32_ORDER_STATUS,
                     Attri_Required_33_ITEMS_CATEGORY_IDS,
                     Attri_Required_34_RANGE_START,
