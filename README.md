@@ -133,4 +133,4 @@ For detailed information on specific validations and their conditions, refer to 
 
 For further details, refer to the [instruct.md](https://github.com/ONDC-Official/automation-api-service/blob/main/public/instruct.md) file. 
 
-This README is based on the gathered information from the repository's code and documentation. Adjustments may be necessary based on specific implementation details and updates to the codebase.
+The README is based on the gathered information from the repository's code and documentation. Adjustments may be necessary based on specific implementation details and updates to the codebase.
