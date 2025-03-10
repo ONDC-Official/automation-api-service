@@ -520,47 +520,6 @@ export default function on_cancel(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function REQUIRED_MESSAGE_ID_14(
-            input: validationInput,
-        ): validationOutput {
-            const scope = payloadUtils.getJsonPath(input.payload, "$");
-            let subResults: validationOutput = [];
-            let valid = true;
-            for (const testObj of scope) {
-                testObj._EXTERNAL = input.externalData;
-                const attr = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.message.order.id",
-                );
-                const useCasePath = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.message.order.fulfillments[*].vehicle.category",
-                );
-                const useCode = ["BUS"];
-
-                const skipCheck = !validations.allIn(useCasePath, useCode);
-                if (skipCheck) continue;
-
-                const validate = validations.arePresent(attr);
-
-                if (!validate) {
-                    return [
-                        {
-                            valid: false,
-                            code: 30000,
-                            description: `- **condition REQUIRED_MESSAGE_ID_14**: $.message.order.id must be present in the payload
-
-	> Note: **Condition REQUIRED_MESSAGE_ID_14** can be skipped if the following conditions are met:
-	>
-	> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]`,
-                        },
-                    ];
-                }
-
-                delete testObj._EXTERNAL;
-            }
-            return [{ valid: valid, code: 200 }, ...subResults];
-        }
         function REQUIRED_MESSAGE_STATUS_15(
             input: validationInput,
         ): validationOutput {
@@ -2452,7 +2411,6 @@ export default function on_cancel(input: validationInput): validationOutput {
             REQUIRED_CONTEXT_TTL_11,
             REQUIRED_CONTEXT_BPP_ID_12,
             REQUIRED_CONTEXT_BPP_URI_13,
-            REQUIRED_MESSAGE_ID_14,
             REQUIRED_MESSAGE_STATUS_15,
             REQUIRED_MESSAGE_ID_16,
             REQUIRED_MESSAGE_NAME_17,

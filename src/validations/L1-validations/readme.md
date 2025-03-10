@@ -3106,12 +3106,6 @@
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
-	- **condition REQUIRED_MESSAGE_ID_14**: $.message.order.id must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_ID_14** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
 	- **condition REQUIRED_MESSAGE_STATUS_15**: $.message.order.status must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_STATUS_15** can be skipped if the following conditions are met:
@@ -3624,12 +3618,6 @@
 	- **condition REQUIRED_CONTEXT_BPP_URI_13**: $.context.bpp_uri must be present in the payload
 	
 		> Note: **Condition REQUIRED_CONTEXT_BPP_URI_13** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["METRO"]
-	
-	- **condition REQUIRED_MESSAGE_ID_14**: $.message.order.id must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_ID_14** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["METRO"]
 	
