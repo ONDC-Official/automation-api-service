@@ -11,15 +11,6 @@
 		>
 		> - **condition B**: every element of $.message.intent.fulfillment.vehicle.category must **not** be in ["METRO"]
 	
-	- **condition REQUIRED_CONTEXT_CODE_2**: all of the following sub conditions must be met:
-	
-	  - **condition REQUIRED_CONTEXT_CODE_2.1**: $.context.location.city.code must be present in the payload
-	  - **condition REQUIRED_CONTEXT_CODE_2.2**: every element of $.context.location.city.code must be in ["std:080"]
-	
-		> Note: **Condition REQUIRED_CONTEXT_CODE_2** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.intent.fulfillment.vehicle.category must **not** be in ["METRO"]
-	
 	- **condition REQUIRED_CONTEXT_DOMAIN_3**: all of the following sub conditions must be met:
 	
 	  - **condition REQUIRED_CONTEXT_DOMAIN_3.1**: $.context.domain must be present in the payload
@@ -202,11 +193,6 @@
 	  - **condition REQUIRED_CONTEXT_CODE_1.1**: $.context.location.country.code must be present in the payload
 	  - **condition REQUIRED_CONTEXT_CODE_1.2**: every element of $.context.location.country.code must be in ["IND"]
 	
-	- **condition REQUIRED_CONTEXT_CODE_2**: all of the following sub conditions must be met:
-	
-	  - **condition REQUIRED_CONTEXT_CODE_2.1**: $.context.location.city.code must be present in the payload
-	  - **condition REQUIRED_CONTEXT_CODE_2.2**: every element of $.context.location.city.code must be in ["std:080"]
-	
 	- **condition REQUIRED_CONTEXT_DOMAIN_3**: all of the following sub conditions must be met:
 	
 	  - **condition REQUIRED_CONTEXT_DOMAIN_3.1**: $.context.domain must be present in the payload
@@ -339,11 +325,6 @@
 	
 	  - **condition REQUIRED_CONTEXT_CODE_1.1**: $.context.location.country.code must be present in the payload
 	  - **condition REQUIRED_CONTEXT_CODE_1.2**: every element of $.context.location.country.code must be in ["IND"]
-	
-	- **condition REQUIRED_CONTEXT_CODE_2**: all of the following sub conditions must be met:
-	
-	  - **condition REQUIRED_CONTEXT_CODE_2.1**: $.context.location.city.code must be present in the payload
-	  - **condition REQUIRED_CONTEXT_CODE_2.2**: every element of $.context.location.city.code must be in ["std:080"]
 	
 	- **condition REQUIRED_CONTEXT_DOMAIN_3**: all of the following sub conditions must be met:
 	
@@ -487,11 +468,6 @@
 	
 	  - **condition REQUIRED_CONTEXT_CODE_1.1**: $.context.location.country.code must be present in the payload
 	  - **condition REQUIRED_CONTEXT_CODE_1.2**: every element of $.context.location.country.code must be in ["IND"]
-	
-	- **condition REQUIRED_CONTEXT_CODE_2**: all of the following sub conditions must be met:
-	
-	  - **condition REQUIRED_CONTEXT_CODE_2.1**: $.context.location.city.code must be present in the payload
-	  - **condition REQUIRED_CONTEXT_CODE_2.2**: every element of $.context.location.city.code must be in ["std:080"]
 	
 	- **condition REQUIRED_CONTEXT_DOMAIN_3**: all of the following sub conditions must be met:
 	
@@ -647,11 +623,6 @@
 	  - **condition REQUIRED_CONTEXT_CODE_1.1**: $.context.location.country.code must be present in the payload
 	  - **condition REQUIRED_CONTEXT_CODE_1.2**: every element of $.context.location.country.code must be in ["IND"]
 	
-	- **condition REQUIRED_CONTEXT_CODE_2**: all of the following sub conditions must be met:
-	
-	  - **condition REQUIRED_CONTEXT_CODE_2.1**: $.context.location.city.code must be present in the payload
-	  - **condition REQUIRED_CONTEXT_CODE_2.2**: every element of $.context.location.city.code must be in ["std:080"]
-	
 	- **condition REQUIRED_CONTEXT_DOMAIN_3**: all of the following sub conditions must be met:
 	
 	  - **condition REQUIRED_CONTEXT_DOMAIN_3.1**: $.context.domain must be present in the payload
@@ -715,11 +686,6 @@
 	  - **condition REQUIRED_CONTEXT_CODE_1.1**: $.context.location.country.code must be present in the payload
 	  - **condition REQUIRED_CONTEXT_CODE_1.2**: every element of $.context.location.country.code must be in ["IND"]
 	
-	- **condition REQUIRED_CONTEXT_CODE_2**: all of the following sub conditions must be met:
-	
-	  - **condition REQUIRED_CONTEXT_CODE_2.1**: $.context.location.city.code must be present in the payload
-	  - **condition REQUIRED_CONTEXT_CODE_2.2**: every element of $.context.location.city.code must be in ["std:080"]
-	
 	- **condition REQUIRED_CONTEXT_DOMAIN_3**: all of the following sub conditions must be met:
 	
 	  - **condition REQUIRED_CONTEXT_DOMAIN_3.1**: $.context.domain must be present in the payload
@@ -765,11 +731,6 @@
 	
 	  - **condition REQUIRED_CONTEXT_CODE_1.1**: $.context.location.country.code must be present in the payload
 	  - **condition REQUIRED_CONTEXT_CODE_1.2**: every element of $.context.location.country.code must be in ["IND"]
-	
-	- **condition REQUIRED_CONTEXT_CODE_2**: all of the following sub conditions must be met:
-	
-	  - **condition REQUIRED_CONTEXT_CODE_2.1**: $.context.location.city.code must be present in the payload
-	  - **condition REQUIRED_CONTEXT_CODE_2.2**: every element of $.context.location.city.code must be in ["std:080"]
 	
 	- **condition REQUIRED_CONTEXT_DOMAIN_3**: all of the following sub conditions must be met:
 	
@@ -871,15 +832,6 @@
 	  - **condition REQUIRED_CONTEXT_CODE_1.2**: every element of $.context.location.country.code must be in ["IND"]
 	
 		> Note: **Condition REQUIRED_CONTEXT_CODE_1** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.catalog.providers[*].fulfillments[*].vehicle.category must **not** be in ["METRO"]
-	
-	- **condition REQUIRED_CONTEXT_CODE_2**: all of the following sub conditions must be met:
-	
-	  - **condition REQUIRED_CONTEXT_CODE_2.1**: $.context.location.city.code must be present in the payload
-	  - **condition REQUIRED_CONTEXT_CODE_2.2**: every element of $.context.location.city.code must be in ["std:080"]
-	
-		> Note: **Condition REQUIRED_CONTEXT_CODE_2** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.catalog.providers[*].fulfillments[*].vehicle.category must **not** be in ["METRO"]
 	
@@ -1271,15 +1223,6 @@
 	  - **condition REQUIRED_CONTEXT_CODE_1.2**: every element of $.context.location.country.code must be in ["IND"]
 	
 		> Note: **Condition REQUIRED_CONTEXT_CODE_1** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["METRO"]
-	
-	- **condition REQUIRED_CONTEXT_CODE_2**: all of the following sub conditions must be met:
-	
-	  - **condition REQUIRED_CONTEXT_CODE_2.1**: $.context.location.city.code must be present in the payload
-	  - **condition REQUIRED_CONTEXT_CODE_2.2**: every element of $.context.location.city.code must be in ["std:080"]
-	
-		> Note: **Condition REQUIRED_CONTEXT_CODE_2** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["METRO"]
 	
@@ -1803,15 +1746,6 @@
 	  - **condition REQUIRED_CONTEXT_CODE_1.2**: every element of $.context.location.country.code must be in ["IND"]
 	
 		> Note: **Condition REQUIRED_CONTEXT_CODE_1** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["METRO"]
-	
-	- **condition REQUIRED_CONTEXT_CODE_2**: all of the following sub conditions must be met:
-	
-	  - **condition REQUIRED_CONTEXT_CODE_2.1**: $.context.location.city.code must be present in the payload
-	  - **condition REQUIRED_CONTEXT_CODE_2.2**: every element of $.context.location.city.code must be in ["std:080"]
-	
-		> Note: **Condition REQUIRED_CONTEXT_CODE_2** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["METRO"]
 	
@@ -2408,15 +2342,6 @@
 	  - **condition REQUIRED_CONTEXT_CODE_1.2**: every element of $.context.location.country.code must be in ["IND"]
 	
 		> Note: **Condition REQUIRED_CONTEXT_CODE_1** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["METRO"]
-	
-	- **condition REQUIRED_CONTEXT_CODE_2**: all of the following sub conditions must be met:
-	
-	  - **condition REQUIRED_CONTEXT_CODE_2.1**: $.context.location.city.code must be present in the payload
-	  - **condition REQUIRED_CONTEXT_CODE_2.2**: every element of $.context.location.city.code must be in ["std:080"]
-	
-		> Note: **Condition REQUIRED_CONTEXT_CODE_2** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["METRO"]
 	
@@ -3109,15 +3034,6 @@
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
-	- **condition REQUIRED_CONTEXT_CODE_2**: all of the following sub conditions must be met:
-	
-	  - **condition REQUIRED_CONTEXT_CODE_2.1**: $.context.location.city.code must be present in the payload
-	  - **condition REQUIRED_CONTEXT_CODE_2.2**: every element of $.context.location.city.code must be in ["std:080"]
-	
-		> Note: **Condition REQUIRED_CONTEXT_CODE_2** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
 	- **condition REQUIRED_CONTEXT_DOMAIN_3**: all of the following sub conditions must be met:
 	
 	  - **condition REQUIRED_CONTEXT_DOMAIN_3.1**: $.context.domain must be present in the payload
@@ -3476,11 +3392,6 @@
 	  - **condition REQUIRED_CONTEXT_CODE_1.1**: $.context.location.country.code must be present in the payload
 	  - **condition REQUIRED_CONTEXT_CODE_1.2**: every element of $.context.location.country.code must be in ["IND"]
 	
-	- **condition REQUIRED_CONTEXT_CODE_2**: all of the following sub conditions must be met:
-	
-	  - **condition REQUIRED_CONTEXT_CODE_2.1**: $.context.location.city.code must be present in the payload
-	  - **condition REQUIRED_CONTEXT_CODE_2.2**: every element of $.context.location.city.code must be in ["std:080"]
-	
 	- **condition REQUIRED_CONTEXT_DOMAIN_3**: all of the following sub conditions must be met:
 	
 	  - **condition REQUIRED_CONTEXT_DOMAIN_3.1**: $.context.domain must be present in the payload
@@ -3641,15 +3552,6 @@
 	  - **condition REQUIRED_CONTEXT_CODE_1.2**: every element of $.context.location.country.code must be in ["IND"]
 	
 		> Note: **Condition REQUIRED_CONTEXT_CODE_1** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["METRO"]
-	
-	- **condition REQUIRED_CONTEXT_CODE_2**: all of the following sub conditions must be met:
-	
-	  - **condition REQUIRED_CONTEXT_CODE_2.1**: $.context.location.city.code must be present in the payload
-	  - **condition REQUIRED_CONTEXT_CODE_2.2**: every element of $.context.location.city.code must be in ["std:080"]
-	
-		> Note: **Condition REQUIRED_CONTEXT_CODE_2** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["METRO"]
 	
