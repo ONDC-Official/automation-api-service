@@ -1067,18 +1067,6 @@
 		>
 		> - **condition B**: every element of $.message.catalog.providers[*].fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
-	- **condition REQUIRED_MESSAGE_START_42**: $.message.catalog.providers[*].time.range.start must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_START_42** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.catalog.providers[*].fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_END_43**: $.message.catalog.providers[*].time.range.end must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_END_43** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.catalog.providers[*].fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
 	- **condition REQUIRED_MESSAGE_NAME_44**: $.message.catalog.providers[*].descriptor.name must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_NAME_44** can be skipped if the following conditions are met:
@@ -1578,18 +1566,6 @@
 	- **condition REQUIRED_MESSAGE_NAME_61**: $.message.order.provider.descriptor.name must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_NAME_61** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_START_62**: $.message.order.provider.time.range.start must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_START_62** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_END_63**: $.message.order.provider.time.range.end must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_END_63** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
@@ -2134,18 +2110,6 @@
 	- **condition REQUIRED_MESSAGE_NAME_65**: $.message.order.provider.descriptor.name must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_NAME_65** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_START_66**: $.message.order.provider.time.range.start must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_START_66** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_END_67**: $.message.order.provider.time.range.end must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_END_67** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
@@ -2796,18 +2760,6 @@
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
-	- **condition REQUIRED_MESSAGE_START_77**: $.message.order.provider.time.range.start must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_START_77** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_END_78**: $.message.order.provider.time.range.end must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_END_78** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
 	- **condition REQUIRED_MESSAGE_ID_79**: $.message.order.fulfillments[*].id must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_ID_79** can be skipped if the following conditions are met:
@@ -3167,18 +3119,6 @@
 	- **condition REQUIRED_MESSAGE_URL_28**: $.message.order.provider.descriptor.images[*].url must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_URL_28** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_START_29**: $.message.order.provider.time.range.start must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_START_29** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_END_30**: $.message.order.provider.time.range.end must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_END_30** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
@@ -3973,18 +3913,6 @@
 	- **condition REQUIRED_MESSAGE_URL_75**: $.message.order.provider.descriptor.images[*].url must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_URL_75** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_START_76**: $.message.order.provider.time.range.start must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_START_76** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_END_77**: $.message.order.provider.time.range.end must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_END_77** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
