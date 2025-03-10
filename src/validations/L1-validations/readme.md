@@ -301,7 +301,7 @@
 		>
 		> - **condition B**: $.message.order.status must **not** be present in the payload
 	
-	- **condition VALID_ENUM_MESSAGE_TITLE_8**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+	- **condition VALID_ENUM_MESSAGE_TITLE_8**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 	
 		> Note: **Condition VALID_ENUM_MESSAGE_TITLE_8** can be skipped if the following conditions are met:
 		>
@@ -446,7 +446,7 @@
 		>
 		> - **condition B**: $.message.order.status must **not** be present in the payload
 	
-	- **condition VALID_ENUM_MESSAGE_TITLE_8**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+	- **condition VALID_ENUM_MESSAGE_TITLE_8**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 	
 		> Note: **Condition VALID_ENUM_MESSAGE_TITLE_8** can be skipped if the following conditions are met:
 		>
@@ -610,7 +610,7 @@
 		>
 		> - **condition B**: $.message.order.fulfillments[*].stops[*].authorization.status must **not** be present in the payload
 	
-	- **condition VALID_ENUM_MESSAGE_TITLE_7**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+	- **condition VALID_ENUM_MESSAGE_TITLE_7**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 	
 		> Note: **Condition VALID_ENUM_MESSAGE_TITLE_7** can be skipped if the following conditions are met:
 		>
@@ -818,7 +818,7 @@
 		>
 		> - **condition B**: $.message.order.payments[*].type must **not** be present in the payload
 	
-	- **condition VALID_ENUM_MESSAGE_TITLE_10**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+	- **condition VALID_ENUM_MESSAGE_TITLE_10**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 	
 		> Note: **Condition VALID_ENUM_MESSAGE_TITLE_10** can be skipped if the following conditions are met:
 		>
@@ -1430,7 +1430,7 @@
 	- **condition REQUIRED_MESSAGE_TITLE_34**: all of the following sub conditions must be met:
 	
 	  - **condition REQUIRED_MESSAGE_TITLE_34.1**: $.message.order.quote.breakup[*].title must be present in the payload
-	  - **condition REQUIRED_MESSAGE_TITLE_34.2**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+	  - **condition REQUIRED_MESSAGE_TITLE_34.2**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 	
 		> Note: **Condition REQUIRED_MESSAGE_TITLE_34** can be skipped if the following conditions are met:
 		>
@@ -1953,7 +1953,7 @@
 	- **condition REQUIRED_MESSAGE_TITLE_34**: all of the following sub conditions must be met:
 	
 	  - **condition REQUIRED_MESSAGE_TITLE_34.1**: $.message.order.quote.breakup[*].title must be present in the payload
-	  - **condition REQUIRED_MESSAGE_TITLE_34.2**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+	  - **condition REQUIRED_MESSAGE_TITLE_34.2**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 	
 		> Note: **Condition REQUIRED_MESSAGE_TITLE_34** can be skipped if the following conditions are met:
 		>
@@ -2576,7 +2576,7 @@
 	- **condition REQUIRED_MESSAGE_TITLE_38**: all of the following sub conditions must be met:
 	
 	  - **condition REQUIRED_MESSAGE_TITLE_38.1**: $.message.order.quote.breakup[*].title must be present in the payload
-	  - **condition REQUIRED_MESSAGE_TITLE_38.2**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+	  - **condition REQUIRED_MESSAGE_TITLE_38.2**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 	
 		> Note: **Condition REQUIRED_MESSAGE_TITLE_38** can be skipped if the following conditions are met:
 		>
@@ -3268,7 +3268,7 @@
 	- **condition REQUIRED_MESSAGE_TITLE_39**: all of the following sub conditions must be met:
 	
 	  - **condition REQUIRED_MESSAGE_TITLE_39.1**: $.message.order.quote.breakup[*].title must be present in the payload
-	  - **condition REQUIRED_MESSAGE_TITLE_39.2**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+	  - **condition REQUIRED_MESSAGE_TITLE_39.2**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 	
 		> Note: **Condition REQUIRED_MESSAGE_TITLE_39** can be skipped if the following conditions are met:
 		>
@@ -3485,7 +3485,7 @@
 	- **condition REQUIRED_MESSAGE_TITLE_39**: all of the following sub conditions must be met:
 	
 	  - **condition REQUIRED_MESSAGE_TITLE_39.1**: $.message.order.quote.breakup[*].title must be present in the payload
-	  - **condition REQUIRED_MESSAGE_TITLE_39.2**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+	  - **condition REQUIRED_MESSAGE_TITLE_39.2**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 	
 	- **condition REQUIRED_MESSAGE_ID_40**: $.message.order.quote.breakup[*].item.id must be present in the payload
 	
@@ -3768,7 +3768,7 @@
 	- **condition REQUIRED_MESSAGE_TITLE_36**: all of the following sub conditions must be met:
 	
 	  - **condition REQUIRED_MESSAGE_TITLE_36.1**: $.message.order.quote.breakup[*].title must be present in the payload
-	  - **condition REQUIRED_MESSAGE_TITLE_36.2**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+	  - **condition REQUIRED_MESSAGE_TITLE_36.2**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 	
 		> Note: **Condition REQUIRED_MESSAGE_TITLE_36** can be skipped if the following conditions are met:
 		>

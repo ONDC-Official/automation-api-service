@@ -1617,7 +1617,7 @@ export default function confirm(input: validationInput): validationOutput {
             for (const testObj of scope) {
                 testObj._EXTERNAL = input.externalData;
                 const enumList = [
-                    "BASE_PRICE",
+                    "BASE_FARE",
                     "REFUND",
                     "CANCELLATION_CHARGES",
                     "OFFER",
@@ -1638,7 +1638,7 @@ export default function confirm(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition VALID_ENUM_MESSAGE_TITLE_7**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+                            description: `- **condition VALID_ENUM_MESSAGE_TITLE_7**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 
 	> Note: **Condition VALID_ENUM_MESSAGE_TITLE_7** can be skipped if the following conditions are met:
 	>

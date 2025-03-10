@@ -1541,7 +1541,7 @@ export default function on_confirm(input: validationInput): validationOutput {
                     "$.message.order.quote.breakup[*].title",
                 );
                 const enumList = [
-                    "BASE_PRICE",
+                    "BASE_FARE",
                     "REFUND",
                     "CANCELLATION_CHARGES",
                     "OFFER",
@@ -1568,7 +1568,7 @@ export default function on_confirm(input: validationInput): validationOutput {
                             description: `- **condition REQUIRED_MESSAGE_TITLE_38**: all of the following sub conditions must be met:
 
   - **condition REQUIRED_MESSAGE_TITLE_38.1**: $.message.order.quote.breakup[*].title must be present in the payload
-  - **condition REQUIRED_MESSAGE_TITLE_38.2**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_PRICE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+  - **condition REQUIRED_MESSAGE_TITLE_38.2**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 
 	> Note: **Condition REQUIRED_MESSAGE_TITLE_38** can be skipped if the following conditions are met:
 	>
