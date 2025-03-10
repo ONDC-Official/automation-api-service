@@ -2649,12 +2649,6 @@
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["METRO"]
 	
-	- **condition REQUIRED_MESSAGE_DURATION_49**: $.message.order.cancellation_terms[*].cancel_by.duration must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_DURATION_49** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["METRO"]
-	
 	- **condition REQUIRED_CONTEXT_CODE_50**: $.context.location.country.code must be present in the payload
 	
 		> Note: **Condition REQUIRED_CONTEXT_CODE_50** can be skipped if the following conditions are met:
@@ -3826,12 +3820,6 @@
 	- **condition REQUIRED_MESSAGE_AMOUNT_46**: $.message.order.payments[*].params.amount must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_AMOUNT_46** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["METRO"]
-	
-	- **condition REQUIRED_MESSAGE_DURATION_47**: $.message.order.cancellation_terms[*].cancel_by.duration must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_DURATION_47** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["METRO"]
 	

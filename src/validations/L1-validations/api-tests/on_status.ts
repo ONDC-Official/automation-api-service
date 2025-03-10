@@ -1878,47 +1878,6 @@ export default function on_status(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function REQUIRED_MESSAGE_DURATION_47(
-            input: validationInput,
-        ): validationOutput {
-            const scope = payloadUtils.getJsonPath(input.payload, "$");
-            let subResults: validationOutput = [];
-            let valid = true;
-            for (const testObj of scope) {
-                testObj._EXTERNAL = input.externalData;
-                const attr = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.message.order.cancellation_terms[*].cancel_by.duration",
-                );
-                const useCasePath = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.message.order.fulfillments[*].vehicle.category",
-                );
-                const useCode = ["METRO"];
-
-                const skipCheck = !validations.allIn(useCasePath, useCode);
-                if (skipCheck) continue;
-
-                const validate = validations.arePresent(attr);
-
-                if (!validate) {
-                    return [
-                        {
-                            valid: false,
-                            code: 30000,
-                            description: `- **condition REQUIRED_MESSAGE_DURATION_47**: $.message.order.cancellation_terms[*].cancel_by.duration must be present in the payload
-
-	> Note: **Condition REQUIRED_MESSAGE_DURATION_47** can be skipped if the following conditions are met:
-	>
-	> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["METRO"]`,
-                        },
-                    ];
-                }
-
-                delete testObj._EXTERNAL;
-            }
-            return [{ valid: valid, code: 200 }, ...subResults];
-        }
         function REQUIRED_CONTEXT_CODE_48(
             input: validationInput,
         ): validationOutput {
@@ -4654,7 +4613,6 @@ export default function on_status(input: validationInput): validationOutput {
             REQUIRED_MESSAGE_TRANSACTION_ID_44,
             REQUIRED_MESSAGE_CURRENCY_45,
             REQUIRED_MESSAGE_AMOUNT_46,
-            REQUIRED_MESSAGE_DURATION_47,
             REQUIRED_CONTEXT_CODE_48,
             REQUIRED_CONTEXT_CODE_49,
             REQUIRED_CONTEXT_DOMAIN_50,
