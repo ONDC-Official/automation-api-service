@@ -3,27 +3,23 @@ import {
 	supportedActions,
 } from "../../config/supported-actions";
 import { BecknContext } from "../../models/beckn-types";
-import { SessionData } from "../../types/session-types";
-import logger from "../logger";
+import {
+	ApiData,
+	RequestProperties,
+	TransactionCache,
+} from "../../types/cache-types";
 
 export function validateAsyncContext(
 	subject: BecknContext,
-	sessionData: SessionData
+	transactionData: TransactionCache,
+	requestProperties: RequestProperties
 ) {
-	const currentFlow = sessionData.current_flow_id;
-	let flowPayloads: {
-		request: BecknContext;
-		response: any;
-	}[] = sessionData.session_payloads[currentFlow];
-	if (!Array.isArray(flowPayloads)) {
-		logger.error("Invalid flow payloads please correct the session data!!");
-		flowPayloads = [];
-	}
+	const flowPayloads = transactionData.apiList;
 
 	const allResponse = flowPayloads.map((payload) => payload.response);
 
 	if (
-		sessionData.difficulty_cache.stopAfterFirstNack &&
+		requestProperties.difficulty.stopAfterFirstNack &&
 		!checkAllAck(allResponse)
 	) {
 		return {
@@ -33,7 +29,6 @@ export function validateAsyncContext(
 	}
 
 	const sortedContexts = flowPayloads
-		.map((payload) => payload.request)
 		.sort(
 			(a, b) =>
 				new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
@@ -41,28 +36,27 @@ export function validateAsyncContext(
 		.reverse();
 
 	const subjectAction = subject.action;
-	const predecesorName = getAsyncPredecesor(subjectAction);
-	if (predecesorName) {
-		const predecesor = sortedContexts.find(
-			(context) => context.action === predecesorName
+	const predecessorName = getAsyncPredecessor(subjectAction);
+	if (predecessorName) {
+		const predecessor = sortedContexts.find(
+			(context) => context.action === predecessorName
 		);
-		if (!predecesor) {
+		if (!predecessor) {
 			return {
 				valid: false,
-				error: `${predecesorName} for ${subjectAction} not found in the flow history`,
+				error: `${predecessorName} for ${subjectAction} not found in the flow history`,
 			};
 		}
-		if (predecesor.message_id != subject.message_id) {
+		if (predecessor.messageId != subject.message_id) {
 			return {
 				valid: false,
-				error: `message_id mismatch between ${predecesorName} and ${subjectAction}
-                expteced ${predecesor.message_id} but found ${subject.message_id}
-                `,
+				error: `message_id mismatch between ${predecessorName} and ${subjectAction}
+                expected ${predecessor.messageId} but found ${subject.message_id}`,
 			};
 		}
 		const filteredContexts = sortedContexts
-			.filter((c) => JSON.stringify(c) !== JSON.stringify(predecesor))
-			.map((c) => c.message_id);
+			.filter((c) => JSON.stringify(c) !== JSON.stringify(predecessor))
+			.map((c) => c.messageId);
 		if (filteredContexts.includes(subject.message_id)) {
 			return {
 				valid: false,
@@ -70,47 +64,47 @@ export function validateAsyncContext(
 			};
 		}
 	} else {
-		const supporteActions = getSupporedActions(
-			sessionData.context_cache[sessionData.current_flow_id].latest_action
-		);
-		if (!supporteActions.includes(subjectAction)) {
+		const supportedActions = getSupportedActions(transactionData.latestAction);
+		if (transactionData.messageIds.includes(subject.message_id)) {
 			return {
 				valid: false,
-				error: `${subjectAction} not supported after ${sessionData.context_cache.latest_action}`,
+				error: `Duplicate message_id found in the flow history`,
+			};
+		}
+		if (!supportedActions.includes(subjectAction)) {
+			return {
+				valid: false,
+				error: `${subjectAction} not supported after ${transactionData.latestAction}`,
 			};
 		}
 	}
-	return validateTrasactionId(
-		subjectAction,
-		subject.transaction_id,
-		sortedContexts
-	);
+	return validateTransactionId(subjectAction, sortedContexts);
 }
 
-function validateTrasactionId(
-	action: string,
-	transId: string,
-	sortedContexts: BecknContext[]
-) {
-	const transactionPartners = getTrasactionPartners(action);
+function validateTransactionId(action: string, sortedContexts: ApiData[]) {
+	const transactionPartners = getTransactionPartners(action);
 	const transactionContexts = findFirstMatches(
 		sortedContexts,
 		transactionPartners
 	);
-	for (const context of transactionContexts) {
-		if (context.transaction_id !== transId) {
-			return {
-				valid: false,
-				error: `Transaction id mismatch between ${action} and ${context.action}`,
-			};
-		}
+	const notFound = transactionPartners.filter(
+		(partner) =>
+			!transactionContexts.some((context) => context.action === partner)
+	);
+	if (notFound.length > 0) {
+		return {
+			valid: false,
+			error: `Transaction partners ${notFound.join(
+				", "
+			)} not found in the transaction history to proceed with ${action}`,
+		};
 	}
 	return {
 		valid: true,
 	};
 }
 
-function getAsyncPredecesor(action: string) {
+function getAsyncPredecessor(action: string) {
 	if (action in apiProperties) {
 		return apiProperties[action as keyof typeof apiProperties]
 			.async_predecessor;
@@ -118,7 +112,7 @@ function getAsyncPredecesor(action: string) {
 	return null;
 }
 
-function getSupporedActions(action: string) {
+function getSupportedActions(action: string) {
 	if (action === "") {
 		action = "null";
 	}
@@ -128,7 +122,7 @@ function getSupporedActions(action: string) {
 	return [] as string[];
 }
 
-function getTrasactionPartners(action: string) {
+function getTransactionPartners(action: string) {
 	if (action in apiProperties) {
 		return apiProperties[action as keyof typeof apiProperties]
 			.transaction_partner;
@@ -136,11 +130,8 @@ function getTrasactionPartners(action: string) {
 	return [] as string[];
 }
 
-function findFirstMatches(
-	array: BecknContext[],
-	actions: string[]
-): BecknContext[] {
-	const result: BecknContext[] = [];
+function findFirstMatches(array: ApiData[], actions: string[]): ApiData[] {
+	const result: ApiData[] = [];
 	const foundActions = new Set<string>();
 	for (const item of array) {
 		if (actions.includes(item.action) && !foundActions.has(item.action)) {

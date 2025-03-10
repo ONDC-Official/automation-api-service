@@ -1,18 +1,77 @@
-In a Node.js project, the `public` folder typically holds static assets that need to be publicly accessible, such as images, CSS files, client-side JavaScript, and other resources used directly by the client. When setting up a Node.js application (especially with Express.js or other server frameworks), the `public` folder serves as the directory for files that can be directly served to users without additional server-side processing.
-
-Here's what is commonly added in a `public` folder:
-
-1. **Images** - Icons, logos, and other images used in the front end.
-2. **CSS Stylesheets** - Styling files to apply layouts, colors, and designs to web pages.
-3. **Client-Side JavaScript Files** - JavaScript files that run in the browser, often used for interactive features.
-4. **Fonts** - Custom font files (e.g., `.ttf`, `.woff`, `.woff2`) used for styling.
-5. **HTML Files** (if applicable) - Some static HTML files can also be placed here if they're directly accessible or served to users.
-6. **Media** - Any other media assets, like videos or audio files, that need to be accessible to the client.
-
-To serve these files in an Express.js application, you would often set up middleware like this:
-
-```javascript
-app.use(express.static('public'));
+```
+{
+  // Transaction Cache
+  "5fe69510-1aa2-4c94-b3ef-6e512291afaf": {
+    "role": "BAP",
+    "domain": "ONDC:TRV11",
+    "version": "2.0.1",
+    "city": "std:080",
+    "country": "IND",
+    "latest_action": "search",
+    "latest_timestamp": "2025-01-09T10:25:29.677Z",
+    "message_ids": [""],
+    "api_list": [
+      {
+        "action": "search",
+        "sync_response": "ACK/NACK",
+        "message_id": "53e110d1-91e3-480d-8ccc-d9e3d63f1a0b",
+        "error": "",
+        "ingress_timestamp": "2025-01-09T10:43:32.749Z"
+      }
+    ]
+  }
+}
 ```
 
-This way, the contents of the `public` folder are available at the root URL. For example, if you place an image `logo.png` in `public`, it would be accessible at `http://your-domain.com/logo.png`.
+```
+{
+  // NP Cache
+  "<subsciber_id>": {
+    "active_session_ids": [
+      "17e2aa52-0edc-410d-a170-724c01e4370f",
+      "e2c055e9-0fbb-4831-956b-4b9a8df729d9"
+    ],
+    "profile": {
+        "bypass_header" : false,
+        "bypass_nack": false,
+        "bypass_L1": false,
+        "bypass_gateway": false,
+        "bypass_ttl": false
+    },
+    "expectations": [
+        {
+            "action": "search",
+            "session_id": "17e2aa52-0edc-410d-a170-724c01e4370f",
+            "flow_id": "17e2aa52-0edc-410d-a170-724c01e4370f"
+        }
+    ]
+  }
+}
+```
+
+```
+{
+  // Session Cache
+  "5bcab0ef-60e0-47fa-8bbe-2e57c164c561": {
+    "transaction_ids": [
+      "a1371723-9b8b-4a47-84f2-8527e96c314e",
+      "b2710dbf-ac93-4247-8a74-d03ef780b338"
+    ],
+    "flow_map": {
+        "<flow_id>": "txn_id"
+    },
+    "role": "BAP",
+    "domain": "ONDC:TRV11",
+    "version": "2.0.1",
+    "transaction_mode": "UNIT/FLOW",
+    "profile": {//optional
+        "bypass_header" : false,
+        "bypass_nack": false,
+        "bypass_L0_L1": false,
+        "bypass_gateway": false,
+        "bypass_ttl": false
+    },
+    "subscriber_id": "test.com"
+  }
+}
+```

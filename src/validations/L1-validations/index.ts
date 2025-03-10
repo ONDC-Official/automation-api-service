@@ -4,6 +4,7 @@ import init from "./api-tests/init";
 import confirm from "./api-tests/confirm";
 import status from "./api-tests/status";
 import cancel from "./api-tests/cancel";
+import update from "./api-tests/update";
 import on_search from "./api-tests/on_search";
 import on_select from "./api-tests/on_select";
 import on_init from "./api-tests/on_init";
@@ -61,6 +62,14 @@ export function performL1Validations(
             });
         case "cancel":
             return cancel({
+                payload: payload,
+                externalData: externalData,
+                config: {
+                    runAllValidations: allErrors,
+                },
+            });
+        case "update":
+            return update({
                 payload: payload,
                 externalData: externalData,
                 config: {

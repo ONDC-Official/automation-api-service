@@ -1,46 +1,48 @@
 import { BecknContext } from "../../models/beckn-types";
 import { validateAsyncContext } from "./async-validations";
-import { loadData } from "./cache-utils";
 import logger from "../logger";
+import { RequestProperties, TransactionCache } from "../../types/cache-types";
+import { TransactionCacheService } from "../../services/session-service-rewrite";
 
 export async function performContextValidations(
 	context: BecknContext,
-	subscriberUrl: string
+	apiProperties: RequestProperties
 ): Promise<{
 	valid: boolean;
 	error?: string;
 }> {
-	const sessionData = await loadData(subscriberUrl);
-	if (!sessionData) {
-		logger.error("skipping context validation as session data not found");
-		return {
-			valid: true,
-		};
+	const transService = new TransactionCacheService();
+	let transactionData = await transService.tryLoadTransaction(
+		apiProperties.transactionId,
+		apiProperties.subscriberUrl
+	);
+	if (!transactionData) {
+		logger.info("Transaction not found, creating new transaction");
+		transactionData = await transService.createTransaction(
+			transService.createTransactionKey(
+				apiProperties.transactionId,
+				apiProperties.subscriberUrl
+			),
+			apiProperties,
+			context
+		);
 	}
-	const current_flow_id = sessionData.current_flow_id;
-	if (!current_flow_id) {
-		return {
-			valid: false,
-			error: "Current flow id not found in session data",
-		};
-	}
-	const cacheData = sessionData.context_cache[current_flow_id];
-	if (sessionData.difficulty_cache.timeValidations) {
+	if (apiProperties.difficulty && apiProperties.difficulty.timeValidations) {
 		if (
-			new Date(context.timestamp).getTime() <
-			new Date(cacheData.latest_timestamp).getTime()
+			new Date(context.timestamp).getTime() <=
+			new Date(transactionData.latestTimestamp).getTime()
 		) {
 			return {
 				valid: false,
-				error: `Invalid timestamp in context should be greater than ${sessionData.context_cache.latest_timestamp}
-                of last ${sessionData.context_cache.latest_action} action`,
+				error: `Invalid timestamp in context should be greater than ${transactionData.latestTimestamp}
+                of last ${transactionData.latestAction} action but got ${context.timestamp}`,
 			};
 		}
 	} else {
 		logger.info("Time validations are disabled");
 	}
 
-	return validateAsyncContext(context, sessionData);
+	return validateAsyncContext(context, transactionData, apiProperties);
 }
 
 export function isValidJSON(input: string): boolean {

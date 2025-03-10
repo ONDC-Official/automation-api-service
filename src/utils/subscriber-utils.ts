@@ -11,20 +11,21 @@ export function computeSubscriberUri(
 		throw new Error("BAP URI not found in context");
 	}
 	if (action !== "search" && !context.bpp_uri) {
-		console.log(action, context);
 		throw new Error("BPP URI not found in context");
 	}
 
 	const bapUri = context.bap_uri;
 	const bppUri = context.bpp_uri ?? "";
 
-	let retValue = "";
-
+	let subUrl = "";
+	let partType: "BAP" | "BPP" = "BAP";
 	if (fromMock) {
-		retValue = action.startsWith("on_") ? bapUri : bppUri;
+		subUrl = action.startsWith("on_") ? bapUri : bppUri;
+		partType = action.startsWith("on_") ? "BAP" : "BPP";
 	} else {
-		retValue = action.startsWith("on_") ? bppUri : bapUri;
+		subUrl = action.startsWith("on_") ? bppUri : bapUri;
+		partType = action.startsWith("on_") ? "BPP" : "BAP";
 	}
-	logger.info(`Computed subscriber URI: ${retValue}`);
-	return retValue;
+	logger.info(`Computed subscriber URI: ${subUrl}`);
+	return { subUrl, partType };
 }

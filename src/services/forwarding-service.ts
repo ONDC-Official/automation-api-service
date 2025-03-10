@@ -4,29 +4,31 @@ import logger from "../utils/logger";
 import { createAuthHeader } from "../utils/headerUtils";
 import { config } from "../config/registryGatewayConfig";
 import { getAxiosErrorMessage } from "../utils/axiosUtils";
-import { computeSubscriberUri } from "../utils/subsciber-utils";
-import { loadData } from "../utils/data-utils/cache-utils";
+import { RequestProperties } from "../types/cache-types";
 
 export class CommunicationService {
-	forwardApiToMock = async (body: any, action: string) => {
-		const url = process.env.MOCK_SERVER_URL;
-		logger.debug("Forwarding request to mock server " + url + action);
-		const subscriberUrl = computeSubscriberUri(body.context, action, false);
-		const data = await loadData(subscriberUrl);
-		if (data === undefined) {
-			logger.info(`forwarding url ${url}/manual/${action}`);
-			return await axios.post(`${url}/mock/${action}`, body);
-		} else {
-			logger.info(`forwarding url ${url}/manual/${action}`);
-			return await axios.post(`${url}/manual/${action}`, body);
-		}
+	forwardApiToMock = async (
+		body: any,
+		requestProperties?: RequestProperties
+	) => {
+		let url = process.env.MOCK_SERVER_URL;
+		const action = requestProperties?.action ?? body.context.action;
+		// if (requestProperties?.defaultMode === false) {
+		// 	url = `${url}/manual/${action}`;
+		// } else {
+		// 	url = `${url}/mock/${action}`;
+		// }
+		url = `${url}/manual/${action}`;
+
+		logger.info("Forwarding request to Mock server", url, action);
+		return await axios.post(url, body);
 	};
-	forwardApiToNp = async (body: any, action: string, overriteUrl?: string) => {
+	forwardApiToNp = async (body: any, action: string, overwriteUrl?: string) => {
 		const context: BecknContext = body.context;
 		let finalUri = context.action.startsWith("on_")
 			? context.bap_uri
 			: context.bpp_uri;
-		if (overriteUrl) finalUri = overriteUrl;
+		if (overwriteUrl) finalUri = overwriteUrl;
 		logger.info("Forwarding request to NP server", finalUri);
 
 		const header = await createAuthHeader(body);
