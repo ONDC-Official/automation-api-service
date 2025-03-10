@@ -2777,47 +2777,6 @@ export default function on_status(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function REQUIRED_MESSAGE_CATEGORY_IDS_70(
-            input: validationInput,
-        ): validationOutput {
-            const scope = payloadUtils.getJsonPath(input.payload, "$");
-            let subResults: validationOutput = [];
-            let valid = true;
-            for (const testObj of scope) {
-                testObj._EXTERNAL = input.externalData;
-                const attr = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.message.order.items[*].category_ids[*]",
-                );
-                const useCasePath = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.message.order.fulfillments[*].vehicle.category",
-                );
-                const useCode = ["BUS"];
-
-                const skipCheck = !validations.allIn(useCasePath, useCode);
-                if (skipCheck) continue;
-
-                const validate = validations.arePresent(attr);
-
-                if (!validate) {
-                    return [
-                        {
-                            valid: false,
-                            code: 30000,
-                            description: `- **condition REQUIRED_MESSAGE_CATEGORY_IDS_70**: $.message.order.items[*].category_ids[*] must be present in the payload
-
-	> Note: **Condition REQUIRED_MESSAGE_CATEGORY_IDS_70** can be skipped if the following conditions are met:
-	>
-	> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]`,
-                        },
-                    ];
-                }
-
-                delete testObj._EXTERNAL;
-            }
-            return [{ valid: valid, code: 200 }, ...subResults];
-        }
         function REQUIRED_MESSAGE_LABEL_71(
             input: validationInput,
         ): validationOutput {
@@ -4553,7 +4512,6 @@ export default function on_status(input: validationInput): validationOutput {
             REQUIRED_MESSAGE_VALUE_67,
             REQUIRED_MESSAGE_COUNT_68,
             REQUIRED_MESSAGE_FULFILLMENT_IDS_69,
-            REQUIRED_MESSAGE_CATEGORY_IDS_70,
             REQUIRED_MESSAGE_LABEL_71,
             REQUIRED_MESSAGE_DURATION_72,
             REQUIRED_MESSAGE_ID_73,

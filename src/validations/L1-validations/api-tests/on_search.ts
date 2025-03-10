@@ -2221,39 +2221,6 @@ export default function on_search(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function validate_tag_1_ROUTE_INFO(
-            input: validationInput,
-        ): validationOutput {
-            const scope = payloadUtils.getJsonPath(
-                input.payload,
-                "$.message.catalog.providers[*].fulfillments[*].tags[?(@.descriptor.code=='ROUTE_INFO')]",
-            );
-            let subResults: validationOutput = [];
-            let valid = true;
-            for (const testObj of scope) {
-                testObj._EXTERNAL = input.externalData;
-                const subTags = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.list[*].descriptor.code",
-                );
-                const validValues = ["ROUTE_ID", "ROUTE_DIRECTION"];
-
-                const validate = validations.allIn(subTags, validValues);
-
-                if (!validate) {
-                    return [
-                        {
-                            valid: false,
-                            code: 30000,
-                            description: `- **condition validate_tag_1_ROUTE_INFO**: every element of $.message.catalog.providers[*].fulfillments[*].tags[?(@.descriptor.code=='ROUTE_INFO')].list[*].descriptor.code must be in ["ROUTE_ID", "ROUTE_DIRECTION"]`,
-                        },
-                    ];
-                }
-
-                delete testObj._EXTERNAL;
-            }
-            return [{ valid: valid, code: 200 }, ...subResults];
-        }
         function validate_tag_1_TICKET_INFO(
             input: validationInput,
         ): validationOutput {
@@ -2558,7 +2525,6 @@ export default function on_search(input: validationInput): validationOutput {
             validate_tag_0,
             validate_tag_0_FARE_POLICY,
             validate_tag_1,
-            validate_tag_1_ROUTE_INFO,
             validate_tag_1_TICKET_INFO,
             validate_tag_1_TRIP_DETAILS,
             validate_tag_2,

@@ -1471,8 +1471,6 @@
 </ul>
 </blockquote>
 </li>
-<li><p><strong>condition validate_tag_1_ROUTE_INFO</strong>: every element of $.message.catalog.providers[<em>].fulfillments[</em>].tags[?(@.descriptor.code==&#39;ROUTE_INFO&#39;)].list[*].descriptor.code must be in [&quot;ROUTE_ID&quot;, &quot;ROUTE_DIRECTION&quot;]</p>
-</li>
 <li><p><strong>condition validate_tag_1_TICKET_INFO</strong>: every element of $.message.catalog.providers[<em>].fulfillments[</em>].tags[?(@.descriptor.code==&#39;TICKET_INFO&#39;)].list[*].descriptor.code must be in [&quot;NUMBER&quot;]</p>
 </li>
 <li><p><strong>condition validate_tag_1_TRIP_DETAILS</strong>: every element of $.message.catalog.providers[<em>].fulfillments[</em>].tags[?(@.descriptor.code==&#39;TRIP_DETAILS&#39;)].list[*].descriptor.code must be in [&quot;AVAILABLE_TRIPS&quot;, &quot;UTILIZED_TRIPS&quot;]</p>
@@ -1980,14 +1978,6 @@
 <li><p><strong>condition REQUIRED_MESSAGE_FULFILLMENT_IDS_56</strong>: $.message.order.items[<em>].fulfillment_ids[</em>] must be present in the payload</p>
 <blockquote>
 <p>Note: <strong>Condition REQUIRED_MESSAGE_FULFILLMENT_IDS_56</strong> can be skipped if the following conditions are met:</p>
-<ul>
-<li><strong>condition B</strong>: every element of $.message.order.fulfillments[*].vehicle.category must <strong>not</strong> be in [&quot;BUS&quot;]</li>
-</ul>
-</blockquote>
-</li>
-<li><p><strong>condition REQUIRED_MESSAGE_CATEGORY_IDS_57</strong>: $.message.order.items[<em>].category_ids[</em>] must be present in the payload</p>
-<blockquote>
-<p>Note: <strong>Condition REQUIRED_MESSAGE_CATEGORY_IDS_57</strong> can be skipped if the following conditions are met:</p>
 <ul>
 <li><strong>condition B</strong>: every element of $.message.order.fulfillments[*].vehicle.category must <strong>not</strong> be in [&quot;BUS&quot;]</li>
 </ul>
@@ -2716,14 +2706,6 @@
 <li><p><strong>condition REQUIRED_MESSAGE_COUNT_59</strong>: $.message.order.items[*].quantity.selected.count must be present in the payload</p>
 <blockquote>
 <p>Note: <strong>Condition REQUIRED_MESSAGE_COUNT_59</strong> can be skipped if the following conditions are met:</p>
-<ul>
-<li><strong>condition B</strong>: every element of $.message.order.fulfillments[*].vehicle.category must <strong>not</strong> be in [&quot;BUS&quot;]</li>
-</ul>
-</blockquote>
-</li>
-<li><p><strong>condition REQUIRED_MESSAGE_CATEGORY_IDS_60</strong>: $.message.order.items[<em>].category_ids[</em>] must be present in the payload</p>
-<blockquote>
-<p>Note: <strong>Condition REQUIRED_MESSAGE_CATEGORY_IDS_60</strong> can be skipped if the following conditions are met:</p>
 <ul>
 <li><strong>condition B</strong>: every element of $.message.order.fulfillments[*].vehicle.category must <strong>not</strong> be in [&quot;BUS&quot;]</li>
 </ul>
@@ -3606,14 +3588,6 @@
 <li><p><strong>condition REQUIRED_MESSAGE_FULFILLMENT_IDS_71</strong>: $.message.order.items[<em>].fulfillment_ids[</em>] must be present in the payload</p>
 <blockquote>
 <p>Note: <strong>Condition REQUIRED_MESSAGE_FULFILLMENT_IDS_71</strong> can be skipped if the following conditions are met:</p>
-<ul>
-<li><strong>condition B</strong>: every element of $.message.order.fulfillments[*].vehicle.category must <strong>not</strong> be in [&quot;BUS&quot;]</li>
-</ul>
-</blockquote>
-</li>
-<li><p><strong>condition REQUIRED_MESSAGE_CATEGORY_IDS_72</strong>: $.message.order.items[<em>].category_ids[</em>] must be present in the payload</p>
-<blockquote>
-<p>Note: <strong>Condition REQUIRED_MESSAGE_CATEGORY_IDS_72</strong> can be skipped if the following conditions are met:</p>
 <ul>
 <li><strong>condition B</strong>: every element of $.message.order.fulfillments[*].vehicle.category must <strong>not</strong> be in [&quot;BUS&quot;]</li>
 </ul>
@@ -5138,14 +5112,6 @@
 <li><p><strong>condition REQUIRED_MESSAGE_FULFILLMENT_IDS_69</strong>: $.message.order.items[<em>].fulfillment_ids[</em>] must be present in the payload</p>
 <blockquote>
 <p>Note: <strong>Condition REQUIRED_MESSAGE_FULFILLMENT_IDS_69</strong> can be skipped if the following conditions are met:</p>
-<ul>
-<li><strong>condition B</strong>: every element of $.message.order.fulfillments[*].vehicle.category must <strong>not</strong> be in [&quot;BUS&quot;]</li>
-</ul>
-</blockquote>
-</li>
-<li><p><strong>condition REQUIRED_MESSAGE_CATEGORY_IDS_70</strong>: $.message.order.items[<em>].category_ids[</em>] must be present in the payload</p>
-<blockquote>
-<p>Note: <strong>Condition REQUIRED_MESSAGE_CATEGORY_IDS_70</strong> can be skipped if the following conditions are met:</p>
 <ul>
 <li><strong>condition B</strong>: every element of $.message.order.fulfillments[*].vehicle.category must <strong>not</strong> be in [&quot;BUS&quot;]</li>
 </ul>
