@@ -1,13 +1,13 @@
 version: "3.8"
 
 services:
-  app:
+  api-service:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: automation-api-service
+    container_name: ${CONTAINER_NAME}
     ports:
-      - "3032:3000"
+      - "${PORT:-3000}:${PORT:-3000}"
     env_file:
       - .env
     restart: always
