@@ -1067,15 +1067,6 @@
 		>
 		> - **condition B**: every element of $.message.catalog.providers[*].fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
-	- **condition REQUIRED_MESSAGE_CODE_41**: all of the following sub conditions must be met:
-	
-	  - **condition REQUIRED_MESSAGE_CODE_41.1**: $.message.catalog.providers[*].categories[*].descriptor.code must be present in the payload
-	  - **condition REQUIRED_MESSAGE_CODE_41.2**: every element of $.message.catalog.providers[*].categories[*].descriptor.code must be in ["TICKET", "PASS"]
-	
-		> Note: **Condition REQUIRED_MESSAGE_CODE_41** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.catalog.providers[*].fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
 	- **condition REQUIRED_MESSAGE_START_42**: $.message.catalog.providers[*].time.range.start must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_START_42** can be skipped if the following conditions are met:

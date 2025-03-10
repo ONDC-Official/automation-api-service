@@ -1595,53 +1595,6 @@ export default function on_search(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function REQUIRED_MESSAGE_CODE_41(
-            input: validationInput,
-        ): validationOutput {
-            const scope = payloadUtils.getJsonPath(input.payload, "$");
-            let subResults: validationOutput = [];
-            let valid = true;
-            for (const testObj of scope) {
-                testObj._EXTERNAL = input.externalData;
-                const attr = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.message.catalog.providers[*].categories[*].descriptor.code",
-                );
-                const enumList = ["TICKET", "PASS"];
-                const useCasePath = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.message.catalog.providers[*].fulfillments[*].vehicle.category",
-                );
-                const useCode = ["BUS"];
-
-                const skipCheck = !validations.allIn(useCasePath, useCode);
-                if (skipCheck) continue;
-
-                const validate =
-                    validations.arePresent(attr) &&
-                    validations.allIn(attr, enumList);
-
-                if (!validate) {
-                    return [
-                        {
-                            valid: false,
-                            code: 30000,
-                            description: `- **condition REQUIRED_MESSAGE_CODE_41**: all of the following sub conditions must be met:
-
-  - **condition REQUIRED_MESSAGE_CODE_41.1**: $.message.catalog.providers[*].categories[*].descriptor.code must be present in the payload
-  - **condition REQUIRED_MESSAGE_CODE_41.2**: every element of $.message.catalog.providers[*].categories[*].descriptor.code must be in ["TICKET", "PASS"]
-
-	> Note: **Condition REQUIRED_MESSAGE_CODE_41** can be skipped if the following conditions are met:
-	>
-	> - **condition B**: every element of $.message.catalog.providers[*].fulfillments[*].vehicle.category must **not** be in ["BUS"]`,
-                        },
-                    ];
-                }
-
-                delete testObj._EXTERNAL;
-            }
-            return [{ valid: valid, code: 200 }, ...subResults];
-        }
         function REQUIRED_MESSAGE_START_42(
             input: validationInput,
         ): validationOutput {
@@ -2671,7 +2624,6 @@ export default function on_search(input: validationInput): validationOutput {
             REQUIRED_CONTEXT_BPP_URI_37,
             REQUIRED_MESSAGE_NAME_38,
             REQUIRED_MESSAGE_ID_39,
-            REQUIRED_MESSAGE_CODE_41,
             REQUIRED_MESSAGE_START_42,
             REQUIRED_MESSAGE_END_43,
             REQUIRED_MESSAGE_NAME_44,
