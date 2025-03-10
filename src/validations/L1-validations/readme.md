@@ -1067,12 +1067,6 @@
 		>
 		> - **condition B**: every element of $.message.catalog.providers[*].fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
-	- **condition REQUIRED_MESSAGE_ID_40**: $.message.catalog.providers[*].categories[*].id must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_ID_40** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.catalog.providers[*].fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
 	- **condition REQUIRED_MESSAGE_CODE_41**: all of the following sub conditions must be met:
 	
 	  - **condition REQUIRED_MESSAGE_CODE_41.1**: $.message.catalog.providers[*].categories[*].descriptor.code must be present in the payload
