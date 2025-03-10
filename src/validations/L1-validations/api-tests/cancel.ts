@@ -446,7 +446,7 @@ export default function cancel(input: validationInput): validationOutput {
                     testObj,
                     "$.message.descriptor.code",
                 );
-                const enumList = ["SOFT-CANCEL", "CONFIRM-CANCEL"];
+                const enumList = ["SOFT_CANCEL", "CONFIRM_CANCEL"];
 
                 const validate =
                     validations.arePresent(attr) &&
@@ -460,7 +460,7 @@ export default function cancel(input: validationInput): validationOutput {
                             description: `- **condition REQUIRED_MESSAGE_CODE_16**: all of the following sub conditions must be met:
 
   - **condition REQUIRED_MESSAGE_CODE_16.1**: $.message.descriptor.code must be present in the payload
-  - **condition REQUIRED_MESSAGE_CODE_16.2**: every element of $.message.descriptor.code must be in ["SOFT-CANCEL", "CONFIRM-CANCEL"]`,
+  - **condition REQUIRED_MESSAGE_CODE_16.2**: every element of $.message.descriptor.code must be in ["SOFT_CANCEL", "CONFIRM_CANCEL"]`,
                         },
                     ];
                 }

@@ -719,7 +719,7 @@
 	- **condition REQUIRED_MESSAGE_CODE_16**: all of the following sub conditions must be met:
 	
 	  - **condition REQUIRED_MESSAGE_CODE_16.1**: $.message.descriptor.code must be present in the payload
-	  - **condition REQUIRED_MESSAGE_CODE_16.2**: every element of $.message.descriptor.code must be in ["SOFT-CANCEL", "CONFIRM-CANCEL"]
+	  - **condition REQUIRED_MESSAGE_CODE_16.2**: every element of $.message.descriptor.code must be in ["SOFT_CANCEL", "CONFIRM_CANCEL"]
 	
 	- **condition REQUIRED_MESSAGE_NAME_17**: $.message.descriptor.name must be present in the payload
 
