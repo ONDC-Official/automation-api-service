@@ -497,8 +497,6 @@
 	
 	- **condition REQUIRED_CONTEXT_BPP_URI_13**: $.context.bpp_uri must be present in the payload
 	
-	- **condition REQUIRED_MESSAGE_ID_14**: $.message.order.id must be present in the payload
-	
 	- **condition REQUIRED_MESSAGE_ID_15**: $.message.order.items[*].id must be present in the payload
 	
 	- **condition REQUIRED_MESSAGE_COUNT_16**: $.message.order.items[*].quantity.selected.count must be present in the payload
