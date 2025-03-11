@@ -4014,7 +4014,12 @@ export default function on_status(input: validationInput): validationOutput {
                     testObj,
                     "$.list[*].descriptor.code",
                 );
-                const validValues = ["ROUTE_ID", "ROUTE_DIRECTION"];
+                const validValues = [
+                    "ROUTE_ID",
+                    "ROUTE_DIRECTION",
+                    "OPERATIONAL_START_TIME",
+                    "OPERATIONAL_END_TIME",
+                ];
 
                 const validate = validations.allIn(subTags, validValues);
 
@@ -4023,7 +4028,7 @@ export default function on_status(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition validate_tag_0_ROUTE_INFO**: every element of $.message.order.fulfillments[*].tags[?(@.descriptor.code=='ROUTE_INFO')].list[*].descriptor.code must be in ["ROUTE_ID", "ROUTE_DIRECTION"]`,
+                            description: `- **condition validate_tag_0_ROUTE_INFO**: every element of $.message.order.fulfillments[*].tags[?(@.descriptor.code=='ROUTE_INFO')].list[*].descriptor.code must be in ["ROUTE_ID", "ROUTE_DIRECTION", "OPERATIONAL_START_TIME", "OPERATIONAL_END_TIME"]`,
                         },
                     ];
                 }
