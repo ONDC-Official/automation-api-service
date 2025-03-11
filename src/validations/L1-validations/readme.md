@@ -3120,12 +3120,6 @@
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
-	- **condition REQUIRED_MESSAGE_CANCELLED_BY_48**: $.message.order.cancellation.cancelled_by must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_CANCELLED_BY_48** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
 	- **condition REQUIRED_MESSAGE_TIME_49**: $.message.order.cancellation.time must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_TIME_49** can be skipped if the following conditions are met:
