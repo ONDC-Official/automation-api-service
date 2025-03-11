@@ -3120,12 +3120,6 @@
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
-	- **condition REQUIRED_MESSAGE_TIME_49**: $.message.order.cancellation.time must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_TIME_49** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
 	- **condition VALID_ENUM_MESSAGE_TYPE_1**: every element of $.message.order.fulfillments[*].stops[*].authorization.type must be in ["QR"]
 	
 		> Note: **Condition VALID_ENUM_MESSAGE_TYPE_1** can be skipped if the following conditions are met:
