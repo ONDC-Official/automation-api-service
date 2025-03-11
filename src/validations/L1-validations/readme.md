@@ -1537,12 +1537,6 @@
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
-	- **condition REQUIRED_MESSAGE_LABEL_58**: $.message.order.items[*].time.label must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_LABEL_58** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
 	- **condition REQUIRED_MESSAGE_DURATION_59**: $.message.order.items[*].time.duration must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_DURATION_59** can be skipped if the following conditions are met:
@@ -1636,12 +1630,6 @@
 	- **condition REQUIRED_MESSAGE_COUNT_76**: $.message.order.quote.breakup[*].item.quantity.selected.count must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_COUNT_76** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_MIMETYPE_78**: $.message.order.cancellation_terms[*].external_ref.mimetype must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_MIMETYPE_78** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
@@ -2063,12 +2051,6 @@
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
-	- **condition REQUIRED_MESSAGE_LABEL_61**: $.message.order.items[*].time.label must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_LABEL_61** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
 	- **condition REQUIRED_MESSAGE_DURATION_62**: $.message.order.items[*].time.duration must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_DURATION_62** can be skipped if the following conditions are met:
@@ -2204,12 +2186,6 @@
 	- **condition REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_86**: $.message.order.payments[*].params.bank_account_number must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_86** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_MIMETYPE_88**: $.message.order.cancellation_terms[*].external_ref.mimetype must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_MIMETYPE_88** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
@@ -2704,12 +2680,6 @@
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
-	- **condition REQUIRED_MESSAGE_LABEL_73**: $.message.order.items[*].time.label must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_LABEL_73** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
 	- **condition REQUIRED_MESSAGE_DURATION_74**: $.message.order.items[*].time.duration must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_DURATION_74** can be skipped if the following conditions are met:
@@ -2857,12 +2827,6 @@
 	- **condition REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_100**: $.message.order.payments[*].params.bank_account_number must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_100** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_MIMETYPE_102**: $.message.order.cancellation_terms[*].external_ref.mimetype must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_MIMETYPE_102** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
@@ -3054,12 +3018,6 @@
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
-	- **condition REQUIRED_MESSAGE_LABEL_24**: $.message.order.items[*].time.label must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_LABEL_24** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
 	- **condition REQUIRED_MESSAGE_DURATION_25**: $.message.order.items[*].time.duration must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_DURATION_25** can be skipped if the following conditions are met:
@@ -3189,12 +3147,6 @@
 	- **condition REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_45**: $.message.order.payments[*].params.bank_account_number must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_45** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_MIMETYPE_47**: $.message.order.cancellation_terms[*].external_ref.mimetype must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_MIMETYPE_47** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
@@ -3836,12 +3788,6 @@
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
-	- **condition REQUIRED_MESSAGE_LABEL_71**: $.message.order.items[*].time.label must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_LABEL_71** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
 	- **condition REQUIRED_MESSAGE_DURATION_72**: $.message.order.items[*].time.duration must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_DURATION_72** can be skipped if the following conditions are met:
@@ -3998,12 +3944,6 @@
 	- **condition REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_99**: $.message.order.payments[*].params.bank_account_number must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_99** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_MIMETYPE_101**: $.message.order.cancellation_terms[*].external_ref.mimetype must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_MIMETYPE_101** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	

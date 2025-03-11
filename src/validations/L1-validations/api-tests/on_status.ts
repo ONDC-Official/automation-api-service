@@ -2777,47 +2777,6 @@ export default function on_status(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function REQUIRED_MESSAGE_LABEL_71(
-            input: validationInput,
-        ): validationOutput {
-            const scope = payloadUtils.getJsonPath(input.payload, "$");
-            let subResults: validationOutput = [];
-            let valid = true;
-            for (const testObj of scope) {
-                testObj._EXTERNAL = input.externalData;
-                const attr = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.message.order.items[*].time.label",
-                );
-                const useCasePath = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.message.order.fulfillments[*].vehicle.category",
-                );
-                const useCode = ["BUS"];
-
-                const skipCheck = !validations.allIn(useCasePath, useCode);
-                if (skipCheck) continue;
-
-                const validate = validations.arePresent(attr);
-
-                if (!validate) {
-                    return [
-                        {
-                            valid: false,
-                            code: 30000,
-                            description: `- **condition REQUIRED_MESSAGE_LABEL_71**: $.message.order.items[*].time.label must be present in the payload
-
-	> Note: **Condition REQUIRED_MESSAGE_LABEL_71** can be skipped if the following conditions are met:
-	>
-	> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]`,
-                        },
-                    ];
-                }
-
-                delete testObj._EXTERNAL;
-            }
-            return [{ valid: valid, code: 200 }, ...subResults];
-        }
         function REQUIRED_MESSAGE_DURATION_72(
             input: validationInput,
         ): validationOutput {
@@ -3890,47 +3849,6 @@ export default function on_status(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function REQUIRED_MESSAGE_MIMETYPE_101(
-            input: validationInput,
-        ): validationOutput {
-            const scope = payloadUtils.getJsonPath(input.payload, "$");
-            let subResults: validationOutput = [];
-            let valid = true;
-            for (const testObj of scope) {
-                testObj._EXTERNAL = input.externalData;
-                const attr = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.message.order.cancellation_terms[*].external_ref.mimetype",
-                );
-                const useCasePath = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.message.order.fulfillments[*].vehicle.category",
-                );
-                const useCode = ["BUS"];
-
-                const skipCheck = !validations.allIn(useCasePath, useCode);
-                if (skipCheck) continue;
-
-                const validate = validations.arePresent(attr);
-
-                if (!validate) {
-                    return [
-                        {
-                            valid: false,
-                            code: 30000,
-                            description: `- **condition REQUIRED_MESSAGE_MIMETYPE_101**: $.message.order.cancellation_terms[*].external_ref.mimetype must be present in the payload
-
-	> Note: **Condition REQUIRED_MESSAGE_MIMETYPE_101** can be skipped if the following conditions are met:
-	>
-	> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]`,
-                        },
-                    ];
-                }
-
-                delete testObj._EXTERNAL;
-            }
-            return [{ valid: valid, code: 200 }, ...subResults];
-        }
         function REQUIRED_MESSAGE_CREATED_AT_102(
             input: validationInput,
         ): validationOutput {
@@ -4471,7 +4389,6 @@ export default function on_status(input: validationInput): validationOutput {
             REQUIRED_MESSAGE_VALUE_67,
             REQUIRED_MESSAGE_COUNT_68,
             REQUIRED_MESSAGE_FULFILLMENT_IDS_69,
-            REQUIRED_MESSAGE_LABEL_71,
             REQUIRED_MESSAGE_DURATION_72,
             REQUIRED_MESSAGE_ID_73,
             REQUIRED_MESSAGE_NAME_74,
@@ -4498,7 +4415,6 @@ export default function on_status(input: validationInput): validationOutput {
             REQUIRED_MESSAGE_AMOUNT_97,
             REQUIRED_MESSAGE_BANK_CODE_98,
             REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_99,
-            REQUIRED_MESSAGE_MIMETYPE_101,
             REQUIRED_MESSAGE_CREATED_AT_102,
             REQUIRED_MESSAGE_UPDATED_AT_103,
             VALID_ENUM_MESSAGE_TYPE_1,

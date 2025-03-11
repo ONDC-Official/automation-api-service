@@ -2455,47 +2455,6 @@ export default function on_init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function REQUIRED_MESSAGE_LABEL_61(
-            input: validationInput,
-        ): validationOutput {
-            const scope = payloadUtils.getJsonPath(input.payload, "$");
-            let subResults: validationOutput = [];
-            let valid = true;
-            for (const testObj of scope) {
-                testObj._EXTERNAL = input.externalData;
-                const attr = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.message.order.items[*].time.label",
-                );
-                const useCasePath = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.message.order.fulfillments[*].vehicle.category",
-                );
-                const useCode = ["BUS"];
-
-                const skipCheck = !validations.allIn(useCasePath, useCode);
-                if (skipCheck) continue;
-
-                const validate = validations.arePresent(attr);
-
-                if (!validate) {
-                    return [
-                        {
-                            valid: false,
-                            code: 30000,
-                            description: `- **condition REQUIRED_MESSAGE_LABEL_61**: $.message.order.items[*].time.label must be present in the payload
-
-	> Note: **Condition REQUIRED_MESSAGE_LABEL_61** can be skipped if the following conditions are met:
-	>
-	> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]`,
-                        },
-                    ];
-                }
-
-                delete testObj._EXTERNAL;
-            }
-            return [{ valid: valid, code: 200 }, ...subResults];
-        }
         function REQUIRED_MESSAGE_DURATION_62(
             input: validationInput,
         ): validationOutput {
@@ -3439,47 +3398,6 @@ export default function on_init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function REQUIRED_MESSAGE_MIMETYPE_88(
-            input: validationInput,
-        ): validationOutput {
-            const scope = payloadUtils.getJsonPath(input.payload, "$");
-            let subResults: validationOutput = [];
-            let valid = true;
-            for (const testObj of scope) {
-                testObj._EXTERNAL = input.externalData;
-                const attr = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.message.order.cancellation_terms[*].external_ref.mimetype",
-                );
-                const useCasePath = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.message.order.fulfillments[*].vehicle.category",
-                );
-                const useCode = ["BUS"];
-
-                const skipCheck = !validations.allIn(useCasePath, useCode);
-                if (skipCheck) continue;
-
-                const validate = validations.arePresent(attr);
-
-                if (!validate) {
-                    return [
-                        {
-                            valid: false,
-                            code: 30000,
-                            description: `- **condition REQUIRED_MESSAGE_MIMETYPE_88**: $.message.order.cancellation_terms[*].external_ref.mimetype must be present in the payload
-
-	> Note: **Condition REQUIRED_MESSAGE_MIMETYPE_88** can be skipped if the following conditions are met:
-	>
-	> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]`,
-                        },
-                    ];
-                }
-
-                delete testObj._EXTERNAL;
-            }
-            return [{ valid: valid, code: 200 }, ...subResults];
-        }
         function VALID_ENUM_MESSAGE_TYPE_1(
             input: validationInput,
         ): validationOutput {
@@ -3930,7 +3848,6 @@ export default function on_init(input: validationInput): validationOutput {
             REQUIRED_MESSAGE_CURRENCY_57,
             REQUIRED_MESSAGE_VALUE_58,
             REQUIRED_MESSAGE_COUNT_59,
-            REQUIRED_MESSAGE_LABEL_61,
             REQUIRED_MESSAGE_DURATION_62,
             REQUIRED_MESSAGE_FULFILLMENT_IDS_63,
             REQUIRED_MESSAGE_ID_64,
@@ -3954,7 +3871,6 @@ export default function on_init(input: validationInput): validationOutput {
             REQUIRED_MESSAGE_TYPE_84,
             REQUIRED_MESSAGE_BANK_CODE_85,
             REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_86,
-            REQUIRED_MESSAGE_MIMETYPE_88,
             VALID_ENUM_MESSAGE_TYPE_1,
             VALID_ENUM_MESSAGE_STATUS_2,
             validate_tag_0,
