@@ -2994,12 +2994,6 @@
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
-	- **condition REQUIRED_MESSAGE_CATEGORY_IDS_23**: $.message.order.items[*].category_ids[*] must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_CATEGORY_IDS_23** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
 	- **condition REQUIRED_MESSAGE_ID_26**: $.message.order.provider.id must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_ID_26** can be skipped if the following conditions are met:
