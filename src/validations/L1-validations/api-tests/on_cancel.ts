@@ -895,47 +895,6 @@ export default function on_cancel(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function REQUIRED_MESSAGE_DURATION_25(
-            input: validationInput,
-        ): validationOutput {
-            const scope = payloadUtils.getJsonPath(input.payload, "$");
-            let subResults: validationOutput = [];
-            let valid = true;
-            for (const testObj of scope) {
-                testObj._EXTERNAL = input.externalData;
-                const attr = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.message.order.items[*].time.duration",
-                );
-                const useCasePath = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.message.order.fulfillments[*].vehicle.category",
-                );
-                const useCode = ["BUS"];
-
-                const skipCheck = !validations.allIn(useCasePath, useCode);
-                if (skipCheck) continue;
-
-                const validate = validations.arePresent(attr);
-
-                if (!validate) {
-                    return [
-                        {
-                            valid: false,
-                            code: 30000,
-                            description: `- **condition REQUIRED_MESSAGE_DURATION_25**: $.message.order.items[*].time.duration must be present in the payload
-
-	> Note: **Condition REQUIRED_MESSAGE_DURATION_25** can be skipped if the following conditions are met:
-	>
-	> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]`,
-                        },
-                    ];
-                }
-
-                delete testObj._EXTERNAL;
-            }
-            return [{ valid: valid, code: 200 }, ...subResults];
-        }
         function REQUIRED_MESSAGE_ID_26(
             input: validationInput,
         ): validationOutput {
@@ -2215,7 +2174,6 @@ export default function on_cancel(input: validationInput): validationOutput {
             REQUIRED_MESSAGE_COUNT_21,
             REQUIRED_MESSAGE_FULFILLMENT_IDS_22,
             REQUIRED_MESSAGE_CATEGORY_IDS_23,
-            REQUIRED_MESSAGE_DURATION_25,
             REQUIRED_MESSAGE_ID_26,
             REQUIRED_MESSAGE_NAME_27,
             REQUIRED_MESSAGE_URL_28,

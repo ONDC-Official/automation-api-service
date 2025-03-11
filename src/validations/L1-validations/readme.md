@@ -1537,12 +1537,6 @@
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
-	- **condition REQUIRED_MESSAGE_DURATION_59**: $.message.order.items[*].time.duration must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_DURATION_59** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
 	- **condition REQUIRED_MESSAGE_ID_60**: $.message.order.provider.id must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_ID_60** can be skipped if the following conditions are met:
@@ -2048,12 +2042,6 @@
 	- **condition REQUIRED_MESSAGE_COUNT_59**: $.message.order.items[*].quantity.selected.count must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_COUNT_59** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_DURATION_62**: $.message.order.items[*].time.duration must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_DURATION_62** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
@@ -2680,12 +2668,6 @@
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
-	- **condition REQUIRED_MESSAGE_DURATION_74**: $.message.order.items[*].time.duration must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_DURATION_74** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
 	- **condition REQUIRED_MESSAGE_ID_75**: $.message.order.provider.id must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_ID_75** can be skipped if the following conditions are met:
@@ -3015,12 +2997,6 @@
 	- **condition REQUIRED_MESSAGE_CATEGORY_IDS_23**: $.message.order.items[*].category_ids[*] must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_CATEGORY_IDS_23** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_DURATION_25**: $.message.order.items[*].time.duration must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_DURATION_25** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
@@ -3785,12 +3761,6 @@
 	- **condition REQUIRED_MESSAGE_FULFILLMENT_IDS_69**: $.message.order.items[*].fulfillment_ids[*] must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_FULFILLMENT_IDS_69** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_DURATION_72**: $.message.order.items[*].time.duration must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_DURATION_72** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
