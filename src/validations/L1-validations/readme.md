@@ -1639,12 +1639,6 @@
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
-	- **condition REQUIRED_MESSAGE_URL_77**: $.message.order.cancellation_terms[*].external_ref.url must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_URL_77** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
 	- **condition REQUIRED_MESSAGE_MIMETYPE_78**: $.message.order.cancellation_terms[*].external_ref.mimetype must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_MIMETYPE_78** can be skipped if the following conditions are met:
@@ -2210,12 +2204,6 @@
 	- **condition REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_86**: $.message.order.payments[*].params.bank_account_number must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_86** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_URL_87**: $.message.order.cancellation_terms[*].external_ref.url must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_URL_87** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
@@ -2872,12 +2860,6 @@
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
-	- **condition REQUIRED_MESSAGE_URL_101**: $.message.order.cancellation_terms[*].external_ref.url must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_URL_101** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
 	- **condition REQUIRED_MESSAGE_MIMETYPE_102**: $.message.order.cancellation_terms[*].external_ref.mimetype must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_MIMETYPE_102** can be skipped if the following conditions are met:
@@ -3207,12 +3189,6 @@
 	- **condition REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_45**: $.message.order.payments[*].params.bank_account_number must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_45** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_URL_46**: $.message.order.cancellation_terms[*].external_ref.url must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_URL_46** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	
@@ -4022,12 +3998,6 @@
 	- **condition REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_99**: $.message.order.payments[*].params.bank_account_number must be present in the payload
 	
 		> Note: **Condition REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_99** can be skipped if the following conditions are met:
-		>
-		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
-	
-	- **condition REQUIRED_MESSAGE_URL_100**: $.message.order.cancellation_terms[*].external_ref.url must be present in the payload
-	
-		> Note: **Condition REQUIRED_MESSAGE_URL_100** can be skipped if the following conditions are met:
 		>
 		> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]
 	

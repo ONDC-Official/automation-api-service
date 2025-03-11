@@ -3007,47 +3007,6 @@ export default function on_select(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function REQUIRED_MESSAGE_URL_77(
-            input: validationInput,
-        ): validationOutput {
-            const scope = payloadUtils.getJsonPath(input.payload, "$");
-            let subResults: validationOutput = [];
-            let valid = true;
-            for (const testObj of scope) {
-                testObj._EXTERNAL = input.externalData;
-                const attr = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.message.order.cancellation_terms[*].external_ref.url",
-                );
-                const useCasePath = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.message.order.fulfillments[*].vehicle.category",
-                );
-                const useCode = ["BUS"];
-
-                const skipCheck = !validations.allIn(useCasePath, useCode);
-                if (skipCheck) continue;
-
-                const validate = validations.arePresent(attr);
-
-                if (!validate) {
-                    return [
-                        {
-                            valid: false,
-                            code: 30000,
-                            description: `- **condition REQUIRED_MESSAGE_URL_77**: $.message.order.cancellation_terms[*].external_ref.url must be present in the payload
-
-	> Note: **Condition REQUIRED_MESSAGE_URL_77** can be skipped if the following conditions are met:
-	>
-	> - **condition B**: every element of $.message.order.fulfillments[*].vehicle.category must **not** be in ["BUS"]`,
-                        },
-                    ];
-                }
-
-                delete testObj._EXTERNAL;
-            }
-            return [{ valid: valid, code: 200 }, ...subResults];
-        }
         function REQUIRED_MESSAGE_MIMETYPE_78(
             input: validationInput,
         ): validationOutput {
@@ -3482,7 +3441,6 @@ export default function on_select(input: validationInput): validationOutput {
             REQUIRED_MESSAGE_CURRENCY_74,
             REQUIRED_MESSAGE_VALUE_75,
             REQUIRED_MESSAGE_COUNT_76,
-            REQUIRED_MESSAGE_URL_77,
             REQUIRED_MESSAGE_MIMETYPE_78,
             VALID_ENUM_MESSAGE_TYPE_1,
             VALID_ENUM_MESSAGE_STATUS_2,
