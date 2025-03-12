@@ -226,21 +226,16 @@ export class ValidationController {
 			);
 			
 			if (invalidCustomResult.length > 0) {
-				const error = invalidCustomResult[0].description || "Custom L1 validation failed";
-				await saveLog(sessionId, error, 'error');
-				res.status(400).json({
-					message: error,
-					error: "Custom L1 validation failed"
-				});
+				const error = invalidCustomResult[0].description + extraMessage || "Custom L1 validation failed";
+				const code = invalidCustomResult[0].code as number;
+				await saveLog(sessionId, `Custom L1 validation failed: ${error}`, 'error');
+				res.status(200).send(setAckResponse(false, error, code.toString()));
 				return;
 			}
 		} catch (error) {
 			logger.error("Error in custom L1 validations:", error);
 			await saveLog(sessionId, `Error in custom L1 validations: ${error}`, 'error');
-			res.status(500).json({
-				message: "Error in custom L1 validations",
-				error: String(error)
-			});
+			res.status(200).send(setAckResponse(false, "Error in custom L1 validations", "500"));
 			return;
 		}
 		
