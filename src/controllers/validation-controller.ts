@@ -13,6 +13,7 @@ import { DataService } from "../services/data-service";
 import { computeSubscriberUri } from "../utils/subscriber-utils";
 import { ApiServiceRequest } from "../types/request-types";
 import { saveLog } from "../utils/data-utils/cache-utils";
+import { performL1CustomValidations } from "../validations/L1-custom-validation";
 
 export class ValidationController {
 	validateRequestBodyNp = async (
@@ -167,6 +168,28 @@ export class ValidationController {
 			res.status(200).send(setAckResponse(false, error, code.toString()));
 			return;
 		}
+		
+		// Execute custom L1 validations
+		try {
+			const customValidationResult = performL1CustomValidations(action, body, true);
+			const invalidCustomResult = customValidationResult.filter(
+				(result) => !result.valid && result.code !== 200
+			);
+			
+			if (invalidCustomResult.length > 0) {
+				const error = invalidCustomResult[0].description + extraMessage;
+				const code = invalidCustomResult[0].code as number;
+				await saveLog(sessionId, `Custom L1 validation failed: ${error}`, 'error');
+				res.status(200).send(setAckResponse(false, error, code.toString()));
+				return;
+			}
+		} catch (error) {
+			logger.error("Error in custom L1 validations:", error);
+			await saveLog(sessionId, `Error in custom L1 validations: ${error}`, 'error');
+			res.status(200).send(setAckResponse(false, "Error in custom L1 validations", "500"));
+			return;
+		}
+		
 		await saveLog(sessionId, 'L1 validations passed successfully');
 		logger.info("L1 validations passed");
 		next();
@@ -178,7 +201,8 @@ export class ValidationController {
 		next: NextFunction
 	) => {
 		const { action } = req.params;
-		const body = req.body;
+		const { body } = req;
+		const sessionId = (req as ApiServiceRequest).requestProperties?.sessionId ?? 'unknown';
 		const apiLayerUrl = process.env.API_SERVICE_URL;
 		const extraMessage = ` \n\n _note: find complete list of [validations](${apiLayerUrl}/test)_`;
 		const l1Result = performL1Validations(action, { ...body }, true);
@@ -193,6 +217,33 @@ export class ValidationController {
 			res.status(200).send(setAckResponse(false, allErrors, code.toString()));
 			return;
 		}
+		
+		// Execute custom L1 validations
+		try {
+			const customValidationResult = performL1CustomValidations(action, body, true);
+			const invalidCustomResult = customValidationResult.filter(
+				(result) => !result.valid && result.code !== 200
+			);
+			
+			if (invalidCustomResult.length > 0) {
+				const error = invalidCustomResult[0].description || "Custom L1 validation failed";
+				await saveLog(sessionId, error, 'error');
+				res.status(400).json({
+					message: error,
+					error: "Custom L1 validation failed"
+				});
+				return;
+			}
+		} catch (error) {
+			logger.error("Error in custom L1 validations:", error);
+			await saveLog(sessionId, `Error in custom L1 validations: ${error}`, 'error');
+			res.status(500).json({
+				message: "Error in custom L1 validations",
+				error: String(error)
+			});
+			return;
+		}
+		
 		logger.info("L1 validations passed");
 		next();
 	};
