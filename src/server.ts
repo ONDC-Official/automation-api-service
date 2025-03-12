@@ -37,6 +37,9 @@ const createServer = (): Application => {
 	app.get("/health", (req: Request, res: Response) => {
 		res.status(200).send(setAckResponse(true));
 	});
+	app.get("/latest", (req: Request, res: Response) => {
+		res.status(200).send("11 march 11:06AM");
+	});
 
 	// Error Handling Middleware
 	app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
