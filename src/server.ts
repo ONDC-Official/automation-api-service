@@ -29,9 +29,9 @@ const createServer = (): Application => {
 	}
 
 	// Routes
-	app.use(`${domain}/${version}/api`, routes);
-	app.use(`${domain}/${version}/api-service/mock`, router);
-	app.use(`${domain}/${version}/test`, testRoutes);
+	app.use(`/${domain}/${version}/api`, routes);
+	app.use(`/${domain}/${version}/api-service/mock`, router);
+	app.use(`/${domain}/${version}/test`, testRoutes);
 
 	// Health Check
 	app.get("/health", (req: Request, res: Response) => {
