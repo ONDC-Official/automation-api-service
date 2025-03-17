@@ -5,9 +5,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: automation-api-service
+    container_name: ${CONTAINER_NAME:-automation-api-service-code-generator}
     ports:
-      - "3032:3000"
+      - "${PORT:-3000}:${PORT:-3000}"
     env_file:
       - .env
     restart: always
