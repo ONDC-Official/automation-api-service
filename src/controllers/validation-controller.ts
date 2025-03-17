@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import logger from "../utils/logger";
 import { setAckResponse, setBadRequestNack } from "../utils/ackUtils";
 import { performL0Validations } from "../validations/L0-validations/schemaValidations";
-import { performL1Validations } from "../validations/L1-validations";
+import { performL1validations } from "../validations/L1-validations";
 import {
 	isValidJSON,
 	performContextValidations,
@@ -120,18 +120,19 @@ export class ValidationController {
 
 	// Middleware: L0 validations
 	validateL0(req: Request, res: Response, next: NextFunction) {
-		const sessionId = (req as ApiServiceRequest).requestProperties?.sessionId ?? 'unknown';
+		const sessionId =
+			(req as ApiServiceRequest).requestProperties?.sessionId ?? "unknown";
 		const { action } = req.params;
 		const body = req.body;
 
-		saveLog(sessionId, 'Starting L0 validations');
+		saveLog(sessionId, "Starting L0 validations");
 		const l0Result = performL0Validations(body, action);
 		if (!l0Result.valid) {
-			saveLog(sessionId, `L0 validation failed: ${l0Result.errors}`, 'error');
+			saveLog(sessionId, `L0 validation failed: ${l0Result.errors}`, "error");
 			res.status(200).send(setAckResponse(false, l0Result.errors, "400"));
 			return;
 		}
-		saveLog(sessionId, 'L0 validations passed successfully');
+		saveLog(sessionId, "L0 validations passed successfully");
 		logger.info("L0 validations passed");
 		next();
 	}
@@ -144,7 +145,8 @@ export class ValidationController {
 	) => {
 		const { action } = req.params;
 		const body = req.body;
-		const sessionId = (req as ApiServiceRequest).requestProperties?.sessionId ?? 'unknown';
+		const sessionId =
+			(req as ApiServiceRequest).requestProperties?.sessionId ?? "unknown";
 		if (
 			req.requestProperties &&
 			!req.requestProperties.difficulty.protocolValidations
@@ -155,7 +157,7 @@ export class ValidationController {
 		}
 		const apiLayerUrl = process.env.API_SERVICE_URL;
 		const extraMessage = ` \n\n _note: find complete list of [validations](${apiLayerUrl}/test)_`;
-		const l1Result = performL1Validations(action, body, true);
+		const l1Result = performL1validations(action, body, true);
 		const invalidResult = l1Result.filter(
 			(result) => !result.valid && result.code !== 200
 		);
@@ -163,11 +165,11 @@ export class ValidationController {
 		if (invalidResult.length > 0) {
 			const error = invalidResult[0].description + extraMessage;
 			const code = invalidResult[0].code as number;
-			await saveLog(sessionId, `L1 validation failed: ${error}`, 'error');
+			await saveLog(sessionId, `L1 validation failed: ${error}`, "error");
 			res.status(200).send(setAckResponse(false, error, code.toString()));
 			return;
 		}
-		await saveLog(sessionId, 'L1 validations passed successfully');
+		await saveLog(sessionId, "L1 validations passed successfully");
 		logger.info("L1 validations passed");
 		next();
 	};
@@ -181,7 +183,7 @@ export class ValidationController {
 		const body = req.body;
 		const apiLayerUrl = process.env.API_SERVICE_URL;
 		const extraMessage = ` \n\n _note: find complete list of [validations](${apiLayerUrl}/test)_`;
-		const l1Result = performL1Validations(action, { ...body }, true);
+		const l1Result = performL1validations(action, { ...body }, true);
 		const isValid = l1Result.every((result) => result.valid);
 		if (!isValid) {
 			const allErrors =
