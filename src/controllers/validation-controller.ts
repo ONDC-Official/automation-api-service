@@ -1,6 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import logger from "../utils/logger";
-import { setAckResponse, setBadRequestNack } from "../utils/ackUtils";
+import {
+	setAckResponse,
+	setBadRequestNack,
+	setInternalServerNack,
+} from "../utils/ackUtils";
 import { performL0Validations } from "../validations/L0-validations/schemaValidations";
 import { performL1validations } from "../validations/L1-validations";
 import {
@@ -13,6 +17,7 @@ import { DataService } from "../services/data-service";
 import { computeSubscriberUri } from "../utils/subscriber-utils";
 import { ApiServiceRequest } from "../types/request-types";
 import { saveLog } from "../utils/data-utils/cache-utils";
+import { performL1CustomValidations } from "../validations/L1-custom-validations";
 
 export class ValidationController {
 	validateRequestBodyNp = async (
@@ -169,9 +174,47 @@ export class ValidationController {
 			res.status(200).send(setAckResponse(false, error, code.toString()));
 			return;
 		}
-		await saveLog(sessionId, "L1 validations passed successfully");
+		await saveLog(sessionId, "first level validations passed successfully");
 		logger.info("L1 validations passed");
 		next();
+	};
+
+	validateL1Custom = async (
+		req: ApiServiceRequest,
+		res: Response,
+		next: NextFunction
+	) => {
+		try {
+			const { action } = req.params;
+			const body = req.body;
+			const sessionId =
+				(req as ApiServiceRequest).requestProperties?.sessionId ?? "unknown";
+			if (
+				req.requestProperties &&
+				!req.requestProperties.difficulty.protocolValidations
+			) {
+				logger.info("L1 validations are disabled");
+				next();
+				return;
+			}
+			const l1CustomResult = performL1CustomValidations(body, action);
+			const invalidResult = l1CustomResult.filter(
+				(result) => !result.valid && result.code !== 200
+			);
+			if (invalidResult.length > 0) {
+				const error = invalidResult[0].description;
+				const code = invalidResult[0].code as number;
+				await saveLog(sessionId, `L1 validation failed: ${error}`, "error");
+				res.status(200).send(setAckResponse(false, error, code.toString()));
+				return;
+			}
+			await saveLog(sessionId, "second level validations passed successfully");
+			logger.info("L1 validations passed");
+			next();
+		} catch (error) {
+			logger.error("error in L1 custom validations", error);
+			res.status(200).send(setInternalServerNack);
+		}
 	};
 
 	validateSingleL1 = async (
