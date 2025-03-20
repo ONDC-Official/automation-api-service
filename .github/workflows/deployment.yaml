@@ -2,7 +2,7 @@ name: ONDC Automation API Service Deployment
 
 on:
   push:
-    branches: ["main"]
+    branches: ["release-staging"]
 
 jobs:
   ssh-ec2:
