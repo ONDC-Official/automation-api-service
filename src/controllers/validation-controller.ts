@@ -154,7 +154,7 @@ export class ValidationController {
 			return;
 		}
 		const apiLayerUrl = process.env.API_SERVICE_URL;
-		const extraMessage = ` \n\n _note: find complete list of [validations](${apiLayerUrl}/test)_`;
+		const extraMessage = ` \n\n _note: find complete list of [validations](${apiLayerUrl}/test/)_`;
 		const l1Result = performL1Validations(action, body, true);
 		const invalidResult = l1Result.filter(
 			(result) => !result.valid && result.code !== 200
@@ -180,7 +180,7 @@ export class ValidationController {
 		const { action } = req.params;
 		const body = req.body;
 		const apiLayerUrl = process.env.API_SERVICE_URL;
-		const extraMessage = ` \n\n _note: find complete list of [validations](${apiLayerUrl}/test)_`;
+		const extraMessage = ` \n\n _note: find complete list of [validations](${apiLayerUrl}/test/)_`;
 		const l1Result = performL1Validations(action, { ...body }, true);
 		const isValid = l1Result.every((result) => result.valid);
 		if (!isValid) {
