@@ -45,6 +45,7 @@ const errors = [
             "The fare collected does not match with the actual fare of the selected item",
     },
     { code: 91215, message: "No item found for the given item_id" },
+    { code: 91216, message: "Cannot cancel used ticket" },
     {
         code: 20006,
         message: "Invalid response does not meet API contract specifications",
