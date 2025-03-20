@@ -13,7 +13,77 @@ export default function init(input: validationInput): validationOutput {
     for (const testObj of scope) {
         testObj._EXTERNAL = input.externalData;
 
-        function Attri_Required_1_CONTEXT_TIMESTAMP(
+        function REQUIRED_CONTEXT_CODE_1(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(
+                    testObj,
+                    "$.context.location.country.code",
+                );
+                const enumList = ["IND"];
+
+                const validate =
+                    validations.arePresent(attr) &&
+                    validations.allIn(attr, enumList);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition REQUIRED_CONTEXT_CODE_1**: all of the following sub conditions must be met:
+
+  - **condition REQUIRED_CONTEXT_CODE_1.1**: $.context.location.country.code must be present in the payload
+  - **condition REQUIRED_CONTEXT_CODE_1.2**: every element of $.context.location.country.code must be in ["IND"]`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
+        function REQUIRED_CONTEXT_DOMAIN_3(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(
+                    testObj,
+                    "$.context.domain",
+                );
+                const enumList = ["ONDC:TRV11"];
+
+                const validate =
+                    validations.arePresent(attr) &&
+                    validations.allIn(attr, enumList);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition REQUIRED_CONTEXT_DOMAIN_3**: all of the following sub conditions must be met:
+
+  - **condition REQUIRED_CONTEXT_DOMAIN_3.1**: $.context.domain must be present in the payload
+  - **condition REQUIRED_CONTEXT_DOMAIN_3.2**: every element of $.context.domain must be in ["ONDC:TRV11"]`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
+        function REQUIRED_CONTEXT_TIMESTAMP_4(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -33,7 +103,7 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Attri_Required_1_CONTEXT_TIMESTAMP**: $.context.timestamp must be present in the payload`,
+                            description: `- **condition REQUIRED_CONTEXT_TIMESTAMP_4**: $.context.timestamp must be present in the payload`,
                         },
                     ];
                 }
@@ -42,7 +112,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Attri_Required_2_CONTEXT_BAP_ID(
+        function REQUIRED_CONTEXT_BAP_ID_5(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -62,7 +132,7 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Attri_Required_2_CONTEXT_BAP_ID**: $.context.bap_id must be present in the payload`,
+                            description: `- **condition REQUIRED_CONTEXT_BAP_ID_5**: $.context.bap_id must be present in the payload`,
                         },
                     ];
                 }
@@ -71,7 +141,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Attri_Required_3_CONTEXT_TRANSACTION_ID(
+        function REQUIRED_CONTEXT_TRANSACTION_ID_6(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -91,7 +161,7 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Attri_Required_3_CONTEXT_TRANSACTION_ID**: $.context.transaction_id must be present in the payload`,
+                            description: `- **condition REQUIRED_CONTEXT_TRANSACTION_ID_6**: $.context.transaction_id must be present in the payload`,
                         },
                     ];
                 }
@@ -100,7 +170,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Attri_Required_4_CONTEXT_MESSAGE_ID(
+        function REQUIRED_CONTEXT_MESSAGE_ID_7(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -120,7 +190,7 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Attri_Required_4_CONTEXT_MESSAGE_ID**: $.context.message_id must be present in the payload`,
+                            description: `- **condition REQUIRED_CONTEXT_MESSAGE_ID_7**: $.context.message_id must be present in the payload`,
                         },
                     ];
                 }
@@ -129,7 +199,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Attri_Required_5_CONTEXT_VERSION(
+        function REQUIRED_CONTEXT_VERSION_8(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -149,7 +219,7 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Attri_Required_5_CONTEXT_VERSION**: $.context.version must be present in the payload`,
+                            description: `- **condition REQUIRED_CONTEXT_VERSION_8**: $.context.version must be present in the payload`,
                         },
                     ];
                 }
@@ -158,7 +228,42 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Attri_Required_6_CONTEXT_BAP_URI(
+        function REQUIRED_CONTEXT_ACTION_9(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(
+                    testObj,
+                    "$.context.action",
+                );
+                const enumList = ["init"];
+
+                const validate =
+                    validations.arePresent(attr) &&
+                    validations.allIn(attr, enumList);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition REQUIRED_CONTEXT_ACTION_9**: all of the following sub conditions must be met:
+
+  - **condition REQUIRED_CONTEXT_ACTION_9.1**: $.context.action must be present in the payload
+  - **condition REQUIRED_CONTEXT_ACTION_9.2**: every element of $.context.action must be in ["init"]`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
+        function REQUIRED_CONTEXT_BAP_URI_10(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -178,7 +283,7 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Attri_Required_6_CONTEXT_BAP_URI**: $.context.bap_uri must be present in the payload`,
+                            description: `- **condition REQUIRED_CONTEXT_BAP_URI_10**: $.context.bap_uri must be present in the payload`,
                         },
                     ];
                 }
@@ -187,7 +292,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Attri_Required_7_CONTEXT_TTL(
+        function REQUIRED_CONTEXT_TTL_11(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -204,7 +309,7 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Attri_Required_7_CONTEXT_TTL**: $.context.ttl must be present in the payload`,
+                            description: `- **condition REQUIRED_CONTEXT_TTL_11**: $.context.ttl must be present in the payload`,
                         },
                     ];
                 }
@@ -213,7 +318,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Attri_Required_8_CONTEXT_BPP_ID(
+        function REQUIRED_CONTEXT_BPP_ID_12(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -233,7 +338,7 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Attri_Required_8_CONTEXT_BPP_ID**: $.context.bpp_id must be present in the payload`,
+                            description: `- **condition REQUIRED_CONTEXT_BPP_ID_12**: $.context.bpp_id must be present in the payload`,
                         },
                     ];
                 }
@@ -242,7 +347,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Attri_Required_9_CONTEXT_BPP_URI(
+        function REQUIRED_CONTEXT_BPP_URI_13(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -262,7 +367,7 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Attri_Required_9_CONTEXT_BPP_URI**: $.context.bpp_uri must be present in the payload`,
+                            description: `- **condition REQUIRED_CONTEXT_BPP_URI_13**: $.context.bpp_uri must be present in the payload`,
                         },
                     ];
                 }
@@ -271,7 +376,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Attri_Required_10_ITEMS_ID(
+        function REQUIRED_MESSAGE_ID_14(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -291,7 +396,7 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Attri_Required_10_ITEMS_ID**: $.message.order.items[*].id must be present in the payload`,
+                            description: `- **condition REQUIRED_MESSAGE_ID_14**: $.message.order.items[*].id must be present in the payload`,
                         },
                     ];
                 }
@@ -300,7 +405,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Attri_Required_11_SELECTED_COUNT(
+        function REQUIRED_MESSAGE_COUNT_15(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -320,7 +425,7 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Attri_Required_11_SELECTED_COUNT**: $.message.order.items[*].quantity.selected.count must be present in the payload`,
+                            description: `- **condition REQUIRED_MESSAGE_COUNT_15**: $.message.order.items[*].quantity.selected.count must be present in the payload`,
                         },
                     ];
                 }
@@ -329,7 +434,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Attri_Required_12_PROVIDER_ID(
+        function REQUIRED_MESSAGE_ID_16(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -349,7 +454,7 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Attri_Required_12_PROVIDER_ID**: $.message.order.provider.id must be present in the payload`,
+                            description: `- **condition REQUIRED_MESSAGE_ID_16**: $.message.order.provider.id must be present in the payload`,
                         },
                     ];
                 }
@@ -358,7 +463,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Attri_Required_13_PAYMENTS_COLLECTED_BY(
+        function REQUIRED_MESSAGE_COLLECTED_BY_17(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -378,7 +483,7 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Attri_Required_13_PAYMENTS_COLLECTED_BY**: $.message.order.payments[*].collected_by must be present in the payload`,
+                            description: `- **condition REQUIRED_MESSAGE_COLLECTED_BY_17**: $.message.order.payments[*].collected_by must be present in the payload`,
                         },
                     ];
                 }
@@ -387,7 +492,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Attri_Required_14_PAYMENTS_STATUS(
+        function REQUIRED_MESSAGE_STATUS_18(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -407,7 +512,7 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Attri_Required_14_PAYMENTS_STATUS**: $.message.order.payments[*].status must be present in the payload`,
+                            description: `- **condition REQUIRED_MESSAGE_STATUS_18**: $.message.order.payments[*].status must be present in the payload`,
                         },
                     ];
                 }
@@ -416,7 +521,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Attri_Required_15_PAYMENTS_TYPE(
+        function REQUIRED_MESSAGE_TYPE_19(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -436,7 +541,7 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Attri_Required_15_PAYMENTS_TYPE**: $.message.order.payments[*].type must be present in the payload`,
+                            description: `- **condition REQUIRED_MESSAGE_TYPE_19**: $.message.order.payments[*].type must be present in the payload`,
                         },
                     ];
                 }
@@ -445,7 +550,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Enum_Required_16_CONTEXT_ACTION(
+        function REQUIRED_CONTEXT_CODE_20(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -453,60 +558,19 @@ export default function init(input: validationInput): validationOutput {
             let valid = true;
             for (const testObj of scope) {
                 testObj._EXTERNAL = input.externalData;
-                const enumList = ["init"];
-                const enumPath = payloadUtils.getJsonPath(
-                    testObj,
-                    "$.context.action",
-                );
-
-                const validate =
-                    validations.allIn(enumPath, enumList) &&
-                    validations.arePresent(enumPath);
-
-                if (!validate) {
-                    return [
-                        {
-                            valid: false,
-                            code: 30000,
-                            description: `- **condition Enum_Required_16_CONTEXT_ACTION**: all of the following sub conditions must be met:
-
-  - **condition Enum_Required_16_CONTEXT_ACTION.1**: every element of $.context.action must be in ["init"]
-  - **condition Enum_Required_16_CONTEXT_ACTION.2**: $.context.action must be present in the payload`,
-                        },
-                    ];
-                }
-
-                delete testObj._EXTERNAL;
-            }
-            return [{ valid: valid, code: 200 }, ...subResults];
-        }
-        function Enum_Required_17_COUNTRY_CODE(
-            input: validationInput,
-        ): validationOutput {
-            const scope = payloadUtils.getJsonPath(input.payload, "$");
-            let subResults: validationOutput = [];
-            let valid = true;
-            for (const testObj of scope) {
-                testObj._EXTERNAL = input.externalData;
-                const enumList = ["IND"];
-                const enumPath = payloadUtils.getJsonPath(
+                const attr = payloadUtils.getJsonPath(
                     testObj,
                     "$.context.location.country.code",
                 );
 
-                const validate =
-                    validations.allIn(enumPath, enumList) &&
-                    validations.arePresent(enumPath);
+                const validate = validations.arePresent(attr);
 
                 if (!validate) {
                     return [
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Enum_Required_17_COUNTRY_CODE**: all of the following sub conditions must be met:
-
-  - **condition Enum_Required_17_COUNTRY_CODE.1**: every element of $.context.location.country.code must be in ["IND"]
-  - **condition Enum_Required_17_COUNTRY_CODE.2**: $.context.location.country.code must be present in the payload`,
+                            description: `- **condition REQUIRED_CONTEXT_CODE_20**: $.context.location.country.code must be present in the payload`,
                         },
                     ];
                 }
@@ -515,7 +579,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Enum_Required_19_CONTEXT_DOMAIN(
+        function REQUIRED_CONTEXT_CODE_21(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -523,25 +587,19 @@ export default function init(input: validationInput): validationOutput {
             let valid = true;
             for (const testObj of scope) {
                 testObj._EXTERNAL = input.externalData;
-                const enumList = ["ONDC:TRV11"];
-                const enumPath = payloadUtils.getJsonPath(
+                const attr = payloadUtils.getJsonPath(
                     testObj,
-                    "$.context.domain",
+                    "$.context.location.city.code",
                 );
 
-                const validate =
-                    validations.allIn(enumPath, enumList) &&
-                    validations.arePresent(enumPath);
+                const validate = validations.arePresent(attr);
 
                 if (!validate) {
                     return [
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Enum_Required_19_CONTEXT_DOMAIN**: all of the following sub conditions must be met:
-
-  - **condition Enum_Required_19_CONTEXT_DOMAIN.1**: every element of $.context.domain must be in ["ONDC:TRV11"]
-  - **condition Enum_Required_19_CONTEXT_DOMAIN.2**: $.context.domain must be present in the payload`,
+                            description: `- **condition REQUIRED_CONTEXT_CODE_21**: $.context.location.city.code must be present in the payload`,
                         },
                     ];
                 }
@@ -550,7 +608,497 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Enum_Required_20_DESCRIPTOR_CODE(
+        function REQUIRED_CONTEXT_DOMAIN_22(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(
+                    testObj,
+                    "$.context.domain",
+                );
+
+                const validate = validations.arePresent(attr);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition REQUIRED_CONTEXT_DOMAIN_22**: $.context.domain must be present in the payload`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
+        function REQUIRED_CONTEXT_TIMESTAMP_23(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(
+                    testObj,
+                    "$.context.timestamp",
+                );
+
+                const validate = validations.arePresent(attr);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition REQUIRED_CONTEXT_TIMESTAMP_23**: $.context.timestamp must be present in the payload`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
+        function REQUIRED_CONTEXT_BAP_ID_24(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(
+                    testObj,
+                    "$.context.bap_id",
+                );
+
+                const validate = validations.arePresent(attr);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition REQUIRED_CONTEXT_BAP_ID_24**: $.context.bap_id must be present in the payload`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
+        function REQUIRED_CONTEXT_TRANSACTION_ID_25(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(
+                    testObj,
+                    "$.context.transaction_id",
+                );
+
+                const validate = validations.arePresent(attr);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition REQUIRED_CONTEXT_TRANSACTION_ID_25**: $.context.transaction_id must be present in the payload`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
+        function REQUIRED_CONTEXT_MESSAGE_ID_26(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(
+                    testObj,
+                    "$.context.message_id",
+                );
+
+                const validate = validations.arePresent(attr);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition REQUIRED_CONTEXT_MESSAGE_ID_26**: $.context.message_id must be present in the payload`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
+        function REQUIRED_CONTEXT_VERSION_27(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(
+                    testObj,
+                    "$.context.version",
+                );
+
+                const validate = validations.arePresent(attr);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition REQUIRED_CONTEXT_VERSION_27**: $.context.version must be present in the payload`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
+        function REQUIRED_CONTEXT_ACTION_28(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(
+                    testObj,
+                    "$.context.action",
+                );
+
+                const validate = validations.arePresent(attr);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition REQUIRED_CONTEXT_ACTION_28**: $.context.action must be present in the payload`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
+        function REQUIRED_CONTEXT_BAP_URI_29(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(
+                    testObj,
+                    "$.context.bap_uri",
+                );
+
+                const validate = validations.arePresent(attr);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition REQUIRED_CONTEXT_BAP_URI_29**: $.context.bap_uri must be present in the payload`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
+        function REQUIRED_CONTEXT_TTL_30(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(testObj, "$.context.ttl");
+
+                const validate = validations.arePresent(attr);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition REQUIRED_CONTEXT_TTL_30**: $.context.ttl must be present in the payload`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
+        function REQUIRED_CONTEXT_BPP_ID_31(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(
+                    testObj,
+                    "$.context.bpp_id",
+                );
+
+                const validate = validations.arePresent(attr);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition REQUIRED_CONTEXT_BPP_ID_31**: $.context.bpp_id must be present in the payload`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
+        function REQUIRED_CONTEXT_BPP_URI_32(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(
+                    testObj,
+                    "$.context.bpp_uri",
+                );
+
+                const validate = validations.arePresent(attr);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition REQUIRED_CONTEXT_BPP_URI_32**: $.context.bpp_uri must be present in the payload`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
+        function REQUIRED_MESSAGE_ID_33(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(
+                    testObj,
+                    "$.message.order.items[*].id",
+                );
+
+                const validate = validations.arePresent(attr);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition REQUIRED_MESSAGE_ID_33**: $.message.order.items[*].id must be present in the payload`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
+        function REQUIRED_MESSAGE_COUNT_34(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(
+                    testObj,
+                    "$.message.order.items[*].quantity.selected.count",
+                );
+
+                const validate = validations.arePresent(attr);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition REQUIRED_MESSAGE_COUNT_34**: $.message.order.items[*].quantity.selected.count must be present in the payload`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
+        function REQUIRED_MESSAGE_ID_35(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(
+                    testObj,
+                    "$.message.order.provider.id",
+                );
+
+                const validate = validations.arePresent(attr);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition REQUIRED_MESSAGE_ID_35**: $.message.order.provider.id must be present in the payload`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
+        function REQUIRED_MESSAGE_COLLECTED_BY_36(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(
+                    testObj,
+                    "$.message.order.payments[*].collected_by",
+                );
+
+                const validate = validations.arePresent(attr);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition REQUIRED_MESSAGE_COLLECTED_BY_36**: $.message.order.payments[*].collected_by must be present in the payload`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
+        function REQUIRED_MESSAGE_STATUS_37(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(
+                    testObj,
+                    "$.message.order.payments[*].status",
+                );
+
+                const validate = validations.arePresent(attr);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition REQUIRED_MESSAGE_STATUS_37**: $.message.order.payments[*].status must be present in the payload`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
+        function REQUIRED_MESSAGE_TYPE_38(
+            input: validationInput,
+        ): validationOutput {
+            const scope = payloadUtils.getJsonPath(input.payload, "$");
+            let subResults: validationOutput = [];
+            let valid = true;
+            for (const testObj of scope) {
+                testObj._EXTERNAL = input.externalData;
+                const attr = payloadUtils.getJsonPath(
+                    testObj,
+                    "$.message.order.payments[*].type",
+                );
+
+                const validate = validations.arePresent(attr);
+
+                if (!validate) {
+                    return [
+                        {
+                            valid: false,
+                            code: 30000,
+                            description: `- **condition REQUIRED_MESSAGE_TYPE_38**: $.message.order.payments[*].type must be present in the payload`,
+                        },
+                    ];
+                }
+
+                delete testObj._EXTERNAL;
+            }
+            return [{ valid: valid, code: 200 }, ...subResults];
+        }
+        function VALID_ENUM_MESSAGE_CODE_1(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -574,9 +1122,9 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Enum_Required_20_DESCRIPTOR_CODE**: every element of $.message.order.items[*].descriptor.code must be in ["SJT", "SFSJT", "RJT", "PASS"]
+                            description: `- **condition VALID_ENUM_MESSAGE_CODE_1**: every element of $.message.order.items[*].descriptor.code must be in ["SJT", "SFSJT", "RJT", "PASS"]
 
-	> Note: **Condition Enum_Required_20_DESCRIPTOR_CODE** can be skipped if the following conditions are met:
+	> Note: **Condition VALID_ENUM_MESSAGE_CODE_1** can be skipped if the following conditions are met:
 	>
 	> - **condition B**: $.message.order.items[*].descriptor.code must **not** be present in the payload`,
                         },
@@ -587,7 +1135,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Enum_Required_21_VEHICLE_CATEGORY(
+        function VALID_ENUM_MESSAGE_CATEGORY_2(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -611,9 +1159,9 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Enum_Required_21_VEHICLE_CATEGORY**: every element of $.message.order.fulfillments[*].vehicle.category must be in ["BUS", "METRO"]
+                            description: `- **condition VALID_ENUM_MESSAGE_CATEGORY_2**: every element of $.message.order.fulfillments[*].vehicle.category must be in ["BUS", "METRO"]
 
-	> Note: **Condition Enum_Required_21_VEHICLE_CATEGORY** can be skipped if the following conditions are met:
+	> Note: **Condition VALID_ENUM_MESSAGE_CATEGORY_2** can be skipped if the following conditions are met:
 	>
 	> - **condition B**: $.message.order.fulfillments[*].vehicle.category must **not** be present in the payload`,
                         },
@@ -624,7 +1172,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Enum_Required_22_FULFILLMENTS_TYPE(
+        function VALID_ENUM_MESSAGE_TYPE_3(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -648,9 +1196,9 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Enum_Required_22_FULFILLMENTS_TYPE**: every element of $.message.order.fulfillments[*].type must be in ["ROUTE", "TRIP"]
+                            description: `- **condition VALID_ENUM_MESSAGE_TYPE_3**: every element of $.message.order.fulfillments[*].type must be in ["ROUTE", "TRIP"]
 
-	> Note: **Condition Enum_Required_22_FULFILLMENTS_TYPE** can be skipped if the following conditions are met:
+	> Note: **Condition VALID_ENUM_MESSAGE_TYPE_3** can be skipped if the following conditions are met:
 	>
 	> - **condition B**: $.message.order.fulfillments[*].type must **not** be present in the payload`,
                         },
@@ -661,7 +1209,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Enum_Required_23_FULFILLMENTS_TYPE(
+        function VALID_ENUM_MESSAGE_TYPE_4(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -690,9 +1238,9 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Enum_Required_23_FULFILLMENTS_TYPE**: every element of $.message.order.fulfillments[*].type must be in ["START", "END", "INTERMEDIATE_STOP", "TRANSIT_STOP"]
+                            description: `- **condition VALID_ENUM_MESSAGE_TYPE_4**: every element of $.message.order.fulfillments[*].type must be in ["START", "END", "INTERMEDIATE_STOP", "TRANSIT_STOP"]
 
-	> Note: **Condition Enum_Required_23_FULFILLMENTS_TYPE** can be skipped if the following conditions are met:
+	> Note: **Condition VALID_ENUM_MESSAGE_TYPE_4** can be skipped if the following conditions are met:
 	>
 	> - **condition B**: $.message.order.fulfillments[*].type must **not** be present in the payload`,
                         },
@@ -703,7 +1251,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Enum_Required_24_AUTHORIZATION_TYPE(
+        function VALID_ENUM_MESSAGE_TYPE_5(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -727,9 +1275,9 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Enum_Required_24_AUTHORIZATION_TYPE**: every element of $.message.order.fulfillments[*].stops[*].authorization.type must be in ["QR"]
+                            description: `- **condition VALID_ENUM_MESSAGE_TYPE_5**: every element of $.message.order.fulfillments[*].stops[*].authorization.type must be in ["QR"]
 
-	> Note: **Condition Enum_Required_24_AUTHORIZATION_TYPE** can be skipped if the following conditions are met:
+	> Note: **Condition VALID_ENUM_MESSAGE_TYPE_5** can be skipped if the following conditions are met:
 	>
 	> - **condition B**: $.message.order.fulfillments[*].stops[*].authorization.type must **not** be present in the payload`,
                         },
@@ -740,7 +1288,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Enum_Required_25_AUTHORIZATION_STATUS(
+        function VALID_ENUM_MESSAGE_STATUS_6(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -764,9 +1312,9 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Enum_Required_25_AUTHORIZATION_STATUS**: every element of $.message.order.fulfillments[*].stops[*].authorization.status must be in ["UNCLAIMED", "CLAIMED"]
+                            description: `- **condition VALID_ENUM_MESSAGE_STATUS_6**: every element of $.message.order.fulfillments[*].stops[*].authorization.status must be in ["UNCLAIMED", "CLAIMED"]
 
-	> Note: **Condition Enum_Required_25_AUTHORIZATION_STATUS** can be skipped if the following conditions are met:
+	> Note: **Condition VALID_ENUM_MESSAGE_STATUS_6** can be skipped if the following conditions are met:
 	>
 	> - **condition B**: $.message.order.fulfillments[*].stops[*].authorization.status must **not** be present in the payload`,
                         },
@@ -777,7 +1325,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Enum_Required_26_ORDER_STATUS(
+        function VALID_ENUM_MESSAGE_STATUS_7(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -807,9 +1355,9 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Enum_Required_26_ORDER_STATUS**: every element of $.message.order.status must be in ["SOFT_CANCEL", "CONFIRM_CANCEL", "ACTIVE", "COMPLETE", "CANCELLED"]
+                            description: `- **condition VALID_ENUM_MESSAGE_STATUS_7**: every element of $.message.order.status must be in ["SOFT_CANCEL", "CONFIRM_CANCEL", "ACTIVE", "COMPLETE", "CANCELLED"]
 
-	> Note: **Condition Enum_Required_26_ORDER_STATUS** can be skipped if the following conditions are met:
+	> Note: **Condition VALID_ENUM_MESSAGE_STATUS_7** can be skipped if the following conditions are met:
 	>
 	> - **condition B**: $.message.order.status must **not** be present in the payload`,
                         },
@@ -820,7 +1368,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function Enum_Required_27_BREAKUP_TITLE(
+        function VALID_ENUM_MESSAGE_TITLE_8(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -850,9 +1398,9 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition Enum_Required_27_BREAKUP_TITLE**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
+                            description: `- **condition VALID_ENUM_MESSAGE_TITLE_8**: every element of $.message.order.quote.breakup[*].title must be in ["BASE_FARE", "REFUND", "CANCELLATION_CHARGES", "OFFER", "TOLL"]
 
-	> Note: **Condition Enum_Required_27_BREAKUP_TITLE** can be skipped if the following conditions are met:
+	> Note: **Condition VALID_ENUM_MESSAGE_TITLE_8** can be skipped if the following conditions are met:
 	>
 	> - **condition B**: $.message.order.quote.breakup[*].title must **not** be present in the payload`,
                         },
@@ -863,9 +1411,7 @@ export default function init(input: validationInput): validationOutput {
             }
             return [{ valid: valid, code: 200 }, ...subResults];
         }
-        function BUYER_FINDER_FEES_Tag_Required_28_DESCRIPTOR_CODE(
-            input: validationInput,
-        ): validationOutput {
+        function validate_tag_0(input: validationInput): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
             let subResults: validationOutput = [];
             let valid = true;
@@ -887,9 +1433,9 @@ export default function init(input: validationInput): validationOutput {
                         {
                             valid: false,
                             code: 30000,
-                            description: `- **condition BUYER_FINDER_FEES_Tag_Required_28_DESCRIPTOR_CODE**: every element of $.message.order.payments[*].tags[*].descriptor.code must be in ["BUYER_FINDER_FEES", "SETTLEMENT_TERMS"]
+                            description: `- **condition validate_tag_0**: every element of $.message.order.payments[*].tags[*].descriptor.code must be in ["BUYER_FINDER_FEES", "SETTLEMENT_TERMS"]
 
-	> Note: **Condition BUYER_FINDER_FEES_Tag_Required_28_DESCRIPTOR_CODE** can be skipped if the following conditions are met:
+	> Note: **Condition validate_tag_0** can be skipped if the following conditions are met:
 	>
 	> - **condition B**: $.message.order.payments[*].tags[*].descriptor.code must **not** be present in the payload`,
                         },
@@ -981,33 +1527,52 @@ export default function init(input: validationInput): validationOutput {
         }
 
         const testFunctions: testFunctionArray = [
-            Attri_Required_1_CONTEXT_TIMESTAMP,
-            Attri_Required_2_CONTEXT_BAP_ID,
-            Attri_Required_3_CONTEXT_TRANSACTION_ID,
-            Attri_Required_4_CONTEXT_MESSAGE_ID,
-            Attri_Required_5_CONTEXT_VERSION,
-            Attri_Required_6_CONTEXT_BAP_URI,
-            Attri_Required_7_CONTEXT_TTL,
-            Attri_Required_8_CONTEXT_BPP_ID,
-            Attri_Required_9_CONTEXT_BPP_URI,
-            Attri_Required_10_ITEMS_ID,
-            Attri_Required_11_SELECTED_COUNT,
-            Attri_Required_12_PROVIDER_ID,
-            Attri_Required_13_PAYMENTS_COLLECTED_BY,
-            Attri_Required_14_PAYMENTS_STATUS,
-            Attri_Required_15_PAYMENTS_TYPE,
-            Enum_Required_16_CONTEXT_ACTION,
-            Enum_Required_17_COUNTRY_CODE,
-            Enum_Required_19_CONTEXT_DOMAIN,
-            Enum_Required_20_DESCRIPTOR_CODE,
-            Enum_Required_21_VEHICLE_CATEGORY,
-            Enum_Required_22_FULFILLMENTS_TYPE,
-            Enum_Required_23_FULFILLMENTS_TYPE,
-            Enum_Required_24_AUTHORIZATION_TYPE,
-            Enum_Required_25_AUTHORIZATION_STATUS,
-            Enum_Required_26_ORDER_STATUS,
-            Enum_Required_27_BREAKUP_TITLE,
-            BUYER_FINDER_FEES_Tag_Required_28_DESCRIPTOR_CODE,
+            REQUIRED_CONTEXT_CODE_1,
+            REQUIRED_CONTEXT_DOMAIN_3,
+            REQUIRED_CONTEXT_TIMESTAMP_4,
+            REQUIRED_CONTEXT_BAP_ID_5,
+            REQUIRED_CONTEXT_TRANSACTION_ID_6,
+            REQUIRED_CONTEXT_MESSAGE_ID_7,
+            REQUIRED_CONTEXT_VERSION_8,
+            REQUIRED_CONTEXT_ACTION_9,
+            REQUIRED_CONTEXT_BAP_URI_10,
+            REQUIRED_CONTEXT_TTL_11,
+            REQUIRED_CONTEXT_BPP_ID_12,
+            REQUIRED_CONTEXT_BPP_URI_13,
+            REQUIRED_MESSAGE_ID_14,
+            REQUIRED_MESSAGE_COUNT_15,
+            REQUIRED_MESSAGE_ID_16,
+            REQUIRED_MESSAGE_COLLECTED_BY_17,
+            REQUIRED_MESSAGE_STATUS_18,
+            REQUIRED_MESSAGE_TYPE_19,
+            REQUIRED_CONTEXT_CODE_20,
+            REQUIRED_CONTEXT_CODE_21,
+            REQUIRED_CONTEXT_DOMAIN_22,
+            REQUIRED_CONTEXT_TIMESTAMP_23,
+            REQUIRED_CONTEXT_BAP_ID_24,
+            REQUIRED_CONTEXT_TRANSACTION_ID_25,
+            REQUIRED_CONTEXT_MESSAGE_ID_26,
+            REQUIRED_CONTEXT_VERSION_27,
+            REQUIRED_CONTEXT_ACTION_28,
+            REQUIRED_CONTEXT_BAP_URI_29,
+            REQUIRED_CONTEXT_TTL_30,
+            REQUIRED_CONTEXT_BPP_ID_31,
+            REQUIRED_CONTEXT_BPP_URI_32,
+            REQUIRED_MESSAGE_ID_33,
+            REQUIRED_MESSAGE_COUNT_34,
+            REQUIRED_MESSAGE_ID_35,
+            REQUIRED_MESSAGE_COLLECTED_BY_36,
+            REQUIRED_MESSAGE_STATUS_37,
+            REQUIRED_MESSAGE_TYPE_38,
+            VALID_ENUM_MESSAGE_CODE_1,
+            VALID_ENUM_MESSAGE_CATEGORY_2,
+            VALID_ENUM_MESSAGE_TYPE_3,
+            VALID_ENUM_MESSAGE_TYPE_4,
+            VALID_ENUM_MESSAGE_TYPE_5,
+            VALID_ENUM_MESSAGE_STATUS_6,
+            VALID_ENUM_MESSAGE_STATUS_7,
+            VALID_ENUM_MESSAGE_TITLE_8,
+            validate_tag_0,
             validate_tag_0_BUYER_FINDER_FEES,
             validate_tag_0_SETTLEMENT_TERMS,
         ];
