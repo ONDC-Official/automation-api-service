@@ -114,10 +114,10 @@ function getAsyncPredecessor(action: string) {
 }
 
 function getSupportedActions(action: string) {
+	logger.info("supportedActions :" + JSON.stringify(supportedActions));
 	if (action === "") {
 		action = "null";
 	}
-	logger.info("supportedActions :" + JSON.stringify(supportedActions));
 	if (action in supportedActions) {
 		return supportedActions[action as keyof typeof supportedActions];
 	}
