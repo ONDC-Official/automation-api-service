@@ -29,7 +29,7 @@ async function loadConfig(): Promise<void> {
 		)}&version=${encodeURIComponent(version)}`;
 
 		const response = await axios.get(url);
-		const config = response.data as Config;
+		const config = response.data.data as Config;
 
 		supportedActions = config.supportedActions;
 		apiProperties = config.apiProperties;
