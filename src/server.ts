@@ -2,10 +2,10 @@ import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import logger from "./utils/logger";
 import { config } from "./config/serverConfig";
-import routes from "./routes/public-routes";
+import apiRouter from "./routes/public-routes";
 import testRoutes from "./routes/test-routes";
 import { setAckResponse, setBadRequestNack } from "./utils/ackUtils";
-import router from "./routes/private-routes";
+import mockRouter from "./routes/private-routes";
 
 const createServer = (): Application => {
 	const app = express();
@@ -30,8 +30,10 @@ const createServer = (): Application => {
 
 	const base = `api-service/${domain}/${version}`;
 	// Routes
-	app.use(`${base}/api`, routes);
-	app.use(`${base}/api-service/mock`, router);
+	// app.use(`${base}/api`, routes);
+	app.use(`${base}/buyer`, apiRouter);
+	app.use(`${base}/seller`, apiRouter);
+	app.use(`${base}/mock`, mockRouter);
 	app.use(`${base}/test`, testRoutes);
 
 	// Health Check
