@@ -8,6 +8,7 @@ import {
 	RequestProperties,
 	TransactionCache,
 } from "../../types/cache-types";
+import logger from "../logger";
 
 export function validateAsyncContext(
 	subject: BecknContext,
@@ -116,6 +117,7 @@ function getSupportedActions(action: string) {
 	if (action === "") {
 		action = "null";
 	}
+	logger.info("supportedActions :" + JSON.stringify(supportedActions));
 	if (action in supportedActions) {
 		return supportedActions[action as keyof typeof supportedActions];
 	}

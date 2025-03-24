@@ -1,4 +1,5 @@
 import axios from "axios";
+import logger from "../utils/logger";
 
 interface Config {
 	supportedActions: Record<string, string[]>;
@@ -32,6 +33,8 @@ async function loadConfig(): Promise<void> {
 
 		supportedActions = config.supportedActions;
 		apiProperties = config.apiProperties;
+
+		logger.info("Config loaded from API:", config);
 	} catch (error) {
 		console.error("Error loading config from API:", error);
 		throw error;
