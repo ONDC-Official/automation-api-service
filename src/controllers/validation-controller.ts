@@ -125,19 +125,18 @@ export class ValidationController {
 
 	// Middleware: L0 validations
 	validateL0(req: Request, res: Response, next: NextFunction) {
-		const sessionId =
-			(req as ApiServiceRequest).requestProperties?.sessionId ?? "unknown";
 		const { action } = req.params;
 		const body = req.body;
-
-		saveLog(sessionId, "Starting L0 validations");
+		logger.info(
+			"Starting L0 validations for action: " +
+				JSON.stringify(body.context, null, 2)
+		);
 		const l0Result = performL0Validations(body, action);
 		if (!l0Result.valid) {
-			saveLog(sessionId, `L0 validation failed: ${l0Result.errors}`, "error");
+			logger.error("L0 validations failed");
 			res.status(200).send(setAckResponse(false, l0Result.errors, "400"));
 			return;
 		}
-		saveLog(sessionId, "L0 validations passed successfully");
 		logger.info("L0 validations passed");
 		next();
 	}

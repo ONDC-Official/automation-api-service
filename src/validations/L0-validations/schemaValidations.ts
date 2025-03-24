@@ -12,6 +12,7 @@ export function performL0Validations(actionPayload: any, action: string) {
 		const validate = ajv.compile(schema as any);
 		const valid = validate(actionPayload);
 		if (!valid) return createErrorMessage(validate, valid);
+		logger.info("L0 validations result", JSON.stringify(validate));
 		return { valid: valid, errors: validate.errors };
 	} catch (e) {
 		logger.error("Error in L0 validations", e);
