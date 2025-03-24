@@ -12,6 +12,9 @@ export class CommunicationService {
 		requestProperties?: RequestProperties
 	) => {
 		let url = process.env.MOCK_SERVER_URL;
+		const domain = process.env.DOMAIN;
+		const version = process.env.VERSION;
+		url = `${url}/${domain}/${version}`;
 		const action = requestProperties?.action ?? body.context.action;
 		if (requestProperties?.defaultMode === false) {
 			url = `${url}/manual/${action}`;
