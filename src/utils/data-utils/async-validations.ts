@@ -106,6 +106,7 @@ function validateTransactionId(action: string, sortedContexts: ApiData[]) {
 }
 
 function getAsyncPredecessor(action: string) {
+	logger.info("apiProperties :" + JSON.stringify(apiProperties));
 	if (action in apiProperties) {
 		return apiProperties[action as keyof typeof apiProperties]
 			.async_predecessor;
