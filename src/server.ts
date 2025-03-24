@@ -28,10 +28,11 @@ const createServer = (): Application => {
 		throw new Error("Domain and version are required in env");
 	}
 
+	const base = `api-service/${domain}/${version}`;
 	// Routes
-	app.use(`/${domain}/${version}/api`, routes);
-	app.use(`/${domain}/${version}/api-service/mock`, router);
-	app.use(`/${domain}/${version}/test`, testRoutes);
+	app.use(`${base}/api`, routes);
+	app.use(`${base}/api-service/mock`, router);
+	app.use(`${base}/test`, testRoutes);
 
 	// Health Check
 	app.get("/health", (req: Request, res: Response) => {
