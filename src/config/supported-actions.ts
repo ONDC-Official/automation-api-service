@@ -34,10 +34,9 @@ async function loadConfig(): Promise<void> {
 		const url = `${configServiceUrl}/api-service/supportedActions?domain=${encodeURIComponent(
 			domain
 		)}&version=${encodeURIComponent(version)}`;
-
+		logger.info("Loading config from API:", url);
 		const response = await axios.get(url);
 		const config = response.data.data as Config;
-
 		logger.info("Config loaded from API:", JSON.stringify(config));
 
 		supportedActions = config.supportedActions;
