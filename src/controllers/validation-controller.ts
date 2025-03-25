@@ -159,15 +159,14 @@ export class ValidationController {
 			next();
 			return;
 		}
-		const apiLayerUrl = process.env.API_SERVICE_URL;
-		const extraMessage = ` \n\n _note: find complete list of [validations](${apiLayerUrl}/test/)_`;
+
 		const l1Result = performL1validations(action, body, true);
 		const invalidResult = l1Result.filter(
 			(result) => !result.valid && result.code !== 200
 		);
 		console.log("invalidResult", invalidResult);
 		if (invalidResult.length > 0) {
-			const error = invalidResult[0].description + extraMessage;
+			const error = invalidResult[0].description;
 			const code = invalidResult[0].code as number;
 			await saveLog(sessionId, `L1 validation failed: ${error}`, "error");
 			res.status(200).send(setAckResponse(false, error, code.toString()));
@@ -223,16 +222,13 @@ export class ValidationController {
 	) => {
 		const { action } = req.params;
 		const body = req.body;
-		const apiLayerUrl = process.env.API_SERVICE_URL;
-		const extraMessage = ` \n\n _note: find complete list of [validations](${apiLayerUrl}/test/)_`;
 		const l1Result = performL1validations(action, { ...body }, true);
 		const isValid = l1Result.every((result) => result.valid);
 		if (!isValid) {
-			const allErrors =
-				l1Result
-					.filter((result) => !result.valid)
-					.map((result) => result.description)
-					.join("\n") + extraMessage;
+			const allErrors = l1Result
+				.filter((result) => !result.valid)
+				.map((result) => result.description)
+				.join("\n");
 			const code = l1Result[0].code as number;
 			res.status(200).send(setAckResponse(false, allErrors, code.toString()));
 			return;
