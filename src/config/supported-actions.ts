@@ -38,7 +38,7 @@ async function loadConfig(): Promise<void> {
 		const response = await axios.get(url);
 		const config = response.data.data as Config;
 
-		logger.info("Config loaded from API:", config);
+		logger.info("Config loaded from API:", JSON.stringify(config));
 
 		supportedActions = config.supportedActions;
 		apiProperties = config.apiProperties;
