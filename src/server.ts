@@ -28,7 +28,7 @@ const createServer = (): Application => {
 		throw new Error("Domain and version are required in env");
 	}
 
-	const base = `api-service/${domain}/${version}`;
+	const base = `/api-service/${domain}/${version}`;
 	// Routes
 	// app.use(`${base}/api`, routes);
 	app.use(`${base}/buyer`, apiRouter);
