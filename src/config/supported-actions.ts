@@ -24,7 +24,14 @@ async function loadConfig(): Promise<void> {
 			);
 		}
 
-		const url = `https://dev-automation.ondc.org/config-service/api-service/supportedActions?domain=${encodeURIComponent(
+		const configServiceUrl = process.env.CONFIG_SERVICE_URL;
+		if (!configServiceUrl) {
+			throw new Error(
+				"CONFIG_SERVICE_URL must be set in the environment variables."
+			);
+		}
+
+		const url = `${configServiceUrl}/api-service/supportedActions?domain=${encodeURIComponent(
 			domain
 		)}&version=${encodeURIComponent(version)}`;
 
