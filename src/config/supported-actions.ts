@@ -38,10 +38,10 @@ async function loadConfig(): Promise<void> {
 		const response = await axios.get(url);
 		const config = response.data.data as Config;
 
+		logger.info("Config loaded from API:", config);
+
 		supportedActions = config.supportedActions;
 		apiProperties = config.apiProperties;
-
-		logger.info("Config loaded from API:", config);
 	} catch (error) {
 		console.error("Error loading config from API:", error);
 		throw error;
