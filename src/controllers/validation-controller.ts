@@ -211,7 +211,8 @@ export class ValidationController {
 			next();
 		} catch (error) {
 			logger.error("error in L1 custom validations", error);
-			res.status(200).send(setInternalServerNack);
+			next();
+			// res.status(200).send(setInternalServerNack);
 		}
 	};
 
