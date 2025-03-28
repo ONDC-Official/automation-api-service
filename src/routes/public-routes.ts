@@ -26,7 +26,7 @@ router.post(
 	validationController.validateSignatureNp,
 	validationController.validateL0,
 	validationController.validateL1,
-	// validationController.validateL1Custom,
+	validationController.validateL1Custom,
 	validationController.validateContextFromNp,
 	commController.forwardToMockServer
 );

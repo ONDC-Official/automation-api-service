@@ -45,7 +45,7 @@ export class DataService {
 					npType: sessionData.subscriberType,
 					npId: sessionData,
 					domain: payload.context.domain,
-					version: payload.context.version,
+					version: payload.context.version ?? payload.context.core_version,
 					sessionType: "AUTOMATION",
 					sessionActive: true,
 				};
