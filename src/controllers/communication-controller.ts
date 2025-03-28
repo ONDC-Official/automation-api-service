@@ -18,7 +18,7 @@ export class CommunicationController {
 			res.status(204).send();
 			return;
 		}
-		res.status(200).send(setAckResponse(true));
+		res.status(200).send(setAckResponse(true, req.body));
 		const sessionId = req.requestProperties?.sessionId ?? "unknown";
 		try {
 			await saveLog(sessionId, "Forwarding request to mock server");

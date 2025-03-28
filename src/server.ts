@@ -38,7 +38,7 @@ const createServer = (): Application => {
 
 	// Health Check
 	app.get(`${base}/health`, (req: Request, res: Response) => {
-		res.status(200).send(setAckResponse(true));
+		res.status(200).send(setAckResponse(true, req.body));
 	});
 
 	// Error Handling Middleware

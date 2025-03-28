@@ -19,7 +19,7 @@ router.post(
 	validationController.validateL0,
 	validationController.validateL1,
 	(req, res, next) => {
-		res.send(setAckResponse(true));
+		res.send(setAckResponse(req.body, true));
 	}
 );
 

@@ -76,7 +76,7 @@ export class ValidationController {
 				logger.info("Responding with invalid signature");
 				res
 					.status(200)
-					.send(setAckResponse(false, "Invalid Signature", "10001"));
+					.send(setAckResponse(false, req.body, "Invalid Signature", "10001"));
 				return;
 			}
 			const header = JSON.stringify(req.headers);
@@ -90,13 +90,15 @@ export class ValidationController {
 			if (!valid) {
 				res
 					.status(200)
-					.send(setAckResponse(false, "Invalid Signature", "10001"));
+					.send(setAckResponse(false, req.body, "Invalid Signature", "10001"));
 				return;
 			}
 			next();
 		} catch (error) {
 			logger.info("error while validation signature", error);
-			res.status(200).send(setAckResponse(false, "Invalid Signature", "10001"));
+			res
+				.status(200)
+				.send(setAckResponse(false, req.body, "Invalid Signature", "10001"));
 			return;
 		}
 	};
@@ -134,7 +136,9 @@ export class ValidationController {
 		const l0Result = performL0Validations(body, action);
 		if (!l0Result.valid) {
 			logger.error("L0 validations failed");
-			res.status(200).send(setAckResponse(false, l0Result.errors, "400"));
+			res
+				.status(200)
+				.send(setAckResponse(false, req.body, l0Result.errors, "400"));
 			return;
 		}
 		logger.info("L0 validations passed");
@@ -169,7 +173,9 @@ export class ValidationController {
 			const error = invalidResult[0].description;
 			const code = invalidResult[0].code as number;
 			await saveLog(sessionId, `L1 validation failed: ${error}`, "error");
-			res.status(200).send(setAckResponse(false, error, code.toString()));
+			res
+				.status(200)
+				.send(setAckResponse(false, req.body, error, code.toString()));
 			return;
 		}
 		await saveLog(sessionId, "first level validations passed successfully");
@@ -203,7 +209,9 @@ export class ValidationController {
 				const error = invalidResult[0].description;
 				const code = invalidResult[0].code as number;
 				await saveLog(sessionId, `L1 validation failed: ${error}`, "error");
-				res.status(200).send(setAckResponse(false, error, code.toString()));
+				res
+					.status(200)
+					.send(setAckResponse(false, req.body, error, code.toString()));
 				return;
 			}
 			await saveLog(sessionId, "second level validations passed successfully");
@@ -231,7 +239,9 @@ export class ValidationController {
 				.map((result) => result.description)
 				.join("\n");
 			const code = l1Result[0].code as number;
-			res.status(200).send(setAckResponse(false, allErrors, code.toString()));
+			res
+				.status(200)
+				.send(setAckResponse(false, req.body, allErrors, code.toString()));
 			return;
 		}
 		logger.info("L1 validations passed");
@@ -257,7 +267,7 @@ export class ValidationController {
 		if (!contextValidations.valid) {
 			res
 				.status(200)
-				.send(setAckResponse(false, contextValidations.error, "400"));
+				.send(setAckResponse(false, req.body, contextValidations.error, "400"));
 			return;
 		}
 		logger.info("Context validations passed");
@@ -282,7 +292,7 @@ export class ValidationController {
 		if (!contextValidations.valid) {
 			res
 				.status(200)
-				.send(setAckResponse(false, contextValidations.error, "400"));
+				.send(setAckResponse(false, req.body, contextValidations.error, "400"));
 			return;
 		}
 		next();
@@ -297,7 +307,9 @@ export class ValidationController {
 		);
 		if (!validSession) {
 			logger.info("responding with invalid session");
-			res.status(200).send(setAckResponse(false, "Invalid Session", "90001"));
+			res
+				.status(200)
+				.send(setAckResponse(false, req.body, "Invalid Session", "90001"));
 			return;
 		}
 		logger.info("Session validated");
@@ -318,7 +330,9 @@ export class ValidationController {
 		);
 		if (!validSession) {
 			logger.info("responding with invalid session");
-			res.status(200).send(setAckResponse(false, "Invalid Session", "90001"));
+			res
+				.status(200)
+				.send(setAckResponse(false, req.body, "Invalid Session", "90001"));
 			return;
 		}
 		next();

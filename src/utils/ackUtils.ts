@@ -10,6 +10,7 @@ type AckResponse = {
 
 export const setAckResponse = (
 	ack: boolean = true,
+	body: any,
 	error?: string,
 	errorCode?: string
 ): AckResponse => {
@@ -28,9 +29,12 @@ export const setAckResponse = (
 		};
 	}
 
+	if (shouldAddContext()) {
+		resp.context = body.context ?? {};
+	}
+
 	return resp;
 };
-
 export const setInternalServerNack = {
 	message: {
 		status: "NACK",
@@ -42,7 +46,7 @@ export const setInternalServerNack = {
 };
 
 export const setBadRequestNack = (message = "") => {
-	return {
+	const resp: any = {
 		message: {
 			status: "NACK",
 			error: {
@@ -51,4 +55,17 @@ export const setBadRequestNack = (message = "") => {
 			},
 		},
 	};
+	if (shouldAddContext()) {
+		resp.context = {};
+	}
+	return resp;
 };
+
+function shouldAddContext() {
+	const version = process.env.VERSION;
+	if (!version) {
+		return false;
+	}
+	const [major] = version.split(".").map(Number);
+	return major > 1;
+}
