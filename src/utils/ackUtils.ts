@@ -1,3 +1,6 @@
+import { parse } from "path";
+import logger from "./logger";
+
 type AckResponse = {
 	context?: any;
 	message: {
@@ -66,6 +69,7 @@ function shouldAddContext() {
 	if (!version) {
 		return false;
 	}
-	const [major] = version.split(".").map(Number);
-	return major > 1;
+	const major = parseInt(version.split(".")[0]);
+	logger.info(`Version: ${version}, Major: ${major}, context in ack is : ${major > 1}`)
+	return major < 2;
 }
