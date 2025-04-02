@@ -2,10 +2,46 @@ import Ajv from "ajv";
 import addFormats from "ajv-formats";
 import logger from "../../utils/logger";
 import getSchema from "../L0-schemas";
+import { shouldAddContext } from "../../utils/ackUtils";
+
+function checkInvalidFields(payload : any, parentPath = '') {
+    const invalidFields : string[] = [];
+
+    for (const key in payload) {
+        // Check if the key belongs to the object itself
+        if (payload.hasOwnProperty(key)) {
+            const currentPath = parentPath ? `${parentPath}/${key}` : key;
+            const value = payload[key];
+
+            if (value === null || value === "") {
+                // If the value is null or an empty string, add it to invalidFields
+                invalidFields.push(currentPath);
+            } else if (Array.isArray(value) && value.length === 0) {
+                // If it's an empty array, add it to invalidFields
+                invalidFields.push(currentPath);
+            } else if (typeof value === 'object' && value !== null) {
+                // If it's an object, recursively check its properties
+                invalidFields.push(...checkInvalidFields(value, currentPath));
+            }
+        }
+    }
+
+    return invalidFields;
+}
 
 export function performL0Validations(actionPayload: any, action: string) {
 	logger.info("Performing L0 validations", action);
-	try {
+	try {	
+
+		if(shouldAddContext() === false){
+			const invalidFileds = checkInvalidFields(actionPayload);
+			if (invalidFileds.length > 0) {
+				const errorMessages = invalidFileds.map((field : string) => `${field} should not be empty`).join(",");
+				logger.info("L0 validations result", JSON.stringify(errorMessages));
+				return { valid: false, errors: errorMessages };
+			}
+		}
+
 		const schema = getSchema(action);
 		const ajv = new Ajv({ allErrors: true });
 		addFormats(ajv);

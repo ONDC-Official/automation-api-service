@@ -64,7 +64,7 @@ export const setBadRequestNack = (message = "") => {
 	return resp;
 };
 
-function shouldAddContext() {
+export function shouldAddContext() {
 	const version = process.env.VERSION;
 	if (!version) {
 		return false;
