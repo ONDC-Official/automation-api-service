@@ -66,10 +66,12 @@ async function performLookup(subId: string, ukId: string) {
 		subscriber_id: subId,
 		ukId: ukId,
 	};
+	const header = await createAuthHeader(data);
 	try {
 		const response = await axios.post(url, data, {
 			headers: {
 				"Content-Type": "application/json",
+				Authorization: header,
 			},
 		});
 		return response.data[0];

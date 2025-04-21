@@ -11,7 +11,7 @@ export const config: registryGatewayConfig = {
 	},
 	registry: {
 		STAGING:
-			process.env.REGISTRY_STAGING || "https://staging.registry.ondc.org/",
+			process.env.REGISTRY_STAGING || "https://staging.registry.ondc.org/v2.0/",
 		PREPROD:
 			process.env.REGISTRY_PREPROD || "https://preprod.registry.ondc.org/ondc/",
 		PROD: process.env.REGISTRY_PROD || "https://prod.registry.ondc.org/",
