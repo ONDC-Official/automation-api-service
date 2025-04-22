@@ -7,6 +7,7 @@ import { v4 as uuidV4 } from "uuid";
 import { SessionController } from "../controllers/session-controller";
 import { TransactionCacheService } from "../services/session-service-rewrite";
 import { ApiServiceRequest } from "../types/request-types";
+import { setFlowStatusService } from "../services/mock-flow-status";
 
 const router = express();
 

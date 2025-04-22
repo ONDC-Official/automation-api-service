@@ -8,6 +8,7 @@ import {
 	TransactionCache,
 } from "../types/cache-types";
 import { BecknContext } from "../models/beckn-types";
+import { setFlowStatusService } from "./mock-flow-status";
 
 export class SessionManagementService {
 	transactionService: TransactionCacheService;
@@ -99,9 +100,8 @@ export class SessionManagementService {
 			}`
 		);
 		if (flowId && sessionId) {
-			const session = await this.sessionService.loadSessionThatExists(
-				sessionId
-			);
+			const session =
+				await this.sessionService.loadSessionThatExists(sessionId);
 			if (session.flowMap[flowId] === undefined) {
 				await this.assignTransactionToSession(sessionId, flowId, txnId);
 			}
@@ -270,6 +270,7 @@ export class TransactionCacheService {
 			transaction.latestTimestamp = requestBody.context.timestamp;
 			logger.info(`updated transaction with id ${txnId}`);
 			await RedisService.setKey(key, JSON.stringify(transaction));
+			await setFlowStatusService(txnId, subscriberUrl, "AVAILABLE");
 		} else {
 			logger.error(`Transaction with id ${txnId} not found`);
 		}
