@@ -43,7 +43,7 @@ export class DataService {
 				const sessionPayload = {
 					sessionId: sessionData.sessionId ?? key,
 					npType: sessionData.subscriberType,
-					npId: sessionData,
+					npId: subscriberUri,
 					domain: payload.context.domain,
 					version: payload.context.version ?? payload.context.core_version,
 					sessionType: "AUTOMATION",
