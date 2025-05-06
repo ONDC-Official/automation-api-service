@@ -7,6 +7,8 @@ import { v4 as uuidV4 } from "uuid";
 import { SessionController } from "../controllers/session-controller";
 import { ApiServiceRequest } from "../types/request-types";
 import { TransactionCacheService } from "../services/session-service-rewrite";
+import otelTracing from "../services/tracing-service";
+
 
 const router = express();
 router.use(express.json());
@@ -19,6 +21,12 @@ const sessionController = new SessionController();
 
 router.post(
 	"/:action",
+	otelTracing(
+		'body.context.transaction_id',
+		'body.session_id',
+		'body.context.bap_id',
+		'body.context.bpp_id'
+	),
 	validationController.validateRequestBodyNp,
 	sessionController.receiveNewRequestFromNp,
 	sessionController.createTransaction,

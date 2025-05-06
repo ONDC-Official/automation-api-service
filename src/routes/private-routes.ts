@@ -18,9 +18,17 @@ const commController = new CommunicationController();
 const dbController = new DataController();
 const validationController = new ValidationController();
 const sessionController = new SessionController();
+import otelTracing from "../services/tracing-service";
+
 
 router.post(
 	"/:action",
+	otelTracing(
+		'body.context.transaction_id',
+		'body.session_id',
+		'body.context.bap_id',
+		'body.context.bpp_id'
+	),
 	validationController.validateRequestBodyMock,
 	sessionController.receiveNewRequestFromMock,
 	sessionController.createTransaction,
