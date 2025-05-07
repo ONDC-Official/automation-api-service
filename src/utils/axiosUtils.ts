@@ -1,4 +1,4 @@
-import logger from "./logger";
+import { logger } from "./logger";
 
 export function getAxiosErrorMessage(error: any) {
 	logger.debug(JSON.stringify(error, null, 2));

@@ -1,6 +1,6 @@
 import createServer from "./server";
 import { config } from "./config/serverConfig";
-import logger from "./utils/logger";
+import { logger, logInfo } from "./utils/logger";
 import { RedisService } from "ondc-automation-cache-lib";
 import { configPromise } from "./config/supported-actions";
 
@@ -9,21 +9,21 @@ configPromise
 		RedisService.useDb(0);
 		const app = createServer();
 		const server = app.listen(config.port, () => {
-			logger.info(
-				`Server running on port ${config.port} in ${config.environment} mode`
+			logInfo(
+				{ message: `Server running on port ${config.port} in ${config.environment} mode` }
 			);
 		});
 		// Graceful Shutdown
 		process.on("SIGTERM", () => {
-			logger.info("SIGTERM signal received: closing HTTP server");
+			logInfo({ message: "SIGTERM signal received: closing HTTP server" });
 			server.close(() => {
-				logger.info("HTTP server closed");
+				logInfo({ message: "HTTP server closed" });
 			});
 		});
 		process.on("SIGINT", () => {
-			logger.info("SIGINT signal received: closing HTTP server");
+			logInfo({ message: "SIGINT signal received: closing HTTP server" });
 			server.close(() => {
-				logger.info("HTTP server closed");
+				logInfo({ message: "HTTP server closed" });
 			});
 		});
 	})

@@ -1,5 +1,5 @@
 // import { RedisService } from "ondc-automation-cache-lib";
-// import logger from "../utils/logger";
+// import { logger } from "../utils/logger";
 // import {
 // 	Expectation,
 // 	RequestProperties,

@@ -5,7 +5,7 @@ import {
 	SessionManagementService,
 	TransactionCacheService,
 } from "../services/session-service-rewrite";
-import logger from "../utils/logger";
+import { logError, logger, logInfo } from "../utils/logger";
 import { setInternalServerNack } from "../utils/ackUtils";
 import { saveLog } from "../utils/data-utils/cache-utils";
 
@@ -20,6 +20,13 @@ export class SessionController {
 		res: Response,
 		next: NextFunction
 	) => {
+		logInfo({
+			message: "Entering receiveNewRequestFromNp Middleware",
+			meta: {
+				action: req.params.action,
+			},
+			transaction_id: req.body?.context?.transaction_id,
+		});
 		const action = req.params.action;
 		const body = req.body;
 		const sub = computeSubscriberUri(body.context, action, false);
@@ -36,6 +43,13 @@ export class SessionController {
 				properties.sessionId,
 				`Received ${action} with Transaction ID: ${properties.transactionId}`
 			);
+		logInfo({
+			message: "Exiting receiveNewRequestFromNp Middleware",
+			meta: {
+				action: req.params.action,
+			},
+			transaction_id: req.body?.context?.transaction_id,
+		});
 		next();
 	};
 
@@ -44,6 +58,14 @@ export class SessionController {
 		res: Response,
 		next: NextFunction
 	) => {
+
+		logInfo({
+			message: "Entering receiveNewRequestFromMock Middleware",
+			meta: {
+				action: req.params.action,
+			},
+			transaction_id: req.body?.context?.transaction_id,
+		});
 		const action = req.params.action;
 		const body = req.body;
 		const sub = computeSubscriberUri(body.context, action, true);
@@ -66,6 +88,13 @@ export class SessionController {
 				req.requestProperties.sessionId,
 				`Received Mock ${action} with Transaction ID: ${properties.transactionId}`
 			);
+		logInfo({
+			message: "Exiting receiveNewRequestFromMock Middleware",
+			meta: {
+				action: req.params.action,
+			},
+			transaction_id: req.body?.context?.transaction_id,
+		});
 		next();
 	};
 
@@ -74,8 +103,22 @@ export class SessionController {
 		res: Response,
 		next: NextFunction
 	) => {
+		logInfo({
+			message: "Entering createTransaction Middleware",
+			meta: {
+				action: req.params.action,
+			},
+			transaction_id: req.body?.context?.transaction_id,
+		});
 		if (!req.requestProperties) {
-			logger.error("Request properties not found");
+			// logger.error("Request properties not found");
+			logError({
+				message: "Exiting createTransaction Middleware. Request properties not found",
+				meta: {
+					action: req.params.action,
+				},
+				transaction_id: req.body?.context?.transaction_id,
+			});
 			res.status(200).send(setInternalServerNack);
 			return;
 		}
@@ -85,7 +128,15 @@ export class SessionController {
 			req.requestProperties.subscriberUrl
 		);
 		if (!transactionData) {
-			logger.info("Transaction not found, creating new transaction");
+			// logger.info("Transaction not found, creating new transaction");
+
+			logInfo({
+				message: "Transaction not found, creating new transaction",
+				meta: {
+					action: req.params.action,
+				},
+				transaction_id: req.body?.context?.transaction_id,
+			});
 			transactionData = await transService.createTransaction(
 				transService.createTransactionKey(
 					req.requestProperties.transactionId,
@@ -95,6 +146,13 @@ export class SessionController {
 				req.body.context
 			);
 		}
+		logInfo({
+			message: "Exiting createTransaction Middleware",
+			meta: {
+				action: req.params.action,
+			},
+			transaction_id: req.body?.context?.transaction_id,
+		});
 		next();
 	};
 }
