@@ -1,3 +1,4 @@
+require("./config/otelConfig")
 import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import logger from "./utils/logger";
