@@ -1,3 +1,4 @@
+import { logInfo } from "../../utils/logger";
 import { validationOutput } from "./types";
 
 export async function performL1CustomValidations(
@@ -6,7 +7,15 @@ export async function performL1CustomValidations(
 	allErrors = false,
 	externalData = {}
 ): Promise<validationOutput> {
-	console.log("Performing custom L1 validations for action: " + action);
+	// console.log("Performing custom L1 validations for action: " + action);
+	logInfo({
+		message: "Performing custom L1 validations",
+		meta: {
+			action,
+			allErrors,
+			externalData,
+		},
+	});
 	return [
 		{
 			valid: true,

@@ -1,5 +1,5 @@
 import { parse } from "path";
-import logger from "./logger";
+import { logger } from "./logger";
 
 type AckResponse = {
 	context?: any;

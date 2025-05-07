@@ -1,5 +1,5 @@
 import { RedisService } from "ondc-automation-cache-lib";
-import logger from "../utils/logger";
+import { logError, logger, logInfo } from "../utils/logger";
 import {
 	Expectation,
 	RequestProperties,
@@ -25,15 +25,33 @@ export class SessionManagementService {
 		subscriberUrl: string,
 		subscriberType: "BAP" | "BPP"
 	): Promise<RequestProperties> => {
+		logInfo({
+			message: `Entering receiveRequestFromNp Function. received request for action ${action} and transactionId ${body.context?.transaction_id} from subscriber ${subscriberUrl}`,
+			meta: {
+				action,
+				subscriberUrl,
+				subscriberType,
+			},
+			transaction_id: body.context?.transaction_id,
+		});
 		const txnId = body.context.transaction_id;
-		logger.info(
-			`received request for action ${action} and transactionId ${txnId} from subscriber ${subscriberUrl}`
-		);
+		// logger.info(
+		// 	`received request for action ${action} and transactionId ${txnId} from subscriber ${subscriberUrl}`
+		// );
 		if (
 			await this.transactionService.checkIfTransactionExists(
 				this.transactionService.createTransactionKey(txnId, subscriberUrl)
 			)
 		) {
+			logInfo({
+				message: `Exiting receiveRequestFromNp Function.  Transaction already exists for ${txnId} and subscriber ${subscriberUrl}`,
+				meta: {
+					action,
+					subscriberUrl,
+					subscriberType,
+				},
+				transaction_id: body.context?.transaction_id,
+			});
 			return await this.handleExistingTransaction(txnId, action, subscriberUrl);
 		} else {
 			if (await this.subscriberService.checkIfSubscriberExists(subscriberUrl)) {
@@ -56,7 +74,15 @@ export class SessionManagementService {
 							txnId
 						);
 					}
-
+					logInfo({
+						message: `Exiting receiveRequestFromNp Function.  Successfully fulfilled expectation for ${txnId} and subscriber ${subscriberUrl}`,
+						meta: {
+							action,
+							subscriberUrl,
+							subscriberType,	
+						},
+						transaction_id: body.context?.transaction_id,
+					});
 					return {
 						action: action,
 						transactionId: txnId,
@@ -69,6 +95,15 @@ export class SessionManagementService {
 					};
 				}
 			}
+			logInfo({
+				message: `Exiting receiveRequestFromNp Function.`,
+				meta: {
+					action,
+					subscriberUrl,
+					subscriberType,
+				},
+				transaction_id: body.context?.transaction_id,
+			});
 			return await this.getDefaultProperties(
 				action,
 				txnId,
@@ -86,25 +121,67 @@ export class SessionManagementService {
 		sessionId?: string,
 		flowId?: string
 	): Promise<RequestProperties> => {
+		logInfo({
+			message: `Entering receiveRequestFromMock Function.`,
+			meta: {
+				action,
+				subscriberUrl,
+				subscriberType,
+				sessionId,
+				flowId,
+			},
+			transaction_id: body.context?.transaction_id,
+		});
 		const txnId = body.context.transaction_id;
 		if (
 			await this.transactionService.checkIfTransactionExists(
 				this.transactionService.createTransactionKey(txnId, subscriberUrl)
 			)
 		) {
+			logInfo({
+				message: `Exiting receiveRequestFromMock Function.  Transaction already exists for ${txnId} and subscriber ${subscriberUrl}`,
+				meta: {
+					action,
+					subscriberUrl,
+					subscriberType,
+				},
+				transaction_id: body.context?.transaction_id,
+			});
 			return await this.handleExistingTransaction(txnId, action, subscriberUrl);
 		}
-		logger.info(
-			`received request for action ${action} and transactionId ${txnId} from mock with session ${
-				sessionId ?? "default"
-			}`
-		);
+		// logger.info(
+		// 	`received request for action ${action} and transactionId ${txnId} from mock with session ${
+		// 		sessionId ?? "default"
+		// 	}`
+		// );
+		logInfo({
+			message: `Received request for action ${action} and transactionId ${txnId} from mock with session ${
+				sessionId ?? "default" }`,
+			meta: {
+				action,
+				subscriberUrl,
+				subscriberType,
+			},
+			transaction_id: body.context?.transaction_id,
+		});
 		if (flowId && sessionId) {
 			const session =
 				await this.sessionService.loadSessionThatExists(sessionId);
 			if (session.flowMap[flowId] === undefined) {
 				await this.assignTransactionToSession(sessionId, flowId, txnId);
 			}
+			logInfo({
+				message: `Exiting receiveRequestFromMock Function.  Transaction assigned to session ${sessionId} and
+				flow ${flowId} for ${txnId} and subscriber ${subscriberUrl}`,
+				meta: {	
+					action,
+					subscriberUrl,
+					subscriberType,
+					sessionId,
+					flowId,
+				},
+				transaction_id: body.context?.transaction_id,
+			});
 			return {
 				action: action,
 				transactionId: txnId,
@@ -116,6 +193,17 @@ export class SessionManagementService {
 				difficulty: session.sessionDifficulty,
 			};
 		}
+		logInfo({
+			message: `Exiting receiveRequestFromMock Function.`,
+			meta: {
+				action,
+				subscriberUrl,
+				subscriberType,
+				sessionId,
+				flowId,
+			},
+			transaction_id: body.context?.transaction_id,
+		});
 		return await this.getDefaultProperties(
 			action,
 			txnId,
@@ -129,11 +217,29 @@ export class SessionManagementService {
 		action: string,
 		subscriberUrl: string
 	) => {
+		logInfo({
+			message: `Entering handleExistingTransaction Function.`,
+			meta: {
+				txnId,
+				action,
+				subscriberUrl,
+			},
+			transaction_id: txnId,
+		});
 		const transaction = await this.transactionService.loadTransactionThatExists(
 			this.transactionService.createTransactionKey(txnId, subscriberUrl)
 		);
 		const relatedData = transaction;
-		logger.info(`transaction exists with id ${txnId}`);
+		// logger.info(`transaction exists with id ${txnId}`);
+		logInfo({
+			message: `Transaction exists with id ${txnId}`,
+			meta: {
+				txnId,
+				action,
+				subscriberUrl,
+			},
+			transaction_id: txnId,
+		});
 		let difficulty = this.defaultDifficulties;
 		if (
 			relatedData.sessionId &&
@@ -154,6 +260,15 @@ export class SessionManagementService {
 			flowId: relatedData.flowId,
 			difficulty: difficulty,
 		};
+		logInfo({
+			message: `Exiting handleExistingTransaction Function.`,
+			meta: {
+				txnId,
+				action,
+				subscriberUrl,
+			},
+			transaction_id: txnId,
+		});
 		return properties;
 	};
 
@@ -162,23 +277,51 @@ export class SessionManagementService {
 		subscriberUrl: string,
 		action: string
 	) => {
-		logger.info(
-			`trying to fulfill expectation for action ${action} in subscriber ${subscriberUrl}`
-		);
+		// logger.info(
+		// 	`trying to fulfill expectation for action ${action} in subscriber ${subscriberUrl}`
+		// );
+		logInfo({
+			message: `Entering tryFulfillExpectation Function. Trying to fulfill expectation for action ${action} in subscriber ${subscriberUrl}`,
+			meta: {
+				action,
+				subscriberUrl,
+			},
+		});
 		let expectations = subscriber.activeSessions.filter(
 			(e) => Date.now() < new Date(e.expireAt).getTime()
 		);
 		const target = expectations.find((exp) => exp.expectedAction === action);
 		if (target) {
-			logger.info(
-				`FOUND! expectation for action ${action} in subscriber ${subscriberUrl}`
-			);
+			// logger.info(
+			// 	`FOUND! expectation for action ${action} in subscriber ${subscriberUrl}`
+			// );
+			logInfo({
+				message: `Found expectation for action ${action} in subscriber ${subscriberUrl}`,
+				meta: {
+					action,
+					subscriberUrl,
+				},
+			});
 			expectations = expectations.filter((e) => e.expectedAction !== action);
 			subscriber.activeSessions = expectations;
 			await this.subscriberService.updateSubscriber(subscriber, subscriberUrl);
+			logInfo({
+				message: `Exiting tryFulfillExpectation Function.`,
+				meta: {
+					action,
+					subscriberUrl,
+				},
+			});
 			return target;
 		}
 		await this.subscriberService.updateSubscriber(subscriber, subscriberUrl);
+		logInfo({
+			message: `Exiting tryFulfillExpectation Function.`,
+			meta: {
+				action,
+				subscriberUrl,
+			},
+		});
 		return undefined;
 	};
 
@@ -187,11 +330,29 @@ export class SessionManagementService {
 		flowId: string,
 		transactionId: string
 	) => {
+		logInfo({
+			message: `Entering assignTransactionToSession Function.`,
+			meta: {
+				sessionId,
+				flowId,
+				transactionId,
+			},
+			transaction_id: transactionId,
+		});
 		await this.sessionService.updateSessionCache(
 			sessionId,
 			flowId,
 			transactionId
 		);
+		logInfo({
+			message: `Exiting assignTransactionToSession Function.`,
+			meta: {
+				sessionId,
+				flowId,
+				transactionId,
+			},
+			transaction_id: transactionId,
+		});
 	};
 
 	getDefaultProperties = async (
@@ -200,6 +361,16 @@ export class SessionManagementService {
 		subscriberUrl: string,
 		subscriberType: "BAP" | "BPP"
 	) => {
+		logInfo({
+			message: `Entering getDefaultProperties Function.`,
+			meta: {
+				action,
+				transactionId,
+				subscriberUrl,
+				subscriberType,
+			},
+			transaction_id: transactionId,
+		});
 		const defaultProp: RequestProperties = {
 			difficulty: this.defaultDifficulties,
 			env: "STAGING",
@@ -209,6 +380,17 @@ export class SessionManagementService {
 			subscriberType: subscriberType,
 			subscriberUrl: subscriberUrl,
 		};
+		logInfo({
+			message: `Exiting getDefaultProperties Function.`,
+			meta: {
+				action,
+				transactionId,
+				subscriberUrl,
+				subscriberType,
+			},
+			transaction_id: transactionId,
+		});
+		
 		return defaultProp;
 	};
 
@@ -224,25 +406,83 @@ export class SessionManagementService {
 
 export class TransactionCacheService {
 	tryLoadTransaction = async (transactionId: string, subscriberUrl: string) => {
+		logInfo({
+			message: `Entering tryLoadTransaction Function.`,
+			meta: {
+				transactionId,
+				subscriberUrl,
+			},
+		});
+
 		const key = this.createTransactionKey(transactionId, subscriberUrl);
 		if (await this.checkIfTransactionExists(key)) {
+			logInfo({
+				message: `Exiting tryLoadTransaction Function. Transaction with id ${transactionId} found`,
+				meta: {
+					transactionId,
+					subscriberUrl,
+				},
+			});
 			return this.loadTransactionThatExists(key);
 		}
+		logInfo({
+			message: `Exiting tryLoadTransaction Function. Transaction with id ${transactionId} not found`,
+			meta: {
+				transactionId,
+				subscriberUrl,
+			},
+		});
 		return undefined;
 	};
 	checkIfTransactionExists = async (transSubKey: string) => {
+		logInfo({
+			message: `Entering checkIfTransactionExists Function.`,
+			meta: {
+				transSubKey,
+			},
+		});
 		let exists = await RedisService.keyExists(transSubKey);
-		logger.info(
-			`cache for transaction with id ${transSubKey} exists ${exists}`
-		);
+		// logger.info(
+		// 	`cache for transaction with id ${transSubKey} exists ${exists}`
+		// );
+		logInfo({
+			message: `Cache for transaction with id ${transSubKey} exists ${exists}`,
+			meta: {
+				transSubKey,
+			},
+		});
+		logInfo({
+			message: `Exiting checkIfTransactionExists Function.`,
+			meta: {
+				transSubKey,
+			},
+		});
 		return exists;
 	};
 	loadTransactionThatExists = async (transSubKey: string) => {
+		logInfo({
+			message: `Entering loadTransactionThatExists Function.`,
+			meta: {
+				transSubKey,
+			},
+		});
 		const rawData = await RedisService.getKey(transSubKey);
 		if (!rawData) {
-			logger.error(`Transaction with id ${transSubKey} not found`);
+			// logger.error(`Transaction with id ${transSubKey} not found`);
+			logInfo({
+				message: `Exiting loadTransactionThatExists Function. Transaction with id ${transSubKey} not found`,
+				meta: {
+					transSubKey,
+				},
+			});
 			throw new Error(`Transaction with id ${transSubKey} not found`);
 		}
+		logInfo({
+			message: `Exiting loadTransactionThatExists Function.`,
+			meta: {
+				transSubKey,
+			},
+		});
 		return JSON.parse(rawData) as TransactionCache;
 	};
 	updateTransactionCache = async (
@@ -251,8 +491,29 @@ export class TransactionCacheService {
 		responseBody: any,
 		subscriberUrl?: string
 	) => {
+		logInfo({
+			message: `Entering updateTransactionCache Function.`,
+			meta: {
+				payloadID,
+				requestBody,
+				responseBody,
+				subscriberUrl,
+			},
+			transaction_id: requestBody.context.transaction_id,
+		});
+
 		if (!subscriberUrl) {
-			logger.error(`Subscriber url not provided for transaction cache update`);
+			// logger.error(`Subscriber url not provided for transaction cache update`);
+			logInfo({
+				message: `Exiting updateTransactionCache Function. Subscriber url not provided for transaction cache update`,
+				meta: {
+					payloadID,
+					requestBody,
+					responseBody,
+					subscriberUrl,
+				},
+				transaction_id: requestBody.context.transaction_id,
+			});
 			return;
 		}
 		const txnId = requestBody.context.transaction_id;
@@ -268,11 +529,31 @@ export class TransactionCacheService {
 			});
 			transaction.latestAction = requestBody.context.action;
 			transaction.latestTimestamp = requestBody.context.timestamp;
-			logger.info(`updated transaction with id ${txnId}`);
+			// logger.info(`updated transaction with id ${txnId}`);
 			await RedisService.setKey(key, JSON.stringify(transaction));
 			await setFlowStatusService(txnId, subscriberUrl, "AVAILABLE");
+			logInfo({
+				message: `Exiting updateTransactionCache Function. Transaction with id ${txnId} updated`,
+				meta: {
+					payloadID,
+					requestBody,
+					responseBody,
+					subscriberUrl,
+				},
+				transaction_id: requestBody.context.transaction_id,
+			});
 		} else {
-			logger.error(`Transaction with id ${txnId} not found`);
+			// logger.error(`Transaction with id ${txnId} not found`);
+			logInfo({
+				message: `Exiting updateTransactionCache Function. Transaction with id ${txnId} not found`,
+				meta: {
+					payloadID,
+					requestBody,
+					responseBody,
+					subscriberUrl,
+				},
+				transaction_id: requestBody.context.transaction_id,
+			});
 		}
 	};
 	createTransaction = async (
@@ -280,6 +561,15 @@ export class TransactionCacheService {
 		request: RequestProperties,
 		context: BecknContext
 	) => {
+		logInfo({
+			message: `Entering createTransaction Function.`,
+			meta: {
+				transSubKey,
+				request,
+				context,
+			},
+			transaction_id: context.transaction_id,
+		});
 		// ! this will over write already existing subscriber transaction
 		const transaction: TransactionCache = {
 			sessionId: request.sessionId,
@@ -292,30 +582,82 @@ export class TransactionCacheService {
 			apiList: [],
 		};
 		await RedisService.setKey(transSubKey, JSON.stringify(transaction));
-		logger.info(`created transaction with id ${transSubKey}`);
+		// logger.info(`created transaction with id ${transSubKey}`);
+		logInfo({
+			message: `Exiting createTransaction Function. Transaction with id ${transSubKey} created`,
+			meta: {
+				transSubKey,
+				request,
+				context,
+			},
+			transaction_id: context.transaction_id,
+			});
 		return transaction;
 	};
 	createTransactionKey = (transactionId: string, subscriberUrl: string) => {
+		logInfo({
+			message: `Inside createTransactionKey Function.`,
+			meta: {
+				transactionId,
+				subscriberUrl,
+			},
+		});
 		return `${transactionId.trim()}::${subscriberUrl.trim()}`;
 	};
 }
 
 export class SessionCacheService {
 	checkIfSessionExists = async (sessionId?: string) => {
+		logInfo({
+			message: `Entering checkIfSessionExists Function.`,	
+			meta: {
+				sessionId,
+			},
+		});
 		if (!sessionId) {
-			logger.error(`Session id is not provided`);
+			// logger.error(`Session id is not provided`);
+			logInfo({
+				message: `Exiting checkIfSessionExists Function. Session id is not provided`,
+				meta: {
+					sessionId,
+				},
+			});
 			return false;
 		}
 		const exists = await RedisService.keyExists(sessionId);
-		logger.info(`cache for session with id ${sessionId} exists ${exists}`);
+		// logger.info(`cache for session with id ${sessionId} exists ${exists}`);
+		logInfo({
+			message: `Exiting checkIfSessionExists Function. Cache for session with id ${sessionId} exists ${exists}`,
+			meta: {
+				sessionId,
+			},
+		});
 		return exists;
 	};
 	loadSessionThatExists = async (sessionId: string) => {
+		logInfo({
+			message: `Entering loadSessionThatExists Function.`,
+			meta: {
+				sessionId,
+			},
+		});
 		const rawData = await RedisService.getKey(sessionId);
 		if (!rawData) {
-			logger.error(`Session with id ${sessionId} not found`);
+			// logger.error(`Session with id ${sessionId} not found`);
+			logInfo({
+				message: `Exiting loadSessionThatExists Function. Session with id ${sessionId} not found`,
+				meta: {
+					sessionId,
+				},
+			});
 			throw new Error(`Session with id ${sessionId} not found`);
 		}
+		logInfo({
+			message: `Exiting loadSessionThatExists Function.`,
+			meta: {
+				sessionId,
+			},
+		});
 		return JSON.parse(rawData) as SessionCache;
 	};
 	updateSessionCache = async (
@@ -323,30 +665,88 @@ export class SessionCacheService {
 		flowId: string,
 		transactionId: string
 	) => {
+		logInfo({
+			message: `Entering updateSessionCache Function.`,
+			meta: {
+				sessionId,
+				flowId,
+				transactionId,
+			},
+			transaction_id: transactionId,
+		});
 		if ((await this.checkIfSessionExists(sessionId)) === false) {
-			logger.warn(`Session with id ${sessionId} not found skipping update`);
+			// logger.warn(`Session with id ${sessionId} not found skipping update`);
+			logInfo({
+				message: `Exiting updateSessionCache Function. Session with id ${sessionId} not found skipping update`,
+				meta: {
+					sessionId,
+					flowId,
+					transactionId,
+				},
+				transaction_id: transactionId,
+			});
 			return;
 		}
 		const session = await this.loadSessionThatExists(sessionId);
 		session.transactionIds.push(transactionId);
 		session.flowMap[flowId] = transactionId;
 		await RedisService.setKey(sessionId, JSON.stringify(session));
-		logger.info(`updated session with id ${sessionId}`);
+		// logger.info(`updated session with id ${sessionId}`);
+		logInfo({
+			message: `Exiting updateSessionCache Function. Session with id ${sessionId} updated`,
+			meta: {
+				sessionId,
+				flowId,
+				transactionId,
+			},
+			transaction_id: transactionId,
+		});
 	};
 }
 
 export class SubscriberCacheService {
 	checkIfSubscriberExists = async (subscriberUrl: string) => {
+		logInfo({
+			message: `Entering checkIfSubscriberExists Function.`,
+			meta: {
+				subscriberUrl,
+			},
+		});
 		const exists = await RedisService.keyExists(subscriberUrl);
-		logger.info(
-			`cache for subscriber with url ${subscriberUrl} exists ${exists}`
-		);
+		// logger.info(
+		// 	`cache for subscriber with url ${subscriberUrl} exists ${exists}`
+		// );
+		logInfo({
+			message: `Cache for subscriber with url ${subscriberUrl} exists ${exists}`,
+			meta: {
+				subscriberUrl,
+			},
+		});
+		logInfo({
+			message: `Exiting checkIfSubscriberExists Function.`,
+			meta: {
+				subscriberUrl,
+			},
+		});
 		return exists;
 	};
 	loadSubscriberThatExists = async (subscriberUrl: string) => {
+		logInfo({
+			message: `Entering loadSubscriberThatExists Function.`,
+			meta: {
+				subscriberUrl,
+			},
+		});
+		
 		const rawData = await RedisService.getKey(subscriberUrl);
 		if (!rawData) {
-			logger.error(`Subscriber with url ${subscriberUrl} not found`);
+			// logger.error(`Subscriber with url ${subscriberUrl} not found`);
+			logInfo({
+				message: `Exiting loadSubscriberThatExists Function. Subscriber with url ${subscriberUrl} not found`,
+				meta: {
+					subscriberUrl,
+				},
+			});
 			throw new Error(`Subscriber with url ${subscriberUrl} not found`);
 		}
 
@@ -354,13 +754,31 @@ export class SubscriberCacheService {
 		if (data.activeSessions === undefined) {
 			data.activeSessions = [];
 		}
+		logInfo({
+			message: `Exiting loadSubscriberThatExists Function.`,
+			meta: {
+				subscriberUrl,
+			},
+		});
 		return data;
 	};
 	updateSubscriber = async (
 		subscriber: SubscriberCache,
 		subscriberUrl: string
 	) => {
+		logInfo({
+			message: `Entering updateSubscriber Function.`,
+			meta: {
+				subscriberUrl,
+			},
+		});
 		await RedisService.setKey(subscriberUrl, JSON.stringify(subscriber));
-		logger.info(`updated subscriber with url ${subscriberUrl}`);
+		// logger.info(`updated subscriber with url ${subscriberUrl}`);
+		logInfo({
+			message: `Exiting updateSubscriber Function.`,
+			meta: {
+				subscriberUrl,
+			},
+		});
 	};
 }

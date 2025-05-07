@@ -1,6 +1,6 @@
 import Ajv from "ajv";
 import addFormats from "ajv-formats";
-import logger from "../../utils/logger";
+import { logDebug, logError, logger, logInfo } from "../../utils/logger";
 import getSchema from "../L0-schemas";
 import { shouldAddContext } from "../../utils/ackUtils";
 
@@ -30,14 +30,26 @@ function checkInvalidFields(payload : any, parentPath = '') {
 }
 
 export function performL0Validations(actionPayload: any, action: string) {
-	logger.info("Performing L0 validations", action);
+	// logger.info("Performing L0 validations", action);
+	logInfo({
+		message: "Performing L0 validations",
+		meta: {
+			action,
+		},
+	});
 	try {	
 
 		if(shouldAddContext() === false){
 			const invalidFileds = checkInvalidFields(actionPayload);
 			if (invalidFileds.length > 0) {
 				const errorMessages = invalidFileds.map((field : string) => `${field} should not be empty`).join(",");
-				logger.info("L0 validations result", JSON.stringify(errorMessages));
+				// logger.info("L0 validations result", JSON.stringify(errorMessages));
+				logDebug({
+					message: "L0 validations result",
+					meta: {
+						errorMessages,
+					},
+				});
 				return { valid: false, errors: errorMessages };
 			}
 		}
@@ -48,10 +60,23 @@ export function performL0Validations(actionPayload: any, action: string) {
 		const validate = ajv.compile(schema as any);
 		const valid = validate(actionPayload);
 		if (!valid) return createErrorMessage(validate, valid);
-		logger.info("L0 validations result", JSON.stringify(validate));
+		// logger.info("L0 validations result", JSON.stringify(validate));
+		logDebug({
+			message: "L0 validations result",
+			meta: {
+				valid,
+			},
+		});
 		return { valid: valid, errors: validate.errors };
 	} catch (e) {
-		logger.error("Error in L0 validations", e);
+		// logger.error("Error in L0 validations", e);
+		logError({
+			message: "Error in L0 validations",
+			error: e,
+			meta: {
+				action,
+			},
+		});
 		return { valid: false, errors: "invalid action" };
 	}
 }

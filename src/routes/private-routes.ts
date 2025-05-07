@@ -2,7 +2,7 @@ import express, { NextFunction, Response } from "express";
 import { CommunicationController } from "../controllers/communication-controller";
 import { DataController } from "../controllers/data-controller";
 import { ValidationController } from "../controllers/validation-controller";
-import logger from "../utils/logger";
+import { logger, logInfo } from "../utils/logger";
 import { v4 as uuidV4 } from "uuid";
 import { SessionController } from "../controllers/session-controller";
 import { TransactionCacheService } from "../services/session-service-rewrite";
@@ -35,6 +35,13 @@ function modifyExpressSend(
 	res: Response,
 	next: NextFunction
 ) {
+	logInfo({
+		message: "Entering modifyExpressSend Middleware",
+		meta: {
+			action: req.params.action,
+		},
+		transaction_id: req.body?.context?.transaction_id,
+	});
 	// Ensure `res.send` is wrapped only once
 	if (!res.locals.isSendWrapped) {
 		res.locals.isSendWrapped = true; // Flag to indicate the wrapping is done
@@ -62,6 +69,13 @@ function modifyExpressSend(
 			return originalSend.call(this, body); // Call the original send method
 		};
 	}
+	logInfo({
+		message: "Exiting modifyExpressSend Middleware",
+		meta: {
+			action: req.params.action,
+		},
+		transaction_id: req.body?.context?.transaction_id,
+	});
 	next();
 }
 
