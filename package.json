@@ -46,7 +46,16 @@
 		"vlookup-ondc": "^1.0.3",
 		"winston": "^3.16.0",
 		"winston-daily-rotate-file": "^5.0.0",
-		"winston-loki": "^6.1.3"
+		"winston-loki": "^6.1.3",
+		"@opentelemetry/api": "1.9.0",
+		"@opentelemetry/auto-instrumentations-node": "0.57.1",
+		"@opentelemetry/exporter-jaeger": "2.0.0",
+		"@opentelemetry/exporter-prometheus": "0.200.0",
+		"@opentelemetry/resources": "^1.8.0",
+		"@opentelemetry/sdk-logs": "0.200.0",
+		"@opentelemetry/sdk-metrics": "2.0.0",
+		"@opentelemetry/sdk-node": "0.200.0",
+		"@opentelemetry/semantic-conventions": "1.32.0"
 	},
 	"devDependencies": {
 		"@types/cors": "^2.8.17",
