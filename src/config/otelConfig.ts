@@ -1,6 +1,6 @@
 'use strict';
 require('dotenv').config();
-import logger from "../utils/logger";
+import { logger } from "../utils/logger";
 logger.info("Starting opentelemetry tracing for automation-api-service");
 const { NodeSDK } = require('@opentelemetry/sdk-node');
 const { getNodeAutoInstrumentations } = require('@opentelemetry/auto-instrumentations-node');
