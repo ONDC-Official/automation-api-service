@@ -8,7 +8,7 @@ import { SessionController } from "../controllers/session-controller";
 import { TransactionCacheService } from "../services/session-service-rewrite";
 import { ApiServiceRequest } from "../types/request-types";
 import { setFlowStatusService } from "../services/mock-flow-status";
-
+import apiKeyValidation from "../middleware/api-key";
 const router = express();
 
 router.use(express.json());
@@ -23,6 +23,7 @@ import otelTracing from "../services/tracing-service";
 
 router.post(
 	"/:action",
+	apiKeyValidation,
 	otelTracing(
 		'body.context.transaction_id',
 		'body.session_id',

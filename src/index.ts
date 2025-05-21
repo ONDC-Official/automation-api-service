@@ -1,6 +1,6 @@
 import createServer from "./server";
 import { config } from "./config/serverConfig";
-import { logger, logInfo } from "./utils/logger";
+import { logError, logger, logInfo } from "./utils/logger";
 import { RedisService } from "ondc-automation-cache-lib";
 import { configPromise } from "./config/supported-actions";
 
@@ -28,5 +28,9 @@ configPromise
 		});
 	})
 	.catch((error) => {
-		logger.error("Error loading config from API:", error);
+		// logger.error("Error loading config from API:", error);
+		logError({
+			message: "Error loading config from API",
+			error: error,
+		});
 	});
