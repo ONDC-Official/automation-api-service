@@ -12,6 +12,7 @@ import responseLog from "./middleware/response-log";
 import { gzipOrJsonBodyParser } from "./middleware/gzip-ware";
 
 const createServer = (): Application => {
+	console.log("running api service server...");
 	const app = express();
 
 	// Middleware
