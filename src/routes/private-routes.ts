@@ -7,11 +7,10 @@ import { v4 as uuidV4 } from "uuid";
 import { SessionController } from "../controllers/session-controller";
 import { TransactionCacheService } from "../services/session-service-rewrite";
 import { ApiServiceRequest } from "../types/request-types";
-import { setFlowStatusService } from "../services/mock-flow-status";
 
 const router = express();
 
-router.use(express.json());
+// router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
 const commController = new CommunicationController();
@@ -20,14 +19,13 @@ const validationController = new ValidationController();
 const sessionController = new SessionController();
 import otelTracing from "../services/tracing-service";
 
-
 router.post(
 	"/:action",
 	otelTracing(
-		'body.context.transaction_id',
-		'body.session_id',
-		'body.context.bap_id',
-		'body.context.bpp_id'
+		"body.context.transaction_id",
+		"body.session_id",
+		"body.context.bap_id",
+		"body.context.bpp_id"
 	),
 	validationController.validateRequestBodyMock,
 	sessionController.receiveNewRequestFromMock,

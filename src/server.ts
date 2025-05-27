@@ -1,4 +1,4 @@
-require("./config/otelConfig")
+require("./config/otelConfig");
 import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import { logError, logger } from "./utils/logger";
@@ -9,12 +9,14 @@ import { setAckResponse, setBadRequestNack } from "./utils/ackUtils";
 import mockRouter from "./routes/private-routes";
 import requestLog from "./middleware/request-log";
 import responseLog from "./middleware/response-log";
+import { gzipOrJsonBodyParser } from "./middleware/gzip-ware";
 
 const createServer = (): Application => {
 	const app = express();
 
 	// Middleware
-	app.use(express.json({ limit: "50mb" }));
+	// app.use(express.json({ limit: "50mb" }));
+	app.use(gzipOrJsonBodyParser({ limit: "50mb" }));
 	app.use(cors());
 
 	// Log all requests in development

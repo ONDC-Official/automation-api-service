@@ -19,6 +19,7 @@ export interface SessionData {
 		protocolValidations: boolean;
 		timeValidations: boolean;
 		headerValidaton: boolean;
+		useGzip: boolean;
 	};
 }
 

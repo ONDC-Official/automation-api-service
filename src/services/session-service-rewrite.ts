@@ -79,7 +79,7 @@ export class SessionManagementService {
 						meta: {
 							action,
 							subscriberUrl,
-							subscriberType,	
+							subscriberType,
 						},
 						transaction_id: body.context?.transaction_id,
 					});
@@ -156,7 +156,8 @@ export class SessionManagementService {
 		// );
 		logInfo({
 			message: `Received request for action ${action} and transactionId ${txnId} from mock with session ${
-				sessionId ?? "default" }`,
+				sessionId ?? "default"
+			}`,
 			meta: {
 				action,
 				subscriberUrl,
@@ -173,7 +174,7 @@ export class SessionManagementService {
 			logInfo({
 				message: `Exiting receiveRequestFromMock Function.  Transaction assigned to session ${sessionId} and
 				flow ${flowId} for ${txnId} and subscriber ${subscriberUrl}`,
-				meta: {	
+				meta: {
 					action,
 					subscriberUrl,
 					subscriberType,
@@ -390,7 +391,7 @@ export class SessionManagementService {
 			},
 			transaction_id: transactionId,
 		});
-		
+
 		return defaultProp;
 	};
 
@@ -401,6 +402,7 @@ export class SessionManagementService {
 		protocolValidations: true,
 		timeValidations: true,
 		headerValidaton: true,
+		useGzip: false,
 	};
 }
 
@@ -591,7 +593,7 @@ export class TransactionCacheService {
 				context,
 			},
 			transaction_id: context.transaction_id,
-			});
+		});
 		return transaction;
 	};
 	createTransactionKey = (transactionId: string, subscriberUrl: string) => {
@@ -609,7 +611,7 @@ export class TransactionCacheService {
 export class SessionCacheService {
 	checkIfSessionExists = async (sessionId?: string) => {
 		logInfo({
-			message: `Entering checkIfSessionExists Function.`,	
+			message: `Entering checkIfSessionExists Function.`,
 			meta: {
 				sessionId,
 			},
@@ -737,7 +739,7 @@ export class SubscriberCacheService {
 				subscriberUrl,
 			},
 		});
-		
+
 		const rawData = await RedisService.getKey(subscriberUrl);
 		if (!rawData) {
 			// logger.error(`Subscriber with url ${subscriberUrl} not found`);

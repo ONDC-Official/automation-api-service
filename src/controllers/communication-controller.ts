@@ -1,9 +1,9 @@
 import { setAckResponse, setInternalServerNack } from "../utils/ackUtils";
 import { Response } from "express";
-import { logError, logger, logInfo } from "../utils/logger";
+import { logError, logInfo } from "../utils/logger";
 import { CommunicationService } from "../services/forwarding-service";
 import { BecknContext } from "../models/beckn-types";
-import { loadData, saveLog } from "../utils/data-utils/cache-utils";
+import { saveLog } from "../utils/data-utils/cache-utils";
 import { ApiServiceRequest } from "../types/request-types";
 
 export class CommunicationController {
@@ -82,7 +82,8 @@ export class CommunicationController {
 			if (!req.requestProperties) {
 				// logger.error("[FATAL]: Request properties not found");
 				logError({
-					message: "Exiting handleRequestFromMockServer Middleware. Request properties not found",
+					message:
+						"Exiting handleRequestFromMockServer Middleware. Request properties not found",
 					meta: {
 						action: req.params.action,
 					},
@@ -102,19 +103,23 @@ export class CommunicationController {
 						action: req.params.action,
 					},
 					transaction_id: req.body?.context?.transaction_id,
-				});	
+				});
+
 				const response = await this.communicationService.forwardApiToNp(
 					req.body,
-					req.params.action
+					req.params.action,
+					undefined,
+					req.requestProperties
 				);
 				res.status(response.status).send(response.data);
 				logInfo({
-					message: "Exiting handleRequestFromMockServer Middleware.  Successfully forwarded request to NP server",
+					message:
+						"Exiting handleRequestFromMockServer Middleware.  Successfully forwarded request to NP server",
 					meta: {
 						action: req.params.action,
 					},
 					transaction_id: req.body?.context?.transaction_id,
-					});
+				});
 
 				return;
 			}
@@ -134,12 +139,13 @@ export class CommunicationController {
 				);
 				res.status(response.status).send(response.data);
 				logInfo({
-					message: "Exiting handleRequestFromMockServer Middleware.  Successfully forwarded request to Gateway server",
+					message:
+						"Exiting handleRequestFromMockServer Middleware.  Successfully forwarded request to Gateway server",
 					meta: {
 						action: req.params.action,
 					},
 					transaction_id: req.body?.context?.transaction_id,
-					});
+				});
 				return;
 			} else {
 				// logger.info("Forwarding request to NP server");
@@ -154,16 +160,18 @@ export class CommunicationController {
 				const response = await this.communicationService.forwardApiToNp(
 					req.body,
 					req.params.action,
-					subUrl
+					subUrl,
+					req.requestProperties
 				);
 				res.status(response.status).send(response.data);
 				logInfo({
-					message: "Exiting handleRequestFromMockServer Middleware.  Successfully forwarded request to NP server",
+					message:
+						"Exiting handleRequestFromMockServer Middleware.  Successfully forwarded request to NP server",
 					meta: {
 						action: req.params.action,
 					},
 					transaction_id: req.body?.context?.transaction_id,
-					});
+				});
 				return;
 			}
 		} catch (error) {

@@ -9,6 +9,7 @@ export type SessionDifficulty = {
 	protocolValidations: boolean;
 	timeValidations: boolean;
 	headerValidaton: boolean;
+	useGzip: boolean;
 };
 
 export type Expectation = {
@@ -63,5 +64,7 @@ export interface RequestProperties {
 	difficulty: SessionDifficulty;
 	sessionId?: string;
 	flowId?: string;
-	env?: string;
+	env?: "STAGING" | "PRE-PRODUCTION";
 }
+
+export type EnvType = "STAGING" | "PRE-PRODUCTION";

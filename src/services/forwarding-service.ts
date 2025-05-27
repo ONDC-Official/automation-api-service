@@ -1,11 +1,11 @@
 import axios from "axios";
 import { BecknContext } from "../models/beckn-types";
-import { logError, logger, logInfo } from "../utils/logger";
+import { logError, logInfo } from "../utils/logger";
 import { createAuthHeader } from "../utils/headerUtils";
 import { config } from "../config/registryGatewayConfig";
 import { getAxiosErrorMessage } from "../utils/axiosUtils";
 import { RequestProperties } from "../types/cache-types";
-
+import * as zlib from "zlib";
 export class CommunicationService {
 	forwardApiToMock = async (
 		body: any,
@@ -30,16 +30,23 @@ export class CommunicationService {
 		}
 		// logger.info("Forwarding request to Mock server", url, action);
 		logInfo({
-			message: "Exiting forwardApiToMock Function.  Forwarding request to Mock server",
+			message:
+				"Exiting forwardApiToMock Function.  Forwarding request to Mock server",
 			meta: {
 				url,
 				action,
 			},
 			transaction_id: body?.context?.transaction_id,
 		});
+
 		return await axios.post(url, body);
 	};
-	forwardApiToNp = async (body: any, action: string, overwriteUrl?: string) => {
+	forwardApiToNp = async (
+		body: any,
+		action: string,
+		overwriteUrl?: string,
+		requestProperties?: RequestProperties
+	) => {
 		logInfo({
 			message: "Entering forwardApiToNp Function",
 			meta: {
@@ -63,16 +70,28 @@ export class CommunicationService {
 		});
 
 		const header = await createAuthHeader(body);
+		const useGzip = requestProperties?.difficulty?.useGzip ?? false;
+		let bodyToSend = body;
+		if (useGzip) {
+			logInfo({
+				message: "Compressing body using gzip",
+			});
+			let b = zlib.gzipSync(JSON.stringify(body));
+			bodyToSend = b;
+		}
 		try {
-			const response = await axios.post(`${finalUri}/${action}`, body, {
+			const response = await axios.post(`${finalUri}/${action}`, bodyToSend, {
 				headers: {
 					Authorization: header,
+					"Content-Type": useGzip ? "application/gzip" : "application/json",
+					"Content-Encoding": useGzip ? "gzip" : undefined,
 				},
 			});
 			logInfo({
-				message: "Exiting forwardApiToNp Function. Forwarded request to NP server",
+				message:
+					"Exiting forwardApiToNp Function. Forwarded request to NP server",
 				meta: {
-					finalUri,	
+					finalUri,
 					action,
 					response: response.data,
 				},
@@ -83,9 +102,9 @@ export class CommunicationService {
 				data: response.data,
 			};
 		} catch (error: any) {
-			// logger.error("Error in forwarding request to NP server");
 			logInfo({
-				message: "Exiting forwardApiToNp Function. Error in forwarding request to NP server",
+				message:
+					"Exiting forwardApiToNp Function. Error in forwarding request to NP server",
 				meta: {
 					finalUri,
 					action,
@@ -100,7 +119,10 @@ export class CommunicationService {
 		}
 	};
 
-	forwardApiToGateway = async (body: any) => {
+	forwardApiToGateway = async (
+		body: any,
+		requestProperties?: RequestProperties
+	) => {
 		logInfo({
 			message: "Entering forwardApiToGateway Function",
 			meta: {
@@ -108,7 +130,18 @@ export class CommunicationService {
 			},
 			transaction_id: body?.context?.transaction_id,
 		});
-		const url = config.gateway.STAGING;
+
+		let url = config.gateway.STAGING;
+
+		if (requestProperties?.env) {
+			const env = requestProperties.env.toUpperCase();
+			if (env === "STAGING") {
+				url = config.gateway.STAGING;
+			} else if (env === "PRE-PRODUCTION") {
+				url = config.gateway.PREPROD;
+			}
+		}
+
 		const header = await createAuthHeader(body);
 		try {
 			// logger.info("Forwarding request to Gateway server", url);
@@ -119,7 +152,7 @@ export class CommunicationService {
 					action: body.context.action,
 				},
 				transaction_id: body?.context?.transaction_id,
-			});	
+			});
 			const response = await axios.post(`${url}search`, body, {
 				headers: {
 					Authorization: header,
@@ -127,7 +160,8 @@ export class CommunicationService {
 			});
 			// logger.info(JSON.stringify(response.data));
 			logInfo({
-				message: "Exiting forwardApiToGateway Function. Forwarded request to Gateway server",
+				message:
+					"Exiting forwardApiToGateway Function. Forwarded request to Gateway server",
 				meta: {
 					url,
 					action: body.context.action,

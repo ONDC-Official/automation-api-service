@@ -1,7 +1,8 @@
-import { logError, logger, logInfo } from "./logger";
+import { logError, logInfo } from "./logger";
 import { createAuthorizationHeader } from "ondc-crypto-sdk-nodejs";
 import axios from "axios";
 import { config } from "../config/registryGatewayConfig";
+import { EnvType } from "../types/cache-types";
 
 const createAuthHeader = async (payload: any) => {
 	logInfo({
@@ -26,10 +27,11 @@ const createAuthHeader = async (payload: any) => {
 		return header;
 	} catch (error) {
 		// logger.error("Error while creating Authorization Header", error);
-		logError({
-			message: "Error while creating Authorization Header",
-			error,
-		});	
+		// logError({
+		// 	message: "Error while creating Authorization Header",
+		// 	error,
+		// });
+		console.error(error);
 		throw new Error("Error while creating Authorization Header");
 	}
 };
@@ -50,7 +52,7 @@ const fetchSubscriberDetails = (header: string) => {
 			meta: {
 				header,
 			},
-		});	
+		});
 		return null;
 	}
 
@@ -93,13 +95,13 @@ function extractSignatureKeyId(input: string): string[] {
 	return matches;
 }
 
-async function getPublicKeys(header: string, payload: any): Promise<string> {
+async function getPublicKeys(
+	header: string,
+	payload: any,
+	env?: EnvType
+): Promise<string> {
 	logInfo({
 		message: "Entering getPublicKeys function.  Getting public keys",
-		meta: {
-			header,
-			payload,
-		},
 	});
 	try {
 		const { subscriberId, ukId } = fetchSubscriberDetails(header) || {};
@@ -113,7 +115,7 @@ async function getPublicKeys(header: string, payload: any): Promise<string> {
 			});
 			throw new Error("Subscriber ID or UKID not found");
 		}
-		const response = await performLookup(subscriberId, ukId);
+		const response = await performLookup(subscriberId, ukId, env);
 		logInfo({
 			message: "Exiting getPublicKeys function",
 			meta: {
@@ -131,7 +133,7 @@ async function getPublicKeys(header: string, payload: any): Promise<string> {
 	}
 }
 
-async function performLookup(subId: string, ukId: string) {
+async function performLookup(subId: string, ukId: string, env?: EnvType) {
 	logInfo({
 		message: "Entering performLookup Function. Performing lookup",
 		meta: {
@@ -139,32 +141,27 @@ async function performLookup(subId: string, ukId: string) {
 			ukId,
 		},
 	});
-	const url = `${config.registry.STAGING}lookup`;
+	const baseUrl =
+		env === "PRE-PRODUCTION"
+			? config.registry.PREPROD
+			: config.registry.STAGING;
+	const url = `${baseUrl}lookup`;
 	const data = {
 		subscriber_id: subId,
 		ukId: ukId,
 	};
 	const header = await createAuthHeader(data);
 	try {
+		console.log("look_up url", url);
 		const response = await axios.post(url, data, {
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: header,
 			},
 		});
-		logInfo({
-			message: "Exiting performLookup Function. Lookup performed",
-			meta: {
-				response,
-			},
-		});
 		return response.data[0];
 	} catch (error) {
-		// logger.error("Error while performing lookup", error);
-		logError({
-			message: "Error while performing lookup",
-			error,
-		});
+		console.error("Error while performing lookup", error);
 		throw new Error("Error while performing lookup");
 	}
 }

@@ -3,7 +3,7 @@ import { ValidationController } from "../controllers/validation-controller";
 import { setAckResponse } from "../utils/ackUtils";
 
 const router = express();
-router.use(express.json());
+// router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
 const validationController = new ValidationController();
