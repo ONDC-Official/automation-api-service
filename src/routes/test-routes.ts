@@ -1,7 +1,7 @@
 import express from "express";
 import { ValidationController } from "../controllers/validation-controller";
 import { setAckResponse } from "../utils/ackUtils";
-import apiKeyValidation from "../middleware/api-key";
+
 const router = express();
 // router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
@@ -15,7 +15,6 @@ router.use(
 );
 router.post(
 	"/:action",
-	apiKeyValidation,
 	validationController.validateRequestBodyNp,
 	validationController.validateL0,
 	validationController.validateL1,
@@ -24,9 +23,7 @@ router.post(
 	}
 );
 
-router.get("/",
-	apiKeyValidation,
-	(req, res) => {
+router.get("/", (req, res) => {
 	res.sendFile(
 		path.resolve(__dirname, "../validations/L1-validations/page/index.html")
 	);
