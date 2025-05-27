@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../utils/axios";
 import { logError, logger, logInfo } from "../utils/logger";
 import { RedisService } from "ondc-automation-cache-lib";
 import { TransactionCacheService } from "./session-service-rewrite";

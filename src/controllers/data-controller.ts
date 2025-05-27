@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { logger } from "../utils/logger";
+import { logError, logInfo } from "../utils/logger";
 import { DataService } from "../services/data-service";
 import { computeSubscriberUri } from "../utils/subscriber-utils";
 import { saveLog } from "../utils/data-utils/cache-utils";
@@ -13,7 +13,10 @@ export class DataController {
 		if (process.env.DATA_BASE_URL) {
 			this.dbUrl = process.env.DATA_BASE_URL;
 			this.dataService = new DataService();
-			console.log("Data Controller initialized", this.dbUrl);
+			// console.log("Data Controller initialized", this.dbUrl);
+			logInfo({
+				message: `Data Controller initialized with DB_URL: ${this.dbUrl}`,
+			});
 			return;
 		}
 		throw new Error("DB_URL not found in environment variables");
@@ -103,7 +106,14 @@ export class DataController {
 				saveLog(sessionId, "Successfully saved payload data to database")
 			)
 			.catch((err) => {
-				logger.error("Error in saving payload data to DB", err);
+				// 
+				logError({
+					message: `Error saving payload data to database`,
+					error: err,
+					meta: {
+						sessionId: sessionId,
+						url: url
+					}});
 				saveLog(
 					sessionId,
 					`Error saving payload data to database: ${err}`,

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../utils/axios";
 import { BecknContext } from "../models/beckn-types";
 import { logError, logInfo } from "../utils/logger";
 import { createAuthHeader } from "../utils/headerUtils";
