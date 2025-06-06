@@ -38,6 +38,13 @@ export class SessionController {
 		);
 		req.requestProperties = properties;
 
+		if (properties.defaultMode) {
+			res
+				.status(204)
+				.send("Session not found for subscriber URL: " + sub.subUrl);
+			return;
+		}
+
 		properties.sessionId &&
 			saveLog(
 				properties.sessionId,
@@ -58,7 +65,6 @@ export class SessionController {
 		res: Response,
 		next: NextFunction
 	) => {
-
 		logInfo({
 			message: "Entering receiveNewRequestFromMock Middleware",
 			meta: {
@@ -113,7 +119,8 @@ export class SessionController {
 		if (!req.requestProperties) {
 			// logger.error("Request properties not found");
 			logError({
-				message: "Exiting createTransaction Middleware. Request properties not found",
+				message:
+					"Exiting createTransaction Middleware. Request properties not found",
 				meta: {
 					action: req.params.action,
 				},

@@ -152,9 +152,15 @@ export class ValidationController {
 					},
 					transaction_id: req.body?.context?.transaction_id,
 				});
-				res
-					.status(200)
-					.send(setAckResponse(false, req.body, "Invalid Signature", "10001"));
+				res.status(200).send(
+					setAckResponse(
+						false,
+						req.body,
+						`Invalid Signature for transaction_id: ${req.requestProperties?.transactionId} 
+						and session_id: ${req.requestProperties?.sessionId}`,
+						"10001"
+					)
+				);
 				return;
 			}
 			const header = JSON.stringify(req.headers);
@@ -185,9 +191,15 @@ export class ValidationController {
 					},
 					transaction_id: req.body?.context?.transaction_id,
 				});
-				res
-					.status(200)
-					.send(setAckResponse(false, req.body, "Invalid Signature", "10001"));
+				res.status(200).send(
+					setAckResponse(
+						false,
+						req.body,
+						`Invalid Signature for transaction_id: ${req.requestProperties?.transactionId} 
+						and session_id: ${req.requestProperties?.sessionId}`,
+						"10001"
+					)
+				);
 				return;
 			}
 			logInfo({
@@ -208,9 +220,15 @@ export class ValidationController {
 				},
 				transaction_id: req.body?.context?.transaction_id,
 			});
-			res
-				.status(200)
-				.send(setAckResponse(false, req.body, "Invalid Signature", "10001"));
+			res.status(200).send(
+				setAckResponse(
+					false,
+					req.body,
+					`Invalid Signature for transaction_id: ${req.requestProperties?.transactionId} 
+						and session_id: ${req.requestProperties?.sessionId}`,
+					"10001"
+				)
+			);
 			return;
 		}
 	};
