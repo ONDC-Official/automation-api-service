@@ -39,7 +39,9 @@ export class SessionController {
 		req.requestProperties = properties;
 
 		if (properties.defaultMode) {
-			res.status(428).send("no session found for: " + sub.subUrl);
+			res
+				.status(428)
+				.send("no session or active flow found for: " + sub.subUrl);
 			return;
 		}
 
