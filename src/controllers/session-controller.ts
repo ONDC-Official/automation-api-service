@@ -39,9 +39,7 @@ export class SessionController {
 		req.requestProperties = properties;
 
 		if (properties.defaultMode) {
-			res
-				.status(204)
-				.send("Session not found for subscriber URL: " + sub.subUrl);
+			res.status(428).send("no session found for: " + sub.subUrl);
 			return;
 		}
 
