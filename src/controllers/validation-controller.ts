@@ -12,7 +12,6 @@ import { isHeaderValid } from "ondc-crypto-sdk-nodejs";
 import { DataService } from "../services/data-service";
 import { computeSubscriberUri } from "../utils/subscriber-utils";
 import { ApiServiceRequest } from "../types/request-types";
-import { saveLog } from "../utils/data-utils/cache-utils";
 import { performL1CustomValidations } from "../validations/L1-custom-validations";
 
 export class ValidationController {
@@ -376,7 +375,7 @@ export class ValidationController {
 		if (invalidResult.length > 0) {
 			const error = invalidResult[0].description;
 			const code = invalidResult[0].code as number;
-			await saveLog(sessionId, `L1 validation failed: ${error}`, "error");
+			// await saveLog(sessionId, `L1 validation failed: ${error}`, "error");
 			logInfo({
 				message: "Exiting L1 Validations Middleware. L1 validations failed",
 				meta: {
@@ -390,7 +389,7 @@ export class ValidationController {
 				.send(setAckResponse(false, req.body, error, code.toString()));
 			return;
 		}
-		await saveLog(sessionId, "first level validations passed successfully");
+		// await saveLog(sessionId, "first level validations passed successfully");
 		// logger.info("L1 validations passed");
 		logInfo({
 			message: "Exiting L1 Validations Middleware. L1 validations passed",
@@ -444,7 +443,7 @@ export class ValidationController {
 			if (invalidResult.length > 0) {
 				const error = invalidResult[0].description;
 				const code = invalidResult[0].code as number;
-				await saveLog(sessionId, `L1 validation failed: ${error}`, "error");
+				// await saveLog(sessionId, `L1 validation failed: ${error}`, "error");
 				logInfo({
 					message:
 						"Exiting validateL1Custom Middleware. L1 custom validations failed",
@@ -460,7 +459,7 @@ export class ValidationController {
 					.send(setAckResponse(false, req.body, error, code.toString()));
 				return;
 			}
-			await saveLog(sessionId, "second level validations passed successfully");
+			// await saveLog(sessionId, "second level validations passed successfully");
 			// logger.info("L1 validations passed");
 			logInfo({
 				message:

@@ -5,7 +5,7 @@ import {
 	SessionManagementService,
 	TransactionCacheService,
 } from "../services/session-service-rewrite";
-import { logError, logger, logInfo } from "../utils/logger";
+import { logError, logInfo } from "../utils/logger";
 import { setInternalServerNack } from "../utils/ackUtils";
 import { saveLog } from "../utils/data-utils/cache-utils";
 
