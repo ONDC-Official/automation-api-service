@@ -40,22 +40,26 @@ export const setAckResponse = (
 };
 export const setInternalServerNack = {
 	message: {
-		status: "NACK",
-		error: {
-			code: "23001",
-			message: "Internal Server Error",
+		ack: {
+			status: "NACK",
 		},
+	},
+	error: {
+		code: "23001",
+		message: "Internal Server Error",
 	},
 };
 
 export const setBadRequestNack = (message = "") => {
 	const resp: any = {
 		message: {
-			status: "NACK",
-			error: {
-				code: "10000",
-				message: "Bad Request " + message,
+			ack: {
+				status: "NACK",
 			},
+		},
+		error: {
+			code: "10000",
+			message: "Bad Request " + message,
 		},
 	};
 	if (shouldAddContext()) {
@@ -70,6 +74,8 @@ export function shouldAddContext() {
 		return false;
 	}
 	const major = parseInt(version.split(".")[0]);
-	logger.info(`Version: ${version}, Major: ${major}, context in ack is : ${major > 1}`)
+	logger.info(
+		`Version: ${version}, Major: ${major}, context in ack is : ${major > 1}`
+	);
 	return major < 2;
 }
