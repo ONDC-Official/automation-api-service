@@ -26,7 +26,7 @@ export function computeSubscriberUri(
 		});
 		throw new Error("BAP URI not found in context");
 	}
-	if (action !== "search" && !context.bpp_uri) {
+	if (!action.startsWith("search") && !context.bpp_uri) {
 		logError({
 			message: "BPP URI not found in context",
 			transaction_id: context.transaction_id,

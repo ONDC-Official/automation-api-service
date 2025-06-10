@@ -59,41 +59,19 @@ export class ValidationController {
 			return;
 		}
 		if (!body.context) {
-			// logger.error("Invalid request body", body);
-			logError({
-				message: "Exiting validateRequestBodyNp Middleware. Context is missing",
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
+			logger.error("Invalid request body", body);
 			res.status(200).send(setBadRequestNack(": Context is missing"));
 			return;
 		}
 		try {
 			computeSubscriberUri(body.context, action, false);
 		} catch (error) {
-			// logger.error("Ambiguous subscriber URL", error);
-			logError({
-				message:
-					"Exiting validateRequestBodyNp Middleware. Ambiguous subscriber URL",
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
+			logger.error("Ambiguous subscriber URL", error);
 			res
 				.status(200)
 				.send(setBadRequestNack(": Ambiguous subscriber URL inside context"));
 			return;
 		}
-		logInfo({
-			message: "Exiting validateRequestBodyNp Middleware",
-			meta: {
-				action: req.params.action,
-			},
-			transaction_id: req.body?.context?.transaction_id,
-		});
 		next();
 	};
 
