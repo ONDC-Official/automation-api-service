@@ -1,4 +1,3 @@
-import { parse } from "path";
 import { logger } from "./logger";
 
 type AckResponse = {

@@ -72,6 +72,28 @@ export class ValidationController {
 				.send(setBadRequestNack(": Ambiguous subscriber URL inside context"));
 			return;
 		}
+		try {
+			const payloadAction = body.context.action;
+			if (!payloadAction) {
+				logger.error("Invalid request body", body);
+				res.status(200).send(setBadRequestNack(": Action is missing"));
+				return;
+			}
+			if (payloadAction !== action) {
+				logger.error(
+					"Invalid request body: Action in context does not match the route",
+					{ payloadAction, action }
+				);
+				res
+					.status(200)
+					.send(
+						setBadRequestNack(
+							`: Action in context (${payloadAction}) does not match the route (${action})`
+						)
+					);
+				return;
+			}
+		} catch (error) {}
 		next();
 	};
 
