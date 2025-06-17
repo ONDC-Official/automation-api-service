@@ -33,6 +33,7 @@ router.post(
 	modifyExpressSend,
 	validationController.validateL0,
 	validationController.validateContextFromMock,
+	validationController.validateL1Custom,
 	commController.handleRequestFromMockServer
 );
 
