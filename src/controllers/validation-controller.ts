@@ -436,7 +436,11 @@ export class ValidationController {
 				next();
 				return;
 			}
-			const l1CustomResult = await performL1CustomValidations(body, action);
+			const l1CustomResult = await performL1CustomValidations(
+				body,
+				action,
+				req.requestProperties?.subscriberUrl ?? ""
+			);
 			const invalidResult = l1CustomResult.filter(
 				(result) => !result.valid && result.code !== 200
 			);
