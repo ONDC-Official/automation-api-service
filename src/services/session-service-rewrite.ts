@@ -193,6 +193,7 @@ export class SessionManagementService {
 				sessionId: sessionId,
 				flowId: flowId,
 				difficulty: session.sessionDifficulty,
+				env: session.env
 			};
 		}
 		logInfo({
