@@ -92,6 +92,7 @@ export class SessionManagementService {
 						sessionId: fulfilled.sessionId,
 						flowId: fulfilled.flowId,
 						difficulty: sessionData.sessionDifficulty,
+						env: sessionData.env
 					};
 				}
 			}
