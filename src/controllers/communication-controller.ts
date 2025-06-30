@@ -135,7 +135,8 @@ export class CommunicationController {
 					transaction_id: req.body?.context?.transaction_id,
 				});
 				const response = await this.communicationService.forwardApiToGateway(
-					req.body
+					req.body,
+					req.requestProperties
 				);
 				res.status(response.status).send(response.data);
 				logInfo({
