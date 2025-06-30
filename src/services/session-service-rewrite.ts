@@ -92,6 +92,7 @@ export class SessionManagementService {
 						sessionId: fulfilled.sessionId,
 						flowId: fulfilled.flowId,
 						difficulty: sessionData.sessionDifficulty,
+						env: sessionData.env,
 					};
 				}
 			}
@@ -192,6 +193,7 @@ export class SessionManagementService {
 				sessionId: sessionId,
 				flowId: flowId,
 				difficulty: session.sessionDifficulty,
+				env: session.env,
 			};
 		}
 		logInfo({
