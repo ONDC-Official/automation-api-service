@@ -17,7 +17,7 @@ router.post(
 	"/:action",
 	validationController.validateRequestBodyNp,
 	validationController.validateL0,
-	validationController.validateL1,
+	validationController.validateSingleL1,
 	(req, res, next) => {
 		res.send(setAckResponse(req.body, true));
 	}
