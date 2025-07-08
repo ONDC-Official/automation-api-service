@@ -65,11 +65,10 @@ export class ValidationController {
 		}
 		try {
 			computeSubscriberUri(body.context, action, false);
-		} catch (error) {
+		} catch (error: any) {
 			logger.error("Ambiguous subscriber URL", error);
-			res
-				.status(200)
-				.send(setBadRequestNack(": Ambiguous subscriber URL inside context"));
+			const message = error.message ?? ": Ambiguous subscriber URL";
+			res.status(200).send(setBadRequestNack(message));
 			return;
 		}
 		try {
