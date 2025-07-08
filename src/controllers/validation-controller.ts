@@ -13,6 +13,7 @@ import { DataService } from "../services/data-service";
 import { computeSubscriberUri } from "../utils/subscriber-utils";
 import { ApiServiceRequest } from "../types/request-types";
 import { performL1CustomValidations } from "../validations/L1-custom-validations";
+import { error } from "console";
 
 export class ValidationController {
 	validateRequestBodyNp = async (
@@ -64,11 +65,19 @@ export class ValidationController {
 			return;
 		}
 		try {
+			if (!(action === action.toLowerCase())) {
+				throw new Error("Invalid context");
+			}
+		} catch (error) {
+			logger.error(error);
+			res.status(200).send(setBadRequestNack("Invalid Action"));
+			return;
+		}
+		try {
 			computeSubscriberUri(body.context, action, false);
 		} catch (error: any) {
 			logger.error("Ambiguous subscriber URL", error);
-			const message = error.message ?? ": Ambiguous subscriber URL";
-			res.status(200).send(setBadRequestNack(message));
+			res.status(200).send(setBadRequestNack(":" + error.message));
 			return;
 		}
 		try {
