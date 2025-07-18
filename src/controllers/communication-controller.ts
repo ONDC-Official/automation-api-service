@@ -1,6 +1,6 @@
 import { setAckResponse, setInternalServerNack } from "../utils/ackUtils";
 import { Response } from "express";
-import { logError, logInfo } from "../utils/logger";
+import { logError, logger, logInfo } from "../utils/logger";
 import { CommunicationService } from "../services/forwarding-service";
 import { BecknContext } from "../models/beckn-types";
 import { saveLog } from "../utils/data-utils/cache-utils";
@@ -14,13 +14,6 @@ export class CommunicationController {
 	}
 
 	forwardToMockServer = async (req: ApiServiceRequest, res: Response) => {
-		logInfo({
-			message: "Entering forwardToMockServer Middleware",
-			meta: {
-				action: req.params.action,
-			},
-			transaction_id: req.body?.context?.transaction_id,
-		});
 		if (req.requestProperties?.defaultMode) {
 			logInfo({
 				message: "Default mode is enabled, skipping mock server",
@@ -70,13 +63,6 @@ export class CommunicationController {
 		req: ApiServiceRequest,
 		res: Response
 	) => {
-		logInfo({
-			message: "Entering handleRequestFromMockServer Middleware",
-			meta: {
-				action: req.params.action,
-			},
-			transaction_id: req.body?.context?.transaction_id,
-		});
 		const sessionId = req.requestProperties?.sessionId ?? "unknown";
 		try {
 			if (!req.requestProperties) {
@@ -92,7 +78,26 @@ export class CommunicationController {
 				res.status(200).send(setInternalServerNack);
 				return;
 			}
+
 			const context: BecknContext = req.body.context;
+			const protocolWorkbenchId =
+				req.requestProperties.env === "LOGGED-IN"
+					? process.env.WORKBENCH_SUBSCRIBER_ID
+					: process.env.SUBSCRIBER_ID;
+
+			logger.info({
+				message: `Updating subscriber Id in the payload with ${protocolWorkbenchId}`,
+				meta: {
+					action: req.params.action,
+				},
+				transaction_id: req.body?.context?.transaction_id,
+			});
+
+			if (req.requestProperties.subscriberType === "BAP") {
+				req.body.context.bpp_id = protocolWorkbenchId;
+			} else {
+				req.body.context.bap_id = protocolWorkbenchId;
+			}
 			const bpp_uri = context.bpp_uri;
 			if (bpp_uri) {
 				await saveLog(sessionId, "Forwarding request to NP server");

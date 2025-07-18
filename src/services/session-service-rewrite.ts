@@ -26,7 +26,7 @@ export class SessionManagementService {
 		subscriberType: "BAP" | "BPP"
 	): Promise<RequestProperties> => {
 		logInfo({
-			message: `Entering receiveRequestFromNp Function. received request for action ${action} and transactionId ${body.context?.transaction_id} from subscriber ${subscriberUrl}`,
+			message: `Received request for action ${action} and transactionId ${body.context?.transaction_id} from subscriber ${subscriberUrl}`,
 			meta: {
 				action,
 				subscriberUrl,
@@ -35,16 +35,13 @@ export class SessionManagementService {
 			transaction_id: body.context?.transaction_id,
 		});
 		const txnId = body.context.transaction_id;
-		// logger.info(
-		// 	`received request for action ${action} and transactionId ${txnId} from subscriber ${subscriberUrl}`
-		// );
 		if (
 			await this.transactionService.checkIfTransactionExists(
 				this.transactionService.createTransactionKey(txnId, subscriberUrl)
 			)
 		) {
 			logInfo({
-				message: `Exiting receiveRequestFromNp Function.  Transaction already exists for ${txnId} and subscriber ${subscriberUrl}`,
+				message: `Transaction already exists for ${txnId} and subscriber ${subscriberUrl}`,
 				meta: {
 					action,
 					subscriberUrl,
@@ -150,11 +147,7 @@ export class SessionManagementService {
 			});
 			return await this.handleExistingTransaction(txnId, action, subscriberUrl);
 		}
-		// logger.info(
-		// 	`received request for action ${action} and transactionId ${txnId} from mock with session ${
-		// 		sessionId ?? "default"
-		// 	}`
-		// );
+
 		logInfo({
 			message: `Received request for action ${action} and transactionId ${txnId} from mock with session ${
 				sessionId ?? "default"
@@ -173,7 +166,7 @@ export class SessionManagementService {
 				await this.assignTransactionToSession(sessionId, flowId, txnId);
 			}
 			logInfo({
-				message: `Exiting receiveRequestFromMock Function.  Transaction assigned to session ${sessionId} and
+				message: `Transaction assigned to session ${sessionId} and
 				flow ${flowId} for ${txnId} and subscriber ${subscriberUrl}`,
 				meta: {
 					action,
@@ -233,7 +226,6 @@ export class SessionManagementService {
 			this.transactionService.createTransactionKey(txnId, subscriberUrl)
 		);
 		const relatedData = transaction;
-		// logger.info(`transaction exists with id ${txnId}`);
 		logInfo({
 			message: `Transaction exists with id ${txnId}`,
 			meta: {
@@ -262,16 +254,8 @@ export class SessionManagementService {
 			sessionId: relatedData.sessionId,
 			flowId: relatedData.flowId,
 			difficulty: difficulty,
+			transactionHistory: relatedData,
 		};
-		logInfo({
-			message: `Exiting handleExistingTransaction Function.`,
-			meta: {
-				txnId,
-				action,
-				subscriberUrl,
-			},
-			transaction_id: txnId,
-		});
 		return properties;
 	};
 

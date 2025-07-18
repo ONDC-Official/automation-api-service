@@ -1,7 +1,7 @@
 import { BecknContext } from "../../models/beckn-types";
 import { validateAsyncContext } from "./async-validations";
-import { logger, logInfo } from "../logger";
-import { RequestProperties, TransactionCache } from "../../types/cache-types";
+import { logInfo } from "../logger";
+import { RequestProperties } from "../../types/cache-types";
 import { TransactionCacheService } from "../../services/session-service-rewrite";
 
 export async function performContextValidations(
@@ -33,7 +33,7 @@ export async function performContextValidations(
 				transactionId: context.transaction_id,
 			},
 			transaction_id: context.transaction_id,
-		});	
+		});
 		transactionData = await transService.createTransaction(
 			transService.createTransactionKey(
 				apiProperties.transactionId,
@@ -49,7 +49,8 @@ export async function performContextValidations(
 			new Date(transactionData.latestTimestamp).getTime()
 		) {
 			logInfo({
-				message: "Exiting performContextValidations Function. Invalid timestamp in context",
+				message:
+					"Exiting performContextValidations Function. Invalid timestamp in context",
 				meta: {
 					action: context.action,
 					transactionId: context.transaction_id,
@@ -77,7 +78,8 @@ export async function performContextValidations(
 		});
 	}
 	logInfo({
-		message: "Exiting performContextValidations Function. Calling validateAsyncContext",
+		message:
+			"Exiting performContextValidations Function. Calling validateAsyncContext",
 		meta: {
 			action: context.action,
 			transactionId: context.transaction_id,

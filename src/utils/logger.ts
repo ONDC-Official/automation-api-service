@@ -4,7 +4,6 @@ import LokiTransport from "winston-loki";
 import { LogParams } from "../types/log-params";
 import { isAxiosError } from "axios";
 
-
 const { combine, timestamp, printf, errors } = winston.format;
 
 // Define colors for log levels and messages
@@ -27,19 +26,29 @@ const messageColors: Record<string, chalk.Chalk> = {
 const environment = process.env.NODE_ENV || "development"; // Default to development if not set
 
 // Custom log format
-const logFormat = printf(({ level, message, timestamp, stack, transaction_id , ...meta}) => {
-	const levelColor = levelColors[level] || levelColors.default; // Colorize level
-	const messageColor = messageColors[level] || messageColors.default; // Colorize message
+const logFormat = printf(
+	({ level, message, timestamp, stack, transaction_id, ...meta }) => {
+		const levelColor = levelColors[level] || levelColors.default; // Colorize level
+		const messageColor = messageColors[level] || messageColors.default; // Colorize message
 
-	const coloredLevel = levelColor(`[${level.toUpperCase()}]`); // Apply color to log level
-	const coloredTimestamp = chalk.dim(timestamp); // Dim timestamp
-	const coloredMessage = messageColor(message); // Apply message-specific color
-	const coloredStack = stack ? chalk.dim(stack) : ""; // Dim stack trace if present
-	const coloredtransaction_id = transaction_id ? chalk.yellow(`[${transaction_id}] `) : ""; // Yellow for transaction ID
-	const coloredMeta = meta && Object.keys(meta).length > 0 ? chalk.gray(JSON.stringify(meta)) : "";
-	const printable = environment === "prod" ? `${coloredtransaction_id}${coloredLevel}: ${coloredMessage} ${coloredStack}` : `${coloredTimestamp} ${coloredtransaction_id}${coloredLevel}: ${coloredMessage} ${coloredStack} ${coloredMeta}`;
-	return printable;
-});
+		const coloredLevel = levelColor(`[${level.toUpperCase()}]`); // Apply color to log level
+		const coloredTimestamp = chalk.dim(timestamp); // Dim timestamp
+		const coloredMessage = messageColor(message); // Apply message-specific color
+		const coloredStack = stack ? chalk.dim(stack) : ""; // Dim stack trace if present
+		const coloredtransaction_id = transaction_id
+			? chalk.yellow(`[${transaction_id}] `)
+			: ""; // Yellow for transaction ID
+		const coloredMeta =
+			meta && Object.keys(meta).length > 0
+				? chalk.gray(JSON.stringify(meta))
+				: "";
+		const printable =
+			environment === "prod"
+				? `${coloredtransaction_id}${coloredLevel}: ${coloredMessage} ${coloredStack}`
+				: `${coloredTimestamp} ${coloredtransaction_id}${coloredLevel}: ${coloredMessage} ${coloredStack} ${coloredMeta}`;
+		return printable;
+	}
+);
 
 // Determine log level based on environment
 const logLevel = process.env.NODE_ENV === "production" ? "info" : "debug";
@@ -69,30 +78,36 @@ const logger = winston.createLogger({
 	],
 });
 
-
-
 // Logging functions
 const logInfo = ({ message, transaction_id, meta }: LogParams): void => {
+	if (message.includes("Entering") || message.includes("Exiting")) return; // Skip these messages
 	logger.info(message, { transaction_id, ...meta });
-  };
-  
-  const logDebug = ({ message, transaction_id, meta }: LogParams): void => {
-	logger.debug(message, { transaction_id, ...meta });
-  };
-  
-  const logError = ({ message, transaction_id, error, meta }: LogParams): void => {
-	if(isAxiosError(error)) {
+};
 
+const logDebug = ({ message, transaction_id, meta }: LogParams): void => {
+	logger.debug(message, { transaction_id, ...meta });
+};
+
+const logError = ({
+	message,
+	transaction_id,
+	error,
+	meta,
+}: LogParams): void => {
+	if (isAxiosError(error)) {
 		message = error.response ? error.response?.data : error.code;
-	  logger.error(`Axios Error : Status Code [${error.status}] : `+ JSON.stringify(message) , { transaction_id, ...meta });
-	return;
+		logger.error(
+			`Axios Error : Status Code [${error.status}] : ` +
+				JSON.stringify(message),
+			{ transaction_id, ...meta }
+		);
+		return;
 	}
-	  if (error instanceof Error) {
-	  logger.error(message, { transaction_id, stack: error.stack, ...meta });
+	if (error instanceof Error) {
+		logger.error(message, { transaction_id, stack: error.stack, ...meta });
 	} else {
-	  logger.error(message, { transaction_id, ...meta });
+		logger.error(message, { transaction_id, ...meta });
 	}
-  };
-  
+};
 
 export { logger, logInfo, logDebug, logError };

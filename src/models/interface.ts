@@ -8,6 +8,7 @@ interface EnvironmentURLs {
 	STAGING: string;
 	PREPROD: string;
 	PROD: string;
+	IN_HOUSE_REGISTRY: string; // Optional for in-house registry
 }
 
 export interface registryGatewayConfig {

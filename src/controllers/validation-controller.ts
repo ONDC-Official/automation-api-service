@@ -13,7 +13,6 @@ import { DataService } from "../services/data-service";
 import { computeSubscriberUri } from "../utils/subscriber-utils";
 import { ApiServiceRequest } from "../types/request-types";
 import { performL1CustomValidations } from "../validations/L1-custom-validations";
-import { error } from "console";
 
 export class ValidationController {
 	validateRequestBodyNp = async (
@@ -66,11 +65,11 @@ export class ValidationController {
 		}
 		try {
 			if (!(action === action.toLowerCase())) {
-				throw new Error("Invalid context");
+				throw new Error("Invalid action: " + action);
 			}
 		} catch (error) {
 			logger.error(error);
-			res.status(200).send(setBadRequestNack("Invalid Action"));
+			res.status(200).send(setBadRequestNack("Invalid Action : " + action));
 			return;
 		}
 		try {
@@ -170,6 +169,17 @@ export class ValidationController {
 				);
 				return;
 			}
+			if (!req.requestProperties?.env) {
+				logError({
+					message: "Environment is not set in the session",
+					meta: {
+						action: req.params.action,
+					},
+					transaction_id: req.body?.context?.transaction_id,
+				});
+				res.status(500).send("env is not set in the session creation");
+				return;
+			}
 			const header = JSON.stringify(req.headers);
 			const key = await getPublicKeys(
 				header,
@@ -191,8 +201,7 @@ export class ValidationController {
 			});
 			if (!valid) {
 				logInfo({
-					message:
-						"Exiting validateSignatureNp Middleware. Responding with invalid signature",
+					message: "Responding with invalid signature",
 					meta: {
 						action: req.params.action,
 					},
@@ -203,14 +212,14 @@ export class ValidationController {
 						false,
 						req.body,
 						`Invalid Signature for transaction_id: ${req.requestProperties?.transactionId} 
-						and session_id: ${req.requestProperties?.sessionId}`,
+						and session_id: ${req.requestProperties?.sessionId}, tip: you can disable signature validation in flow settings.`,
 						"10001"
 					)
 				);
 				return;
 			}
 			logInfo({
-				message: "Exiting validateSignatureNp Middleware. Signature is valid",
+				message: "Signature is valid",
 				meta: {
 					action: req.params.action,
 				},
@@ -218,10 +227,8 @@ export class ValidationController {
 			});
 			next();
 		} catch (error) {
-			// logger.info("error while validation signature", error);
 			logError({
-				message:
-					"Exiting validateSignatureNp Middleware. Error while validating signature",
+				message: "Error while validating signature",
 				meta: {
 					action: req.params.action,
 				},
@@ -232,7 +239,7 @@ export class ValidationController {
 					false,
 					req.body,
 					`Invalid Signature for transaction_id: ${req.requestProperties?.transactionId} 
-						and session_id: ${req.requestProperties?.sessionId}`,
+						and session_id: ${req.requestProperties?.sessionId}, tip: you can disable signature validation in flow settings.`,
 					"10001"
 				)
 			);

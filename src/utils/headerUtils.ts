@@ -4,7 +4,7 @@ import axios from "axios";
 import { config } from "../config/registryGatewayConfig";
 import { EnvType } from "../types/cache-types";
 
-const createAuthHeader = async (payload: any) => {
+const createAuthHeader = async (payload: any, env: EnvType) => {
 	logInfo({
 		message: "Creating authorization header",
 		meta: {
@@ -12,10 +12,14 @@ const createAuthHeader = async (payload: any) => {
 		},
 	});
 	try {
+		const subId =
+			env === "LOGGED-IN"
+				? process.env.WORKBENCH_SUBSCRIBER_ID
+				: process.env.SUBSCRIBER_ID;
 		const header = await createAuthorizationHeader({
 			body: JSON.stringify(payload),
 			privateKey: process.env.SIGN_PRIVATE_KEY || "",
-			subscriberId: process.env.SUBSCRIBER_ID || "", // Subscriber ID that you get after registering to ONDC Network
+			subscriberId: subId || "", // Subscriber ID that you get after registering to ONDC Network
 			subscriberUniqueKeyId: process.env.UKID || "", // Unique Key Id or uKid that you get after registering to ONDC Network
 		});
 		logInfo({
@@ -98,7 +102,7 @@ function extractSignatureKeyId(input: string): string[] {
 async function getPublicKeys(
 	header: string,
 	payload: any,
-	env?: EnvType
+	env: EnvType
 ): Promise<string> {
 	logInfo({
 		message: "Entering getPublicKeys function.  Getting public keys",
@@ -133,7 +137,7 @@ async function getPublicKeys(
 	}
 }
 
-async function performLookup(subId: string, ukId: string, env?: EnvType) {
+async function performLookup(subId: string, ukId: string, env: EnvType) {
 	logInfo({
 		message: "Entering performLookup Function. Performing lookup",
 		meta: {
@@ -141,16 +145,19 @@ async function performLookup(subId: string, ukId: string, env?: EnvType) {
 			ukId,
 		},
 	});
-	const baseUrl =
+	let baseUrl =
 		env === "PRE-PRODUCTION"
 			? config.registry.PREPROD
 			: config.registry.STAGING;
+	if (env === "LOGGED-IN") {
+		baseUrl = config.registry.IN_HOUSE_REGISTRY;
+	}
 	const url = `${baseUrl}lookup`;
 	const data = {
 		subscriber_id: subId,
 		ukId: ukId,
 	};
-	const header = await createAuthHeader(data);
+	const header = await createAuthHeader(data, env);
 	try {
 		console.log("look_up url", url);
 		const response = await axios.post(url, data, {

@@ -1,3 +1,4 @@
+import { RequestProperties } from "../types/cache-types";
 import { logger } from "./logger";
 
 type AckResponse = {
@@ -77,4 +78,18 @@ export function shouldAddContext() {
 		`Version: ${version}, Major: ${major}, context in ack is : ${major > 1}`
 	);
 	return major < 2;
+}
+
+export function getHintMessage(properties?: RequestProperties) {
+	if (!properties || !properties.transactionHistory) {
+		return "";
+	}
+	const history = properties.transactionHistory;
+	const nackCount = history.apiList.filter(
+		(s) => s.response?.message?.ack?.status !== "ACK"
+	).length;
+	let message = "Hints: \n";
+	if (nackCount >= 1) {
+		message += `- If you are trying to run a new flow, please give new transaction ID as ${properties.transactionId} has been already used. \n`;
+	}
 }

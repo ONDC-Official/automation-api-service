@@ -51,7 +51,7 @@ export interface SessionCache {
 	version: string;
 	subscriberId?: string;
 	subscriberUrl: string;
-	env: "STAGING" | "PRE-PRODUCTION";
+	env: "STAGING" | "PRE-PRODUCTION" | "LOGGED-IN";
 	sessionDifficulty: SessionDifficulty;
 }
 
@@ -64,7 +64,8 @@ export interface RequestProperties {
 	difficulty: SessionDifficulty;
 	sessionId?: string;
 	flowId?: string;
-	env?: "STAGING" | "PRE-PRODUCTION";
+	env?: "STAGING" | "PRE-PRODUCTION" | "LOGGED-IN";
+	transactionHistory?: TransactionCache;
 }
 
-export type EnvType = "STAGING" | "PRE-PRODUCTION";
+export type EnvType = "STAGING" | "PRE-PRODUCTION" | "LOGGED-IN";

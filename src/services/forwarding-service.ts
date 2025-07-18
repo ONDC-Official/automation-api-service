@@ -47,13 +47,6 @@ export class CommunicationService {
 		overwriteUrl?: string,
 		requestProperties?: RequestProperties
 	) => {
-		logInfo({
-			message: "Entering forwardApiToNp Function",
-			meta: {
-				action,
-			},
-			transaction_id: body?.context?.transaction_id,
-		});
 		const context: BecknContext = body.context;
 		let finalUri = context.action.startsWith("on_")
 			? context.bap_uri
@@ -68,8 +61,18 @@ export class CommunicationService {
 			},
 			transaction_id: body?.context?.transaction_id,
 		});
-
-		const header = await createAuthHeader(body);
+		if (!requestProperties?.env) {
+			logError({
+				message: "Environment not specified in request properties",
+				meta: {
+					action,
+					finalUri,
+				},
+				transaction_id: body?.context?.transaction_id,
+			});
+			throw new Error("Environment not specified in request properties");
+		}
+		const header = await createAuthHeader(body, requestProperties?.env);
 		const useGzip = requestProperties?.difficulty?.useGzip ?? false;
 		let bodyToSend = body;
 		if (useGzip) {
@@ -139,10 +142,21 @@ export class CommunicationService {
 				url = config.gateway.STAGING;
 			} else if (env === "PRE-PRODUCTION") {
 				url = config.gateway.PREPROD;
+			} else if (env === "LOGGED-IN") {
+				url = config.gateway.IN_HOUSE_REGISTRY;
 			}
 		}
-
-		const header = await createAuthHeader(body);
+		if (!requestProperties?.env) {
+			logError({
+				message: "Environment not specified in request properties",
+				meta: {
+					action: body.context.action,
+				},
+				transaction_id: body?.context?.transaction_id,
+			});
+			throw new Error("Environment not specified in request properties");
+		}
+		const header = await createAuthHeader(body, requestProperties?.env);
 		try {
 			// logger.info("Forwarding request to Gateway server", url);
 			logInfo({

@@ -8,6 +8,8 @@ export const config: registryGatewayConfig = {
 			process.env.GATEWAY_STAGING || "https://staging.gateway.proteantech.in/",
 		PREPROD: process.env.GATEWAY_PREPROD || "https://preprod.gateway.ondc.org/",
 		PROD: process.env.GATEWAY_PROD || "https://prod.gateway.ondc.org/",
+		IN_HOUSE_REGISTRY:
+			process.env.IN_HOUSE_GATEWAY || "https://in-house.gateway.ondc.org/",
 	},
 	registry: {
 		STAGING:
@@ -15,5 +17,8 @@ export const config: registryGatewayConfig = {
 		PREPROD:
 			process.env.REGISTRY_PREPROD || "https://preprod.registry.ondc.org/v2.0/",
 		PROD: process.env.REGISTRY_PROD || "https://prod.registry.ondc.org/",
+		IN_HOUSE_REGISTRY:
+			process.env.IN_HOUSE_REGISTRY ||
+			"https://dev-automation.registry.ondc.org/v2.0/",
 	},
 };
