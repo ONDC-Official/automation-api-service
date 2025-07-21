@@ -64,7 +64,7 @@ export interface RequestProperties {
 	difficulty: SessionDifficulty;
 	sessionId?: string;
 	flowId?: string;
-	env?: "STAGING" | "PRE-PRODUCTION" | "LOGGED-IN";
+	env: "STAGING" | "PRE-PRODUCTION" | "LOGGED-IN";
 	transactionHistory?: TransactionCache;
 	sessionData?: SessionCache;
 }

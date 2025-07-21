@@ -258,6 +258,7 @@ export class SessionManagementService {
 			difficulty: difficulty,
 			transactionHistory: relatedData,
 			sessionData: session,
+			env: session?.env ?? "STAGING",
 		};
 		return properties;
 	};
