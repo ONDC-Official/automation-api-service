@@ -476,7 +476,7 @@ export class ValidationController {
 				return;
 			}
 			const l1CustomResult = await performL1CustomValidations(
-				body,
+				JSON.parse(JSON.stringify(body)),
 				action,
 				req.requestProperties?.subscriberUrl ?? ""
 			);
