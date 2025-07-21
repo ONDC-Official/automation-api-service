@@ -15,7 +15,8 @@ export const setAckResponse = (
 	ack: boolean = true,
 	body: any,
 	error?: string,
-	errorCode?: string
+	errorCode?: string,
+	requestProperties?: RequestProperties
 ): AckResponse => {
 	const resp: AckResponse = {
 		message: {
@@ -26,6 +27,10 @@ export const setAckResponse = (
 	};
 
 	if (error && errorCode) {
+		const hint = getHintMessage(requestProperties);
+		if (hint) {
+			error += ` \n >> ${hint}`;
+		}
 		resp.error = {
 			code: errorCode,
 			message: error,
@@ -81,7 +86,11 @@ export function shouldAddContext() {
 }
 
 export function getHintMessage(properties?: RequestProperties) {
-	if (!properties || !properties.transactionHistory) {
+	if (
+		!properties ||
+		!properties.transactionHistory ||
+		!properties.sessionData
+	) {
 		return "";
 	}
 	const history = properties.transactionHistory;

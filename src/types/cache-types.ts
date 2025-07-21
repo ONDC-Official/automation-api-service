@@ -66,6 +66,7 @@ export interface RequestProperties {
 	flowId?: string;
 	env?: "STAGING" | "PRE-PRODUCTION" | "LOGGED-IN";
 	transactionHistory?: TransactionCache;
+	sessionData?: SessionCache;
 }
 
 export type EnvType = "STAGING" | "PRE-PRODUCTION" | "LOGGED-IN";

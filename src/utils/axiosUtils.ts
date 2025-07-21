@@ -3,9 +3,8 @@ import { logger } from "./logger";
 export function getAxiosErrorMessage(error: any) {
 	logger.debug(JSON.stringify(error, null, 2));
 	if (error.response) {
-		// Server responded with a status code outside the 2xx range
 		return (
-			error.response.data?.message ||
+			error.response.data ||
 			error.response.statusText ||
 			"Unknown error from server"
 		);

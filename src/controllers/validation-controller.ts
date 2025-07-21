@@ -1,6 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { logger, logInfo, logError } from "../utils/logger";
-import { setAckResponse, setBadRequestNack } from "../utils/ackUtils";
+import {
+	setAckResponse,
+	setBadRequestNack,
+	setInternalServerNack,
+} from "../utils/ackUtils";
 import { performL0Validations } from "../validations/L0-validations/schemaValidations";
 import { performL1validations } from "../validations/L1-validations";
 import {
@@ -164,7 +168,8 @@ export class ValidationController {
 						req.body,
 						`Invalid Signature for transaction_id: ${req.requestProperties?.transactionId} 
 						and session_id: ${req.requestProperties?.sessionId}`,
-						"10001"
+						"10001",
+						req.requestProperties
 					)
 				);
 				return;
@@ -177,7 +182,8 @@ export class ValidationController {
 					},
 					transaction_id: req.body?.context?.transaction_id,
 				});
-				res.status(500).send("env is not set in the session creation");
+				// res.status(500).send("env is not set in the session creation");
+				res.status(200).send(setInternalServerNack);
 				return;
 			}
 			const header = JSON.stringify(req.headers);
@@ -213,7 +219,8 @@ export class ValidationController {
 						req.body,
 						`Invalid Signature for transaction_id: ${req.requestProperties?.transactionId} 
 						and session_id: ${req.requestProperties?.sessionId}, tip: you can disable signature validation in flow settings.`,
-						"10001"
+						"10001",
+						req.requestProperties
 					)
 				);
 				return;
@@ -240,7 +247,8 @@ export class ValidationController {
 					req.body,
 					`Invalid Signature for transaction_id: ${req.requestProperties?.transactionId} 
 						and session_id: ${req.requestProperties?.sessionId}, tip: you can disable signature validation in flow settings.`,
-					"10001"
+					"10001",
+					req.requestProperties
 				)
 			);
 			return;
@@ -302,7 +310,7 @@ export class ValidationController {
 	};
 
 	// Middleware: L0 validations
-	validateL0(req: Request, res: Response, next: NextFunction) {
+	validateL0(req: ApiServiceRequest, res: Response, next: NextFunction) {
 		const { action } = req.params;
 		const body = req.body;
 		// logger.info(
@@ -332,7 +340,15 @@ export class ValidationController {
 			});
 			res
 				.status(200)
-				.send(setAckResponse(false, req.body, l0Result.errors, "400"));
+				.send(
+					setAckResponse(
+						false,
+						req.body,
+						l0Result.errors,
+						"400",
+						req.requestProperties
+					)
+				);
 			return;
 		}
 		// logger.info("L0 validations passed");
@@ -401,7 +417,15 @@ export class ValidationController {
 			});
 			res
 				.status(200)
-				.send(setAckResponse(false, req.body, error, code.toString()));
+				.send(
+					setAckResponse(
+						false,
+						req.body,
+						error,
+						code.toString(),
+						req.requestProperties
+					)
+				);
 			return;
 		}
 		// await saveLog(sessionId, "first level validations passed successfully");
@@ -475,7 +499,15 @@ export class ValidationController {
 
 				res
 					.status(200)
-					.send(setAckResponse(false, req.body, error, code.toString()));
+					.send(
+						setAckResponse(
+							false,
+							req.body,
+							error,
+							code.toString(),
+							req.requestProperties
+						)
+					);
 				return;
 			}
 			// await saveLog(sessionId, "second level validations passed successfully");
@@ -572,7 +604,15 @@ export class ValidationController {
 			});
 			res
 				.status(200)
-				.send(setAckResponse(false, req.body, contextValidations.error, "400"));
+				.send(
+					setAckResponse(
+						false,
+						req.body,
+						contextValidations.error,
+						"400",
+						req.requestProperties
+					)
+				);
 			return;
 		}
 		// logger.info("Context validations passed");

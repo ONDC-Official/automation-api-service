@@ -187,6 +187,7 @@ export class SessionManagementService {
 				flowId: flowId,
 				difficulty: session.sessionDifficulty,
 				env: session.env,
+				sessionData: session,
 			};
 		}
 		logInfo({
@@ -236,11 +237,12 @@ export class SessionManagementService {
 			transaction_id: txnId,
 		});
 		let difficulty = this.defaultDifficulties;
+		let session: SessionCache | undefined = undefined;
 		if (
 			relatedData.sessionId &&
 			(await this.sessionService.checkIfSessionExists(relatedData.sessionId))
 		) {
-			const session = await this.sessionService.loadSessionThatExists(
+			session = await this.sessionService.loadSessionThatExists(
 				relatedData.sessionId as string
 			);
 			difficulty = session.sessionDifficulty;
@@ -255,6 +257,7 @@ export class SessionManagementService {
 			flowId: relatedData.flowId,
 			difficulty: difficulty,
 			transactionHistory: relatedData,
+			sessionData: session,
 		};
 		return properties;
 	};

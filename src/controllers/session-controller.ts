@@ -34,7 +34,12 @@ export class SessionController {
 		if (properties.defaultMode) {
 			res
 				.status(428)
-				.send("no session or active flow found for: " + sub.subUrl);
+				.send(
+					"no session or active flow found for: " +
+						sub.subUrl +
+						" which acts as a " +
+						sub.partType
+				);
 			return;
 		}
 
