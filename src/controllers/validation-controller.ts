@@ -138,7 +138,10 @@ export class ValidationController {
 			}
 			const auth = req.headers.authorization;
 			if (!auth) {
-				logger.info("Authorization header is missing", getLoggerMetaData(req));
+				logger.warning(
+					"Authorization header is missing",
+					getLoggerMetaData(req)
+				);
 				res.status(200).send(
 					setAckResponse(
 						false,
@@ -166,6 +169,10 @@ export class ValidationController {
 				req.requestProperties?.env,
 				getLoggerMetaData(req)
 			);
+			logger.info("Public key retrieved successfully", getLoggerMetaData(req), {
+				publicKey: key,
+				header: header,
+			});
 			const valid = await isHeaderValid({
 				header: auth,
 				body: JSON.stringify(req.body),

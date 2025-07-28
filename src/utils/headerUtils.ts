@@ -111,7 +111,8 @@ async function performLookup(
 	if (env === "LOGGED-IN") {
 		baseUrl = config.registry.IN_HOUSE_REGISTRY;
 	}
-	const url = `${baseUrl}lookup`;
+	// const url = `${baseUrl}lookup`;
+	const url = new URL("/lookup", baseUrl).href;
 	const data = {
 		subscriber_id: subId,
 		ukId: ukId,
@@ -124,6 +125,10 @@ async function performLookup(
 				"Content-Type": "application/json",
 				Authorization: header,
 			},
+		});
+		logger.info("Lookup response received", {
+			data: response.data,
+			...loggingMeta,
 		});
 		return response.data[0];
 	} catch (error: any) {
