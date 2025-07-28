@@ -1,13 +1,16 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import { computeSubscriberUri } from "../utils/subscriber-utils";
 import { ApiServiceRequest } from "../types/request-types";
 import {
 	SessionManagementService,
 	TransactionCacheService,
 } from "../services/session-service-rewrite";
-import { logError, logInfo } from "../utils/logger";
-import { setInternalServerNack } from "../utils/ackUtils";
+import logger from "@ondc/automation-logger";
+import { setAckResponse, setInternalServerNack } from "../utils/ackUtils";
 import { saveLog } from "../utils/data-utils/cache-utils";
+import { getLoggerMetaData } from "../utils/loggingUtils";
+import { performL0Validations } from "../validations/L0-validations/schemaValidations";
+import { performL1validations } from "../validations/L1-validations";
 
 export class SessionController {
 	sessionService: SessionManagementService;
@@ -27,34 +30,79 @@ export class SessionController {
 			body,
 			action,
 			sub.subUrl,
-			sub.partType
+			sub.partType,
+			getLoggerMetaData(req)
 		);
 		req.requestProperties = properties;
 
 		if (properties.defaultMode) {
-			res
-				.status(428)
-				.send(
-					"no session or active flow found for: " +
-						sub.subUrl +
-						" which acts as a " +
-						sub.partType
-				);
+			const message = `no session or active flow found for: url - ${sub.subUrl} which acts as a ${sub.partType}`;
+			logger.info(
+				"Running L0 Validations for request with no session!",
+				getLoggerMetaData(req)
+			);
+			const l0Result = performL0Validations(
+				body,
+				action,
+				getLoggerMetaData(req)
+			);
+
+			if (!l0Result.valid) {
+				logger.warning("L0 Validations Failed", getLoggerMetaData(req));
+				res
+					.status(200)
+					.send(
+						setAckResponse(
+							false,
+							req.body,
+							l0Result.errors + " \n " + message,
+							"400",
+							req.requestProperties
+						)
+					);
+				return;
+			}
+			logger.info(
+				"L0 Validations passed, now running L1 validations",
+				getLoggerMetaData(req)
+			);
+			const l1Result = performL1validations(action, body);
+			const invalidResult = l1Result.filter(
+				(result) => !result.valid && result.code !== 200
+			);
+			if (invalidResult.length > 0) {
+				const error = invalidResult[0].description + " \n " + message;
+				const code = invalidResult[0].code as number;
+				logger.warning("L1 validations failed", {
+					...getLoggerMetaData(req),
+					errors: error,
+				});
+				res
+					.status(200)
+					.send(
+						setAckResponse(
+							false,
+							req.body,
+							error,
+							code.toString(),
+							req.requestProperties
+						)
+					);
+				return;
+			}
+			logger.warning(message, getLoggerMetaData(req));
+			res.status(428).send(message);
 			return;
 		}
-
-		properties.sessionId &&
+		logger.info(
+			`Received request from Network Participant for action: ${action}, Transaction ID: ${properties.transactionId}`,
+			getLoggerMetaData(req)
+		);
+		req.requestProperties.sessionId &&
 			saveLog(
-				properties.sessionId,
-				`Received ${action} with Transaction ID: ${properties.transactionId}`
+				req.requestProperties.sessionId,
+				`Received request from Network Participant for action: ${action}, Transaction ID: ${properties.transactionId}`
 			);
-		logInfo({
-			message: "Exiting receiveNewRequestFromNp Middleware",
-			meta: {
-				action: req.params.action,
-			},
-			transaction_id: req.body?.context?.transaction_id,
-		});
 		next();
 	};
 
@@ -76,10 +124,15 @@ export class SessionController {
 			action,
 			sub.subUrl,
 			sub.partType,
+			getLoggerMetaData(req),
 			sessionID,
 			flowID
 		);
 		req.requestProperties = properties;
+		logger.info(
+			`Received Mock ${action} with Transaction ID: ${properties.transactionId}`,
+			getLoggerMetaData(req)
+		);
 		req.requestProperties.sessionId &&
 			saveLog(
 				req.requestProperties.sessionId,
@@ -94,14 +147,10 @@ export class SessionController {
 		next: NextFunction
 	) => {
 		if (!req.requestProperties) {
-			// logger.error("Request properties not found");
-			logError({
-				message: "Request properties not found",
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
+			logger.error(
+				"[FATAL]: Request properties not found in createTransaction",
+				getLoggerMetaData(req)
+			);
 			res.status(200).send(setInternalServerNack);
 			return;
 		}
@@ -111,13 +160,10 @@ export class SessionController {
 			req.requestProperties.subscriberUrl
 		);
 		if (!transactionData) {
-			logInfo({
-				message: "Transaction not found, creating new transaction",
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
+			logger.info(
+				`Creating new transaction cache for ${req.requestProperties.transactionId}`,
+				getLoggerMetaData(req)
+			);
 			transactionData = await transService.createTransaction(
 				transService.createTransactionKey(
 					req.requestProperties.transactionId,

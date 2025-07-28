@@ -8,40 +8,26 @@ import {
 	RequestProperties,
 	TransactionCache,
 } from "../../types/cache-types";
-import { logger, logInfo } from "../logger";
+import logger from "@ondc/automation-logger";
 
 export function validateAsyncContext(
 	subject: BecknContext,
 	transactionData: TransactionCache,
-	requestProperties: RequestProperties
+	requestProperties: RequestProperties,
+	loggingMeta: any
 ) {
-	logInfo({
-		message: "Entering validateAsyncContext Function",
-		meta: {
-			action: subject.action,
-			transactionId: subject.transaction_id,	
-			},
-		transaction_id: subject.transaction_id,
-	});
+	logger.info("Validating Transaction History", loggingMeta);
 	const flowPayloads = transactionData.apiList;
-
 	const allResponse = flowPayloads.map((payload) => payload.response);
 
 	if (
 		requestProperties.difficulty.stopAfterFirstNack &&
 		!checkAllAck(allResponse)
 	) {
-		logInfo({
-			message: "Exiting validateAsyncContext Function. Flow history already has a failed response",
-			meta: {
-				action: subject.action,
-				transactionId: subject.transaction_id,
-			},
-			transaction_id: subject.transaction_id,
-		});
+		logger.warning("Transaction history has a failed response", loggingMeta);
 		return {
 			valid: false,
-			error: `flow history already has a failed response`,
+			error: `Transaction history already has a failed response`,
 		};
 	}
 
@@ -59,28 +45,20 @@ export function validateAsyncContext(
 			(context) => context.action === predecessorName
 		);
 		if (!predecessor) {
-			logInfo({
-				message: "Exiting validateAsyncContext Function. Predecessor not found in the flow history",
-				meta: {
-					action: subject.action,
-					transactionId: subject.transaction_id,
-				},
-				transaction_id: subject.transaction_id,
-			});
+			logger.warning(
+				`${predecessorName} for ${subjectAction} not found in the flow history`,
+				loggingMeta
+			);
 			return {
 				valid: false,
 				error: `${predecessorName} for ${subjectAction} not found in the flow history`,
 			};
 		}
 		if (predecessor.messageId != subject.message_id) {
-			logInfo({
-				message: "Exiting validateAsyncContext Function. message_id mismatch between predecessor and subject",
-				meta: {
-					action: subject.action,
-					transactionId: subject.transaction_id,
-				},
-				transaction_id: subject.transaction_id,
-			});
+			logger.warning(
+				`message_id mismatch between ${predecessorName} and ${subjectAction}`,
+				loggingMeta
+			);
 			return {
 				valid: false,
 				error: `message_id mismatch between ${predecessorName} and ${subjectAction}
@@ -91,70 +69,47 @@ export function validateAsyncContext(
 			.filter((c) => JSON.stringify(c) !== JSON.stringify(predecessor))
 			.map((c) => c.messageId);
 		if (filteredContexts.includes(subject.message_id)) {
-			logInfo({
-				message: "Exiting validateAsyncContext Function. Duplicate message_id found in the flow history",
-				meta: {
-					action: subject.action,
-					transactionId: subject.transaction_id,
-				},
-				transaction_id: subject.transaction_id,
-			});
+			logger.warning(
+				"Duplicate message_id found in the flow history",
+				loggingMeta
+			);
 			return {
 				valid: false,
-				error: `Duplicate message_id found in the flow history`,
+				error: `Duplicate message_id found in the transaction history, ${subject.message_id}`,
 			};
 		}
 	} else {
 		const supportedActions = getSupportedActions(transactionData.latestAction);
 		if (transactionData.messageIds.includes(subject.message_id)) {
-
-			logInfo({
-				message: "Exiting validateAsyncContext Function. Duplicate message_id found in the flow history",
-				meta: {
-					action: subject.action,
-					transactionId: subject.transaction_id,
-				},
-				transaction_id: subject.transaction_id,
-			});
+			logger.warning(
+				"Duplicate message_id found in the flow history",
+				loggingMeta
+			);
 			return {
 				valid: false,
 				error: `Duplicate message_id found in the flow history`,
 			};
 		}
 		if (!supportedActions.includes(subjectAction)) {
-			logInfo({
-				message: `Exiting validateAsyncContext Function. ${subjectAction} not supported after ${transactionData.latestAction}`,
-				meta: {
-					action: subject.action,
-					transactionId: subject.transaction_id,
-				},
-				transaction_id: subject.transaction_id,
-			});
+			logger.warning(
+				`${subjectAction} not supported after ${transactionData.latestAction}`,
+				loggingMeta
+			);
 			return {
 				valid: false,
 				error: `${subjectAction} not supported after ${transactionData.latestAction}`,
 			};
 		}
 	}
-	logInfo({
-		message: "Exiting validateAsyncContext Function. Calling validateTransactionId",
-		meta: {
-			action: subject.action,
-			transactionId: subject.transaction_id,
-		},
-		transaction_id: subject.transaction_id,
-	});
-	return validateTransactionId(subjectAction, sortedContexts);
+	return validateTransactionId(subjectAction, sortedContexts, loggingMeta);
 }
 
-function validateTransactionId(action: string, sortedContexts: ApiData[]) {
-	logInfo({
-		message: "Entering validateTransactionId Function",
-		meta: {
-			action,
-			sortedContexts,
-		},
-	});
+function validateTransactionId(
+	action: string,
+	sortedContexts: ApiData[],
+	loggingMeta: any
+) {
+	logger.info("Running Transaction Id Checks", loggingMeta);
 	const transactionPartners = getTransactionPartners(action);
 	const transactionContexts = findFirstMatches(
 		sortedContexts,
@@ -165,13 +120,12 @@ function validateTransactionId(action: string, sortedContexts: ApiData[]) {
 			!transactionContexts.some((context) => context.action === partner)
 	);
 	if (notFound.length > 0) {
-		logInfo({
-			message: "Exiting validateTransactionId Function. Transaction partners not found in the transaction history",
-			meta: {
-				action,
-				notFound,
-			},
-		});
+		logger.warning(
+			`Transaction partners ${notFound.join(
+				", "
+			)} not found in the transaction history to proceed with ${action}`,
+			loggingMeta
+		);
 		return {
 			valid: false,
 			error: `Transaction partners ${notFound.join(
@@ -179,53 +133,21 @@ function validateTransactionId(action: string, sortedContexts: ApiData[]) {
 			)} not found in the transaction history to proceed with ${action}`,
 		};
 	}
-	logInfo({
-		message: "Exiting validateTransactionId Function.",
-		meta: {
-			action,
-			transactionPartners: transactionPartners,
-		},
-	});
+	logger.info("Transaction History Checks passed", loggingMeta);
 	return {
 		valid: true,
 	};
 }
 
 function getAsyncPredecessor(action: string) {
-	// logger.info("apiProperties :" + JSON.stringify(apiProperties));
-	logInfo({
-		message: "Entering getAsyncOredecessor function. " +"apiProperties :" + JSON.stringify(apiProperties),
-		meta: {
-			action,
-		},
-	});
 	if (action in apiProperties) {
-		logInfo({
-			message: "Exiting getAsyncPredecessor function. Returning async predecessor",
-			meta: {
-				action,
-			},
-		});
 		return apiProperties[action as keyof typeof apiProperties]
 			.async_predecessor;
 	}
-	logInfo({
-		message: "Exiting getAsyncPredecessor function. Returning null",
-		meta: {
-			action,
-		},
-	});
 	return null;
 }
 
 function getSupportedActions(action: string) {
-	// logger.info("supportedActions :" + JSON.stringify(supportedActions));
-	logInfo({
-		message: "Entering getSupportedActions function. " + "supportedActions :" + JSON.stringify(supportedActions),
-		meta: {
-			action,
-		},
-	});	
 	if (action === "") {
 		action = "null";
 	}
@@ -236,38 +158,14 @@ function getSupportedActions(action: string) {
 }
 
 function getTransactionPartners(action: string) {
-	logInfo({
-		message: "Entering getTransactionPartners function",
-		meta: {
-			action,
-		},
-	});
 	if (action in apiProperties) {
-		logInfo({
-			message: "Exiting getTransactionPartners function. Returning transaction partners",
-			meta: {
-				action,
-			},
-		});
 		return apiProperties[action as keyof typeof apiProperties]
 			.transaction_partner;
 	}
-	logInfo({
-		message: "Exiting getTransactionPartners function. Returning empty array",
-		meta: {
-			action,
-		},
-	});		
 	return [] as string[];
 }
 
 function findFirstMatches(array: ApiData[], actions: string[]): ApiData[] {
-	logInfo({
-		message: "Entering findFirstMatches function",
-		meta: {
-			actions,
-			},
-	});
 	const result: ApiData[] = [];
 	const foundActions = new Set<string>();
 	for (const item of array) {
@@ -280,22 +178,10 @@ function findFirstMatches(array: ApiData[], actions: string[]): ApiData[] {
 			break;
 		}
 	}
-	logInfo({
-		message: "Exiting findFirstMatches function",
-		meta: {
-			result,
-		},
-	});
 	return result;
 }
 
 export function checkAllAck(responses: any[]) {
-	logInfo({
-		message: "Entering checkAllAck function. checking all ACK",
-		meta: {
-			responses,
-		},
-	});
 	return responses.every((response) => {
 		if (response?.message?.ack?.status === "ACK") {
 			return true;

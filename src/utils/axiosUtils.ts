@@ -1,7 +1,20 @@
-import { logger } from "./logger";
+import { isAxiosError } from "axios";
 
 export function getAxiosErrorMessage(error: any) {
-	logger.debug(JSON.stringify(error, null, 2));
+	if (isAxiosError(error)) {
+		return {
+			code: error.code,
+			request: {
+				method: error.config?.method,
+				url: error.config?.url,
+			},
+			response: {
+				status: error.response?.status,
+				statusText: error.response?.statusText,
+				data: error.response?.data,
+			},
+		};
+	}
 	if (error.response) {
 		return (
 			error.response.data ||
@@ -13,27 +26,8 @@ export function getAxiosErrorMessage(error: any) {
 		return "No response received from server";
 	} else {
 		// Error occurred while setting up the request
-		return error.message || "An unknown error occurred";
+		return (
+			error.message || "An unknown error occurred from an external request"
+		);
 	}
-}
-
-export function axiosToCurl(config: any) {
-	let curl = `curl -X ${config.method.toUpperCase()} '${config.url}'`;
-
-	// Add headers
-	const headers = config.headers || {};
-	for (const [key, value] of Object.entries(headers)) {
-		curl += ` -H '${key}: ${value}'`;
-	}
-
-	// Add data if available
-	if (config.data) {
-		const dataString =
-			typeof config.data === "object"
-				? JSON.stringify(config.data)
-				: config.data;
-		curl += ` -d '${dataString}'`;
-	}
-
-	console.log(curl);
 }

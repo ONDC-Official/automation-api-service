@@ -77,3 +77,4 @@ web_modules/
 
 package-lock.json
 dist/
+generated/

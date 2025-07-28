@@ -2,7 +2,7 @@ import express, { NextFunction, Response } from "express";
 import { CommunicationController } from "../controllers/communication-controller";
 import { DataController } from "../controllers/data-controller";
 import { ValidationController } from "../controllers/validation-controller";
-import { logger, logInfo } from "../utils/logger";
+import logger from "@ondc/automation-logger";
 import { v4 as uuidV4 } from "uuid";
 import { SessionController } from "../controllers/session-controller";
 import { TransactionCacheService } from "../services/session-service-rewrite";
@@ -18,6 +18,7 @@ const dbController = new DataController();
 const validationController = new ValidationController();
 const sessionController = new SessionController();
 import otelTracing from "../services/tracing-service";
+import { getLoggerMetaData } from "../utils/loggingUtils";
 
 router.post(
 	"/:action",
@@ -42,14 +43,6 @@ function modifyExpressSend(
 	res: Response,
 	next: NextFunction
 ) {
-	logInfo({
-		message: "Entering modifyExpressSend Middleware",
-		meta: {
-			action: req.params.action,
-		},
-		transaction_id: req.body?.context?.transaction_id,
-	});
-	// Ensure `res.send` is wrapped only once
 	if (!res.locals.isSendWrapped) {
 		res.locals.isSendWrapped = true; // Flag to indicate the wrapping is done
 		const originalSend = res.send;
@@ -57,12 +50,6 @@ function modifyExpressSend(
 			if (!res.locals.isCacheUpdated) {
 				res.locals.isCacheUpdated = true; // Flag to ensure cache update happens only once
 				const statusCode = res.statusCode;
-				if (statusCode !== 200) {
-					logger.info(
-						"API service response status code is not 200",
-						statusCode
-					);
-				}
 				const payloadID = uuidV4();
 				new TransactionCacheService().updateTransactionCache(
 					payloadID,
@@ -71,18 +58,14 @@ function modifyExpressSend(
 					req?.requestProperties?.subscriberUrl
 				);
 				dbController.savePayloadInDb(req, body, true, statusCode, payloadID);
-				logger.info("Sending response: " + JSON.stringify(body));
+				logger.info("Now responding back to the mock", getLoggerMetaData(req), {
+					response: body,
+					code: statusCode,
+				});
 			}
 			return originalSend.call(this, body); // Call the original send method
 		};
 	}
-	logInfo({
-		message: "Exiting modifyExpressSend Middleware",
-		meta: {
-			action: req.params.action,
-		},
-		transaction_id: req.body?.context?.transaction_id,
-	});
 	next();
 }
 

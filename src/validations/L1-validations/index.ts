@@ -12,7 +12,6 @@ import on_confirm from "./api-tests/on_confirm";
 import on_cancel from "./api-tests/on_cancel";
 import on_update from "./api-tests/on_update";
 import on_status from "./api-tests/on_status";
-import { logError, logInfo } from "../../utils/logger";
 
 export function performL1validations(
 	action: string,
@@ -20,14 +19,6 @@ export function performL1validations(
 	allErrors = false,
 	externalData = {}
 ) {
-	logInfo({
-		message: "Performing L1 validations",
-		meta: {
-			action,
-			allErrors,
-			externalData,
-		},
-	});
 	switch (action) {
 		case "search":
 			return search({
@@ -142,16 +133,6 @@ export function performL1validations(
 				},
 			});
 		default:
-			logError
-				({
-					message: "Action not found",
-					meta: {
-						action,
-						payload,
-						allErrors,
-						externalData,
-					},
-				});
 			throw new Error("Action not found");
 	}
 }

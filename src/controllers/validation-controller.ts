@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { logger, logInfo, logError } from "../utils/logger";
+import logger from "@ondc/automation-logger";
 import {
 	setAckResponse,
 	setBadRequestNack,
@@ -13,10 +13,10 @@ import {
 } from "../utils/data-utils/validate-context";
 import { getPublicKeys } from "../utils/headerUtils";
 import { isHeaderValid } from "ondc-crypto-sdk-nodejs";
-import { DataService } from "../services/data-service";
 import { computeSubscriberUri } from "../utils/subscriber-utils";
 import { ApiServiceRequest } from "../types/request-types";
 import { performL1CustomValidations } from "../validations/L1-custom-validations";
+import { getLoggerMetaData } from "../utils/loggingUtils";
 
 export class ValidationController {
 	validateRequestBodyNp = async (
@@ -24,25 +24,16 @@ export class ValidationController {
 		res: Response,
 		next: NextFunction
 	) => {
-		logInfo({
-			message: "Entering validateRequestBodyNp Middleware",
-			meta: {
-				action: req.params.action,
-			},
-			transaction_id: req.body?.context?.transaction_id,
-		});
-
 		const body = req.body;
+		logger.info(
+			`${req.params.action} request received from NP`,
+			getLoggerMetaData(req)
+		);
 		if (!isValidJSON(JSON.stringify(body))) {
-			// logger.error("Invalid request body", body);
-			logError({
-				message:
-					"Exiting validateRequestBodyNp Middleware. Invalid request body",
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
+			logger.warning(
+				"Invalid request body is not a valid JSON",
+				getLoggerMetaData(req)
+			);
 			res
 				.status(200)
 				.send(setBadRequestNack(": Invalid request body is not a valid JSON"));
@@ -50,20 +41,15 @@ export class ValidationController {
 		}
 		const action = req.params.action;
 		if (!body) {
-			// logger.error("Invalid request body", body);
-			logError({
-				message:
-					"Exiting validateRequestBodyNp Middleware. Invalid request body",
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
+			logger.warning("Invalid request body", getLoggerMetaData(req));
 			res.status(200).send(setBadRequestNack(": Invalid request body"));
 			return;
 		}
 		if (!body.context) {
-			logger.error("Invalid request body", body);
+			logger.warning(
+				"Context is missing in the request body",
+				getLoggerMetaData(req)
+			);
 			res.status(200).send(setBadRequestNack(": Context is missing"));
 			return;
 		}
@@ -71,29 +57,32 @@ export class ValidationController {
 			if (!(action === action.toLowerCase())) {
 				throw new Error("Invalid action: " + action);
 			}
-		} catch (error) {
-			logger.error(error);
+		} catch (error: any) {
+			logger.error("Invalid action", getLoggerMetaData(req), error);
 			res.status(200).send(setBadRequestNack("Invalid Action : " + action));
 			return;
 		}
 		try {
 			computeSubscriberUri(body.context, action, false);
 		} catch (error: any) {
-			logger.error("Ambiguous subscriber URL", error);
+			logger.error("Ambiguous subscriber URL", getLoggerMetaData(req), error);
 			res.status(200).send(setBadRequestNack(":" + error.message));
 			return;
 		}
 		try {
 			const payloadAction = body.context.action;
 			if (!payloadAction) {
-				logger.error("Invalid request body", body);
+				logger.warning(
+					"Invalid request body: action is missing",
+					getLoggerMetaData(req)
+				);
 				res.status(200).send(setBadRequestNack(": Action is missing"));
 				return;
 			}
 			if (payloadAction !== action) {
-				logger.error(
+				logger.warning(
 					"Invalid request body: Action in context does not match the route",
-					{ payloadAction, action }
+					getLoggerMetaData(req)
 				);
 				res
 					.status(200)
@@ -114,54 +103,42 @@ export class ValidationController {
 		next: NextFunction
 	) => {
 		try {
+			logger.info("Validating signature", getLoggerMetaData(req));
 			const encoding = req.headers["content-encoding"];
 			if (encoding !== "gzip" && req.requestProperties?.difficulty.useGzip) {
+				logger.warning(
+					"content-encoding must be gzip as per flow settings",
+					getLoggerMetaData(req)
+				);
 				res
 					.status(406)
 					.send("content-encoding must be gzip as per flow settings");
 				return;
 			}
 			if (encoding === "gzip" && !req.requestProperties?.difficulty.useGzip) {
+				logger.warning(
+					"content-encoding must not be gzip as per flow settings",
+					getLoggerMetaData(req)
+				);
 				res
 					.status(406)
 					.send("content-encoding must not be gzip as per flow settings");
 				return;
 			}
-			// logger.info("Validating signature");
-			logInfo({
-				message: "Entering validateSignatureNp Middleware",
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
 			if (
 				req.requestProperties &&
 				req.requestProperties.difficulty.headerValidaton === false
 			) {
-				// logger.info("Signature validations are disabled");
-				logInfo({
-					message:
-						"Exiting validateSignatureNp Middleware. Signature validations are disabled",
-					meta: {
-						action: req.params.action,
-					},
-					transaction_id: req.body?.context?.transaction_id,
-				});
+				logger.info(
+					"Signature validations are disabled",
+					getLoggerMetaData(req)
+				);
 				next();
 				return;
 			}
 			const auth = req.headers.authorization;
 			if (!auth) {
-				// logger.info("Responding with invalid signature");
-				logInfo({
-					message:
-						"Exiting validateSignatureNp Middleware. Responding with invalid signature",
-					meta: {
-						action: req.params.action,
-					},
-					transaction_id: req.body?.context?.transaction_id,
-				});
+				logger.info("Authorization header is missing", getLoggerMetaData(req));
 				res.status(200).send(
 					setAckResponse(
 						false,
@@ -175,14 +152,10 @@ export class ValidationController {
 				return;
 			}
 			if (!req.requestProperties?.env) {
-				logError({
-					message: "Environment is not set in the session",
-					meta: {
-						action: req.params.action,
-					},
-					transaction_id: req.body?.context?.transaction_id,
-				});
-				// res.status(500).send("env is not set in the session creation");
+				logger.error(
+					"Environment is not set in request properties",
+					getLoggerMetaData(req)
+				);
 				res.status(200).send(setInternalServerNack);
 				return;
 			}
@@ -190,29 +163,23 @@ export class ValidationController {
 			const key = await getPublicKeys(
 				header,
 				req.body,
-				req.requestProperties?.env
+				req.requestProperties?.env,
+				getLoggerMetaData(req)
 			);
 			const valid = await isHeaderValid({
 				header: auth,
 				body: JSON.stringify(req.body),
 				publicKey: key,
 			});
-			// logger.info("Signature validation result " + valid);
-			logInfo({
-				message: "Signature validation result " + valid,
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
+			logger.info(
+				"Signature validation result: " + valid,
+				getLoggerMetaData(req)
+			);
 			if (!valid) {
-				logInfo({
-					message: "Responding with invalid signature",
-					meta: {
-						action: req.params.action,
-					},
-					transaction_id: req.body?.context?.transaction_id,
-				});
+				logger.info(
+					"Responding with invalid signature",
+					getLoggerMetaData(req)
+				);
 				res.status(200).send(
 					setAckResponse(
 						false,
@@ -225,22 +192,14 @@ export class ValidationController {
 				);
 				return;
 			}
-			logInfo({
-				message: "Signature is valid",
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
+			logger.info("Signature validation passed", getLoggerMetaData(req));
 			next();
 		} catch (error) {
-			logError({
-				message: "Error while validating signature",
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
+			logger.error(
+				"Error while validating signature",
+				getLoggerMetaData(req),
+				error as Error
+			);
 			res.status(200).send(
 				setAckResponse(
 					false,
@@ -260,52 +219,24 @@ export class ValidationController {
 		res: Response,
 		next: NextFunction
 	) => {
-		// logger.info("recived request from mock server");
-		logInfo({
-			message: "Entering validateRequestBodyMock Middleware",
-			meta: {
-				action: req.params.action,
-			},
-			transaction_id: req.body?.context?.transaction_id,
-		});
 		const body = req.body;
+		logger.info(
+			`${req.params.action} request received from Mock Server`,
+			getLoggerMetaData(req)
+		);
 		if (!body || !body.context || !body.context.action) {
 			// logger.error("Invalid request body", body);
-			logError({
-				message:
-					"Exiting validateRequestBodyMock Middleware. Invalid request body",
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
-
+			logger.warning("Invalid request body", getLoggerMetaData(req));
 			res.status(200).send(setBadRequestNack());
 			return;
 		}
 		try {
 			computeSubscriberUri(body.context, body.context.action, true);
-		} catch {
-			// logger.error("Ambiguous subscriber URL", body);
-			logError({
-				message:
-					"Exiting validateRequestBodyMock Middleware. Ambiguous subscriber URL",
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
-
+		} catch (error: any) {
+			logger.error("Ambiguous subscriber URL", getLoggerMetaData(req), error);
 			res.status(200).send(setBadRequestNack());
 			return;
 		}
-		logInfo({
-			message: "Exiting validateRequestBodyMock Middleware",
-			meta: {
-				action: req.params.action,
-			},
-			transaction_id: req.body?.context?.transaction_id,
-		});
 		next();
 	};
 
@@ -313,30 +244,12 @@ export class ValidationController {
 	validateL0(req: ApiServiceRequest, res: Response, next: NextFunction) {
 		const { action } = req.params;
 		const body = req.body;
-		// logger.info(
-		// 	"Starting L0 validations for action: " +
-		// 		JSON.stringify(body.context, null, 2)
-		// );
-		logInfo({
-			message:
-				"Entering validateL0 Middleware. Starting L0 validations for action: " +
-				action,
-			meta: {
-				action: action,
-				context: body.context,
-			},
-			transaction_id: req.body?.context?.transaction_id,
-		});
-		const l0Result = performL0Validations(body, action);
+		logger.info("Running L0 validations", getLoggerMetaData(req));
+		const l0Result = performL0Validations(body, action, getLoggerMetaData(req));
 		if (!l0Result.valid) {
-			// logger.error("L0 validations failed");
-			logError({
-				message: "Exiting validateL0 Middleware. L0 validations failed",
-				meta: {
-					action: action,
-					context: body.context,
-				},
-				transaction_id: req.body?.context?.transaction_id,
+			logger.error("L0 validations failed", {
+				...getLoggerMetaData(req),
+				errors: l0Result.errors,
 			});
 			res
 				.status(200)
@@ -351,69 +264,42 @@ export class ValidationController {
 				);
 			return;
 		}
-		// logger.info("L0 validations passed");
-		logInfo({
-			message: " Exiting validateL0 Middleware. L0 validations passed",
-			meta: {
-				action: action,
-				context: body.context,
-			},
-			transaction_id: req.body?.context?.transaction_id,
-		});
+		logger.info("L0 validations passed", getLoggerMetaData(req));
 		next();
 	}
 
-	// Middleware: L1 validations
 	validateL1 = async (
 		req: ApiServiceRequest,
 		res: Response,
 		next: NextFunction
 	) => {
-		logInfo({
-			message: "Entering validateL1 Middleware",
-			meta: {
-				action: req.params.action,
-			},
-			transaction_id: req.body?.context?.transaction_id,
-		});
+		logger.info("Performing L1 validations", getLoggerMetaData(req));
 		const { action } = req.params;
 		const body = req.body;
-		const sessionId =
-			(req as ApiServiceRequest).requestProperties?.sessionId ?? "unknown";
+
 		if (
 			req.requestProperties &&
 			!req.requestProperties.difficulty.protocolValidations
 		) {
-			// logger.info("L1 validations are disabled");
-			logInfo({
-				message:
-					"Exiting L1 Validations Middleware. L1 validations are disabled",
-				meta: {
-					action: action,
-					context: body.context,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
+			logger.info("L1 validations are disabled", getLoggerMetaData(req));
 			next();
 			return;
 		}
-
+		const profiler = logger.startTimer();
 		const l1Result = performL1validations(action, body, true);
+		profiler.done({
+			message: `L1 validations completed in: `,
+			...getLoggerMetaData(req),
+		});
 		const invalidResult = l1Result.filter(
 			(result) => !result.valid && result.code !== 200
 		);
-		// console.log("invalidResult", invalidResult);
 		if (invalidResult.length > 0) {
 			const error = invalidResult[0].description;
 			const code = invalidResult[0].code as number;
-			// await saveLog(sessionId, `L1 validation failed: ${error}`, "error");
-			logInfo({
-				message: "Exiting L1 Validations Middleware. L1 validations failed",
-				meta: {
-					action: action,
-					context: body.context,
-				},
-				transaction_id: req.body?.context?.transaction_id,
+			logger.warning("L1 validations failed", {
+				...getLoggerMetaData(req),
+				errors: error,
 			});
 			res
 				.status(200)
@@ -428,16 +314,7 @@ export class ValidationController {
 				);
 			return;
 		}
-		// await saveLog(sessionId, "first level validations passed successfully");
-		// logger.info("L1 validations passed");
-		logInfo({
-			message: "Exiting L1 Validations Middleware. L1 validations passed",
-			meta: {
-				action: action,
-				context: body.context,
-			},
-			transaction_id: req.body?.context?.transaction_id,
-		});
+		logger.info("L1 validations passed", getLoggerMetaData(req));
 		next();
 	};
 
@@ -446,57 +323,41 @@ export class ValidationController {
 		res: Response,
 		next: NextFunction
 	) => {
-		logInfo({
-			message: "Entering validateL1Custom Middleware",
-			meta: {
-				action: req.params.action,
-			},
-			transaction_id: req.body?.context?.transaction_id,
-		});
 		try {
+			logger.info("Performing L1 custom validations", getLoggerMetaData(req));
 			const { action } = req.params;
 			const body = req.body;
-			const sessionId =
-				(req as ApiServiceRequest).requestProperties?.sessionId ?? "unknown";
 			if (
 				req.requestProperties &&
 				!req.requestProperties.difficulty.protocolValidations
 			) {
-				// logger.info("L1 validations are disabled");
-				logInfo({
-					message:
-						"Exiting validateL1Custom Middleware. L1 custom validations are disabled",
-					meta: {
-						action: action,
-						context: body.context,
-					},
-					transaction_id: req.body?.context?.transaction_id,
-				});
+				logger.info(
+					"L1 custom validations are disabled",
+					getLoggerMetaData(req)
+				);
 				next();
 				return;
 			}
+			const profiler = logger.startTimer();
 			const l1CustomResult = await performL1CustomValidations(
 				JSON.parse(JSON.stringify(body)),
 				action,
 				req.requestProperties?.subscriberUrl ?? ""
 			);
+			profiler.done({
+				message: `L1 custom validations completed in: `,
+				...getLoggerMetaData(req),
+			});
 			const invalidResult = l1CustomResult.filter(
 				(result) => !result.valid && result.code !== 200
 			);
 			if (invalidResult.length > 0) {
 				const error = invalidResult[0].description;
 				const code = invalidResult[0].code as number;
-				// await saveLog(sessionId, `L1 validation failed: ${error}`, "error");
-				logInfo({
-					message:
-						"Exiting validateL1Custom Middleware. L1 custom validations failed",
-					meta: {
-						action: action,
-						context: body.context,
-					},
-					transaction_id: req.body?.context?.transaction_id,
+				logger.warning("L1 custom validations failed", {
+					...getLoggerMetaData(req),
+					errors: error,
 				});
-
 				res
 					.status(200)
 					.send(
@@ -510,31 +371,17 @@ export class ValidationController {
 					);
 				return;
 			}
-			// await saveLog(sessionId, "second level validations passed successfully");
-			// logger.info("L1 validations passed");
-			logInfo({
-				message:
-					"Exiting validateL1Custom Middleware. L1 custom validations passed",
-				meta: {
-					action: action,
-					context: body.context,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
+			logger.info("L1 custom validations passed", getLoggerMetaData(req));
 			next();
-		} catch (error) {
-			// logger.error("error in L1 custom validations", error);
-			logError({
-				message:
-					"Exiting validateL1Custom Middleware. Error in L1 custom validations",
-				meta: {
-					action: req.params.action,
+		} catch (error: any) {
+			logger.error(
+				"Error in L1 custom validations",
+				{
+					...getLoggerMetaData(req),
 				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
-
+				error
+			);
 			next();
-			// res.status(200).send(setInternalServerNack);
 		}
 	};
 
@@ -543,9 +390,15 @@ export class ValidationController {
 		res: Response,
 		next: NextFunction
 	) => {
+		logger.info("Performing single L1 validations", getLoggerMetaData(req));
 		const { action } = req.params;
 		const body = req.body;
+		const profiler = logger.startTimer();
 		const l1Result = performL1validations(action, { ...body }, true);
+		profiler.done({
+			message: `Single L1 validations completed in: `,
+			...getLoggerMetaData(req),
+		});
 		const isValid = l1Result.every((result) => result.valid);
 		if (!isValid) {
 			const allErrors = l1Result
@@ -558,7 +411,7 @@ export class ValidationController {
 				.send(setAckResponse(false, req.body, allErrors, code.toString()));
 			return;
 		}
-		logger.info("L1 validations passed");
+		logger.info("L1 validations passed", getLoggerMetaData(req));
 		next();
 	};
 
@@ -568,63 +421,51 @@ export class ValidationController {
 		res: Response,
 		next: NextFunction
 	) {
-		logInfo({
-			message: "Entering validateContextFromNp Middleware",
-			meta: {
-				action: req.params.action,
-			},
-			transaction_id: req.body?.context?.transaction_id,
-		});
-		const body = req.body;
-		if (!req.requestProperties) {
-			// logger.error("[FATAL]: Request properties not found");
-			logError({
-				message:
-					"Exiting validateContextFromNp Middleware. Request properties not found",
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
-			next();
-			return;
-		}
-		const contextValidations = await performContextValidations(
-			body.context,
-			req.requestProperties
-		);
-		if (!contextValidations.valid) {
-			logError({
-				message:
-					"Exiting validateContextFromNp Middleware. Context validations failed",
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
-			res
-				.status(200)
-				.send(
-					setAckResponse(
-						false,
-						req.body,
-						contextValidations.error,
-						"400",
-						req.requestProperties
-					)
+		try {
+			logger.info("Validating context from NP", getLoggerMetaData(req));
+			const body = req.body;
+			if (!req.requestProperties) {
+				logger.error(
+					"[FATAL]: Request properties not found in validateContextFromNp",
+					getLoggerMetaData(req)
 				);
+				res.status(200).send(setInternalServerNack);
+				return;
+			}
+			const contextValidations = await performContextValidations(
+				body.context,
+				req.requestProperties,
+				getLoggerMetaData(req)
+			);
+			if (!contextValidations.valid) {
+				logger.warning("Context validations failed", {
+					...getLoggerMetaData(req),
+					errors: contextValidations.error,
+				});
+				res
+					.status(200)
+					.send(
+						setAckResponse(
+							false,
+							req.body,
+							contextValidations.error,
+							"400",
+							req.requestProperties
+						)
+					);
+				return;
+			}
+			logger.info("Context validations passed", getLoggerMetaData(req));
+			next();
+		} catch (error: any) {
+			logger.error(
+				"Error while validating context from NP",
+				getLoggerMetaData(req),
+				error
+			);
+			res.status(200).send(setInternalServerNack);
 			return;
 		}
-		// logger.info("Context validations passed");
-		logInfo({
-			message:
-				"Exiting validateContextFromNp Middleware. Context validations passed",
-			meta: {
-				action: req.params.action,
-			},
-			transaction_id: req.body?.context?.transaction_id,
-		});
-		next();
 	}
 
 	async validateContextFromMock(
@@ -632,86 +473,44 @@ export class ValidationController {
 		res: Response,
 		next: NextFunction
 	) {
-		if (!req.requestProperties) {
-			// logger.error("[FATAL]: Request properties not found");
-			logError({
-				message:
-					"Exiting validateContextFromMock Middleware. Request properties not found",
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
+		try {
+			logger.info("Validating context from NP", getLoggerMetaData(req));
+			if (!req.requestProperties) {
+				logger.error(
+					"[FATAL]: Request properties not found in validateContextFromMock",
+					getLoggerMetaData(req)
+				);
+				res.status(200).send(setInternalServerNack);
+				return;
+			}
+			const context = req.body.context;
+			const contextValidations = await performContextValidations(
+				context,
+				req.requestProperties,
+				getLoggerMetaData(req)
+			);
+			if (!contextValidations.valid) {
+				logger.warning("Context validations failed", {
+					...getLoggerMetaData(req),
+					errors: contextValidations.error,
+				});
+				res
+					.status(200)
+					.send(
+						setAckResponse(false, req.body, contextValidations.error, "400")
+					);
+				return;
+			}
+			logger.info("Context validations passed", getLoggerMetaData(req));
 			next();
+		} catch (error: any) {
+			logger.error(
+				"Error while validating context from Mock Server",
+				getLoggerMetaData(req),
+				error
+			);
+			res.status(200).send(setInternalServerNack);
 			return;
 		}
-		const context = req.body.context;
-		const contextValidations = await performContextValidations(
-			context,
-			req.requestProperties
-		);
-		if (!contextValidations.valid) {
-			logError({
-				message:
-					"Exiting validateContextFromMock Middleware. Context validations failed",
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
-			res
-				.status(200)
-				.send(setAckResponse(false, req.body, contextValidations.error, "400"));
-			return;
-		}
-		logInfo({
-			message:
-				"Exiting validateContextFromMock Middleware. Context validations passed",
-			meta: {
-				action: req.params.action,
-			},
-			transaction_id: req.body?.context?.transaction_id,
-		});
-		next();
-	}
-
-	async validateSessionFromNp(req: Request, res: Response, next: NextFunction) {
-		const { action } = req.params;
-		const body = req.body;
-		const context = body.context;
-		const validSession = await new DataService().checkSessionExistence(
-			computeSubscriberUri(context, action, false).subUrl
-		);
-		if (!validSession) {
-			logger.info("responding with invalid session");
-			res
-				.status(200)
-				.send(setAckResponse(false, req.body, "Invalid Session", "90001"));
-			return;
-		}
-		logger.info("Session validated");
-		next();
-	}
-
-	async validateSessionFromMock(
-		req: Request,
-		res: Response,
-		next: NextFunction
-	) {
-		const subscriberUrl =
-			(req.query.subscriber_url as string) ??
-			computeSubscriberUri(req.body.context, req.params.action, true);
-
-		const validSession = await new DataService().checkSessionExistence(
-			subscriberUrl
-		);
-		if (!validSession) {
-			logger.info("responding with invalid session");
-			res
-				.status(200)
-				.send(setAckResponse(false, req.body, "Invalid Session", "90001"));
-			return;
-		}
-		next();
 	}
 }

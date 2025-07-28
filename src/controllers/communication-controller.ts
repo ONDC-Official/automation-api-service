@@ -1,10 +1,11 @@
 import { setAckResponse, setInternalServerNack } from "../utils/ackUtils";
 import { Response } from "express";
-import { logError, logger, logInfo } from "../utils/logger";
+import logger from "@ondc/automation-logger";
 import { CommunicationService } from "../services/forwarding-service";
 import { BecknContext } from "../models/beckn-types";
 import { saveLog } from "../utils/data-utils/cache-utils";
 import { ApiServiceRequest } from "../types/request-types";
+import { getLoggerMetaData } from "../utils/loggingUtils";
 
 export class CommunicationController {
 	communicationService: CommunicationService;
@@ -15,13 +16,10 @@ export class CommunicationController {
 
 	forwardToMockServer = async (req: ApiServiceRequest, res: Response) => {
 		if (req.requestProperties?.defaultMode) {
-			logInfo({
-				message: "Default mode is enabled, skipping mock server",
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
+			logger.info(
+				`Default mode is enabled, skipping mock server for action: ${req.params.action}`,
+				getLoggerMetaData(req)
+			);
 			res.status(204).send();
 			return;
 		}
@@ -31,31 +29,20 @@ export class CommunicationController {
 			await saveLog(sessionId, "Forwarding request to mock server");
 			await new CommunicationService().forwardApiToMock(
 				req.body,
+				getLoggerMetaData(req),
 				req.requestProperties
 			);
 			await saveLog(sessionId, "Successfully forwarded request to mock server");
-			logInfo({
-				message: "Successfully forwarded request to mock server",
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
-		} catch (error) {
-			await saveLog(
-				sessionId,
-				`Error forwarding request to mock server: ${error}`,
-				"error"
+			logger.info(
+				`Successfully forwarded request to mock server for action: ${req.params.action}`,
+				getLoggerMetaData(req)
 			);
-			// logger.error("Error in forwarding request to mock server", error);
-			logError({
-				message: "Error in forwarding request to mock server",
-				error,
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
+		} catch (error: any) {
+			logger.error(
+				`Error in forwarding request to mock server for action: ${req.params.action}`,
+				getLoggerMetaData(req),
+				error
+			);
 		}
 	};
 
@@ -66,15 +53,10 @@ export class CommunicationController {
 		const sessionId = req.requestProperties?.sessionId ?? "unknown";
 		try {
 			if (!req.requestProperties) {
-				// logger.error("[FATAL]: Request properties not found");
-				logError({
-					message:
-						"Exiting handleRequestFromMockServer Middleware. Request properties not found",
-					meta: {
-						action: req.params.action,
-					},
-					transaction_id: req.body?.context?.transaction_id,
-				});
+				logger.error(
+					"[FATAL]: Request properties not found",
+					getLoggerMetaData(req)
+				);
 				res.status(200).send(setInternalServerNack);
 				return;
 			}
@@ -85,13 +67,10 @@ export class CommunicationController {
 					? process.env.WORKBENCH_SUBSCRIBER_ID
 					: process.env.SUBSCRIBER_ID;
 
-			logger.info({
-				message: `Updating subscriber Id in the payload with ${protocolWorkbenchId}`,
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
+			logger.info(
+				`Handling request from mock server for action: ${req.params.action}, Transaction ID: ${context.transaction_id}`,
+				getLoggerMetaData(req)
+			);
 
 			if (req.requestProperties.subscriberType === "BAP") {
 				req.body.context.bpp_id = protocolWorkbenchId;
@@ -100,101 +79,67 @@ export class CommunicationController {
 			}
 			const bpp_uri = context.bpp_uri;
 			if (bpp_uri) {
-				await saveLog(sessionId, "Forwarding request to NP server");
-				// logger.info("Forwarding request to NP server");
-				logInfo({
-					message: "Forwarding request to NP server",
-					meta: {
-						action: req.params.action,
-					},
-					transaction_id: req.body?.context?.transaction_id,
-				});
+				logger.info(
+					`Forwarding request to NP server for action: ${req.params.action}, Transaction ID: ${context.transaction_id}`,
+					getLoggerMetaData(req)
+				);
 
 				const response = await this.communicationService.forwardApiToNp(
 					req.body,
 					req.params.action,
+					getLoggerMetaData(req),
 					undefined,
 					req.requestProperties
 				);
 				res.status(response.status).send(response.data);
-				logInfo({
-					message:
-						"Exiting handleRequestFromMockServer Middleware.  Successfully forwarded request to NP server",
-					meta: {
-						action: req.params.action,
-					},
-					transaction_id: req.body?.context?.transaction_id,
-				});
-
+				logger.info(
+					`Successfully forwarded request to NP server for action: ${req.params.action}, Transaction ID: ${context.transaction_id}`,
+					getLoggerMetaData(req)
+				);
 				return;
 			}
 			const subUrl = req.requestProperties.subscriberUrl;
 			const useGateway = req.requestProperties.difficulty.useGateway;
 			if (useGateway) {
-				// logger.info("Forwarding request to Gateway server");
-				logInfo({
-					message: "Forwarding request to Gateway server",
-					meta: {
-						action: req.params.action,
-					},
-					transaction_id: req.body?.context?.transaction_id,
-				});
+				logger.info(
+					"Forwarding request to Gateway server",
+					getLoggerMetaData(req)
+				);
 				const response = await this.communicationService.forwardApiToGateway(
 					req.body,
 					req.requestProperties
 				);
 				res.status(response.status).send(response.data);
-				logInfo({
-					message:
-						"Exiting handleRequestFromMockServer Middleware.  Successfully forwarded request to Gateway server",
-					meta: {
-						action: req.params.action,
-					},
-					transaction_id: req.body?.context?.transaction_id,
-				});
+				logger.info(
+					"Successfully forwarded request to Gateway server",
+					getLoggerMetaData(req)
+				);
 				return;
 			} else {
-				// logger.info("Forwarding request to NP server");
-				logInfo({
-					message: "Forwarding request to NP server",
-					meta: {
-						action: req.params.action,
-					},
-					transaction_id: req.body?.context?.transaction_id,
-				});
-
+				logger.info(
+					`Forwarding request to NP server for action: ${req.params.action}, Transaction ID: ${context.transaction_id}`,
+					getLoggerMetaData(req)
+				);
 				const response = await this.communicationService.forwardApiToNp(
 					req.body,
 					req.params.action,
+					getLoggerMetaData(req),
 					subUrl,
 					req.requestProperties
 				);
 				res.status(response.status).send(response.data);
-				logInfo({
-					message:
-						"Exiting handleRequestFromMockServer Middleware.  Successfully forwarded request to NP server",
-					meta: {
-						action: req.params.action,
-					},
-					transaction_id: req.body?.context?.transaction_id,
-				});
+				logger.info(
+					`Successfully forwarded request to NP server for action: ${req.params.action}, Transaction ID: ${context.transaction_id}`,
+					getLoggerMetaData(req)
+				);
 				return;
 			}
-		} catch (error) {
-			await saveLog(
-				sessionId,
-				`Error handling request from mock server: ${error}`,
-				"error"
+		} catch (error: any) {
+			logger.error(
+				`Error in handling request from mock server for action: ${req.params.action}`,
+				getLoggerMetaData(req),
+				error
 			);
-			// logger.error("Error in handling request from mock server", error);
-			logError({
-				message: "Error in handling request from mock server",
-				error,
-				meta: {
-					action: req.params.action,
-				},
-				transaction_id: req.body?.context?.transaction_id,
-			});
 			res.status(200).send(setInternalServerNack);
 		}
 	};

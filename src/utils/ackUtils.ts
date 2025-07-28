@@ -1,5 +1,5 @@
 import { RequestProperties } from "../types/cache-types";
-import { logger } from "./logger";
+import logger from "@ondc/automation-logger";
 
 type AckResponse = {
 	context?: any;
@@ -80,7 +80,7 @@ export function shouldAddContext() {
 	}
 	const major = parseInt(version.split(".")[0]);
 	logger.info(
-		`Version: ${version}, Major: ${major}, context in ack is : ${major > 1}`
+		`Version: ${version}, Major Value: ${major},thus context in ack is : ${major > 1}`
 	);
 	return major < 2;
 }

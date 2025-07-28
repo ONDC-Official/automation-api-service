@@ -1,17 +1,16 @@
-import { logError, logInfo } from "./logger";
+import logger from "@ondc/automation-logger";
 import { createAuthorizationHeader } from "ondc-crypto-sdk-nodejs";
 import axios from "axios";
 import { config } from "../config/registryGatewayConfig";
 import { EnvType } from "../types/cache-types";
 
-const createAuthHeader = async (payload: any, env: EnvType) => {
-	logInfo({
-		message: "Creating authorization header",
-		meta: {
-			payload,
-		},
-	});
+const createAuthHeader = async (
+	payload: any,
+	env: EnvType,
+	loggerMeta: any
+) => {
 	try {
+		logger.info("Creating Authorization Header", loggerMeta);
 		const subId =
 			env === "LOGGED-IN"
 				? process.env.WORKBENCH_SUBSCRIBER_ID
@@ -22,41 +21,26 @@ const createAuthHeader = async (payload: any, env: EnvType) => {
 			subscriberId: subId || "", // Subscriber ID that you get after registering to ONDC Network
 			subscriberUniqueKeyId: process.env.UKID || "", // Unique Key Id or uKid that you get after registering to ONDC Network
 		});
-		logInfo({
-			message: "Authorization header created successfully",
-			meta: {
-				header,
-			},
+		logger.info("Authorization Header created successfully", {
+			header,
 		});
 		return header;
-	} catch (error) {
-		// logger.error("Error while creating Authorization Header", error);
-		// logError({
-		// 	message: "Error while creating Authorization Header",
-		// 	error,
-		// });
-		console.error(error);
+	} catch (error: any) {
+		logger.error(
+			"Error while creating Authorization Header",
+			loggerMeta,
+			error
+		);
 		throw new Error("Error while creating Authorization Header");
 	}
 };
 
-const fetchSubscriberDetails = (header: string) => {
-	logInfo({
-		message: "Fetching subscriber details",
-		meta: {
-			header,
-		},
-	});
-	const keyId: string[] = extractSignatureKeyId(header);
+const fetchSubscriberDetails = (header: string, loggingMeta: any) => {
+	logger.info("Fetching subscriber details", loggingMeta);
+	const keyId: string[] = extractSignatureKeyId(header, loggingMeta);
 
 	if (keyId.length === 0) {
-		// logger.error("Key ID not found in header");
-		logError({
-			message: "Key ID not found in header",
-			meta: {
-				header,
-			},
-		});
+		logger.error("Key ID not found in header", loggingMeta);
 		return null;
 	}
 
@@ -64,24 +48,10 @@ const fetchSubscriberDetails = (header: string) => {
 	const [subscriberId, ukId, _] = keyId[0].split("|");
 
 	// Ensure both subscriberID and ukId are present
-	logInfo({
-		message: "Exiting fetchSubscriberDetails function",
-		meta: {
-			subscriberId,
-			ukId,
-		},
-	});
 	return subscriberId && ukId ? { subscriberId, ukId } : null;
 };
 
-function extractSignatureKeyId(input: string): string[] {
-	// Updated regex to handle keyId values properly
-	logInfo({
-		message: "Extracting signature key ID",
-		meta: {
-			input,
-		},
-	});
+function extractSignatureKeyId(input: string, loggingMeta: any): string[] {
 	const keyIdRegex = /keyId=\\"([^\\"]+)\\"/g;
 	const matches: string[] = [];
 	let match;
@@ -89,12 +59,9 @@ function extractSignatureKeyId(input: string): string[] {
 	while ((match = keyIdRegex.exec(input)) !== null) {
 		matches.push(match[1]);
 	}
-	logInfo({
-		message: "Exiting extractSignatureKeyId function",
-		meta: {
-			input,
-			matches,
-		},
+	logger.info("Extracted keyId from header", {
+		matches,
+		...loggingMeta,
 	});
 	return matches;
 }
@@ -102,48 +69,40 @@ function extractSignatureKeyId(input: string): string[] {
 async function getPublicKeys(
 	header: string,
 	payload: any,
-	env: EnvType
+	env: EnvType,
+	loggerMeta: any
 ): Promise<string> {
-	logInfo({
-		message: "Entering getPublicKeys function.  Getting public keys",
-	});
+	logger.info("Getting public keys", loggerMeta);
 	try {
-		const { subscriberId, ukId } = fetchSubscriberDetails(header) || {};
+		const { subscriberId, ukId } =
+			fetchSubscriberDetails(header, loggerMeta) || {};
 		if (!subscriberId || !ukId) {
-			logError({
-				message: "Subscriber ID or UKID not found",
-				meta: {
-					subscriberId,
-					ukId,
-				},
+			logger.error("Subscriber ID or UKID not found", {
+				subscriberId,
+				ukId,
+				...loggerMeta,
 			});
 			throw new Error("Subscriber ID or UKID not found");
 		}
-		const response = await performLookup(subscriberId, ukId, env);
-		logInfo({
-			message: "Exiting getPublicKeys function",
-			meta: {
-				response,
-			},
-		});
+		const response = await performLookup(subscriberId, ukId, env, loggerMeta);
 		return response.signing_public_key;
-	} catch (error) {
-		// logger.error("Error while getting public keys");
-		logError({
-			message: "Error while getting public keys",
-			error,
-		});
+	} catch (error: any) {
+		logger.error("Error while getting public keys", loggerMeta, error);
 		throw new Error("Error while getting public keys");
 	}
 }
 
-async function performLookup(subId: string, ukId: string, env: EnvType) {
-	logInfo({
-		message: "Entering performLookup Function. Performing lookup",
-		meta: {
-			subId,
-			ukId,
-		},
+async function performLookup(
+	subId: string,
+	ukId: string,
+	env: EnvType,
+	loggingMeta: any
+) {
+	logger.info("Performing lookup for subscriber details", {
+		subscriberId: subId,
+		ukId,
+		env,
+		...loggingMeta,
 	});
 	let baseUrl =
 		env === "PRE-PRODUCTION"
@@ -157,9 +116,9 @@ async function performLookup(subId: string, ukId: string, env: EnvType) {
 		subscriber_id: subId,
 		ukId: ukId,
 	};
-	const header = await createAuthHeader(data, env);
+	const header = await createAuthHeader(data, env, loggingMeta);
 	try {
-		console.log("look_up url", url);
+		logger.info("Lookup request URL is: " + url, loggingMeta);
 		const response = await axios.post(url, data, {
 			headers: {
 				"Content-Type": "application/json",
@@ -167,8 +126,17 @@ async function performLookup(subId: string, ukId: string, env: EnvType) {
 			},
 		});
 		return response.data[0];
-	} catch (error) {
-		console.error("Error while performing lookup", error);
+	} catch (error: any) {
+		logger.error(
+			"Error while performing lookup",
+			{
+				subscriberId: subId,
+				ukId,
+				env,
+				...loggingMeta,
+			},
+			error
+		);
 		throw new Error("Error while performing lookup");
 	}
 }

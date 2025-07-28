@@ -1,39 +1,29 @@
 import { BecknContext } from "../models/beckn-types";
-import { logger, logInfo, logError } from "../utils/logger";
+import logger from "@ondc/automation-logger";
 
 export function computeSubscriberUri(
 	context: BecknContext,
 	action: string,
 	fromMock: boolean
 ) {
-	// console.log("computing subscriber uri", action, fromMock);
-	logInfo({
-		message: "Entering computeSubscriberUri Function. Computing subscriber URI",
-		meta: {
-			action,
-			fromMock,
-		},
+	logger.info("Computing subscriber URI", {
+		action,
+		fromMock,
 		transaction_id: context.transaction_id,
 	});
 	if (!context.bap_uri) {
-		logError({
-			message: "BAP URI not found in context",
+		logger.warning("BAP URI not found in context", {
 			transaction_id: context.transaction_id,
-			meta: {
-				action,
-				fromMock,
-			},
+			action,
+			fromMock,
 		});
 		throw new Error("BAP URI not found in context");
 	}
 	if (!action.startsWith("search") && !context.bpp_uri) {
-		logError({
-			message: "BPP URI not found in context",
+		logger.warning("BPP URI not found in context", {
 			transaction_id: context.transaction_id,
-			meta: {
-				action,
-				fromMock,
-			},
+			action,
+			fromMock,
 		});
 		throw new Error("BPP URI not found in context");
 	}
@@ -50,15 +40,12 @@ export function computeSubscriberUri(
 		subUrl = action.startsWith("on_") ? bppUri : bapUri;
 		partType = action.startsWith("on_") ? "BPP" : "BAP";
 	}
-	// logger.info(`Computed subscriber URI: ${subUrl}`);
-	logInfo({
-		message: `Exiting computeSubscriberUri Function. Subscriber URI computed : ${subUrl}`,
-		meta: {
-			action,
-			fromMock,
-		},
+	logger.info("Computed subscriber URI", {
+		subUrl,
+		partType,
 		transaction_id: context.transaction_id,
+		action,
+		fromMock,
 	});
-
 	return { subUrl, partType };
 }

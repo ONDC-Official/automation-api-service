@@ -1,7 +1,7 @@
 import express from "express";
 import { ValidationController } from "../controllers/validation-controller";
 import { setAckResponse } from "../utils/ackUtils";
-
+import logger from "@ondc/automation-logger";
 const router = express();
 // router.use(express.json());
 router.use(express.urlencoded({ extended: true }));

@@ -1,5 +1,5 @@
 import axios from "../utils/axios";
-import { logger } from "../utils/logger";
+import logger from "@ondc/automation-logger";
 
 interface Config {
 	supportedActions: Record<string, string[]>;
@@ -42,7 +42,7 @@ async function loadConfig(): Promise<void> {
 		supportedActions = config.supportedActions;
 		apiProperties = config.apiProperties;
 	} catch (error) {
-		console.error("Error loading config from API:", error);
+		logger.error("Error loading config from API:", error);
 		throw error;
 	}
 }
