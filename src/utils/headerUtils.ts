@@ -111,8 +111,7 @@ async function performLookup(
 	if (env === "LOGGED-IN") {
 		baseUrl = config.registry.IN_HOUSE_REGISTRY;
 	}
-	// const url = `${baseUrl}lookup`;
-	const url = new URL("/lookup", baseUrl).href;
+	const url = `${baseUrl}lookup`;
 	const data = {
 		subscriber_id: subId,
 		ukId: ukId,
