@@ -119,6 +119,11 @@ async function performLookup(
 	const header = await createAuthHeader(data, env, loggingMeta);
 	try {
 		logger.info("Lookup request URL is: " + url, loggingMeta);
+		logger.info("Lookup request data", {
+			data,
+			...loggingMeta,
+			header: header,
+		});
 		const response = await axios.post(url, data, {
 			headers: {
 				"Content-Type": "application/json",

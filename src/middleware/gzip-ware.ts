@@ -44,7 +44,11 @@ export function gzipOrJsonBodyParser({ limit = "50mb" } = {}) {
 		} catch (err: any) {
 			logger.error(
 				"Error in gzipOrJsonBodyParser:",
-				getLoggerMetaData(req),
+				{
+					...getLoggerMetaData(req),
+					body: req.body,
+					encoding: req.headers["content-encoding"],
+				},
 				err
 			);
 			console.log(err);
