@@ -54,7 +54,10 @@ export class CommunicationService {
 			requestProperties?.env,
 			loggingMeta
 		);
-		const useGzip = requestProperties?.difficulty?.useGzip ?? false;
+		let useGzip = false;
+		if (requestProperties?.difficulty.useGzip && action.startsWith("on_")) {
+			useGzip = true;
+		}
 		let bodyToSend = body;
 		if (useGzip) {
 			logger.info("Compressing request body using gzip", loggingMeta, {
@@ -64,6 +67,9 @@ export class CommunicationService {
 			bodyToSend = b;
 		}
 		try {
+			logger.info("Forwarding request to NP server " + finalUri, loggingMeta, {
+				body: bodyToSend,
+			});
 			const response = await axios.post(`${finalUri}/${action}`, bodyToSend, {
 				headers: {
 					Authorization: header,

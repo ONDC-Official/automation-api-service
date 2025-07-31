@@ -115,16 +115,16 @@ export class ValidationController {
 					.send("content-encoding must be gzip as per flow settings");
 				return;
 			}
-			if (encoding === "gzip" && !req.requestProperties?.difficulty.useGzip) {
-				logger.warning(
-					"content-encoding must not be gzip as per flow settings",
-					getLoggerMetaData(req)
-				);
-				res
-					.status(406)
-					.send("content-encoding must not be gzip as per flow settings");
-				return;
-			}
+			// if (encoding === "gzip" && !req.requestProperties?.difficulty.useGzip) {
+			// 	logger.warning(
+			// 		"content-encoding must not be gzip as per flow settings",
+			// 		getLoggerMetaData(req)
+			// 	);
+			// 	res
+			// 		.status(406)
+			// 		.send("content-encoding must not be gzip as per flow settings");
+			// 	return;
+			// }
 			if (
 				req.requestProperties &&
 				req.requestProperties.difficulty.headerValidaton === false
