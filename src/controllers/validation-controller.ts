@@ -105,7 +105,12 @@ export class ValidationController {
 		try {
 			logger.info("Validating signature", getLoggerMetaData(req));
 			const encoding = req.headers["content-encoding"];
-			if (encoding !== "gzip" && req.requestProperties?.difficulty.useGzip) {
+			const action = req.requestProperties?.action;
+			if (
+				encoding !== "gzip" &&
+				req.requestProperties?.difficulty.useGzip &&
+				action?.startsWith("on_")
+			) {
 				logger.warning(
 					"content-encoding must be gzip as per flow settings",
 					getLoggerMetaData(req)
