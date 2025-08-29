@@ -10,6 +10,7 @@ import requestLog from "./middleware/request-log";
 import responseLog from "./middleware/response-log";
 import { gzipOrJsonBodyParser } from "./middleware/gzip-ware";
 import { getLoggerMetaData } from "./utils/loggingUtils";
+import formRouter from "./routes/form-routes";
 
 const createServer = (): Application => {
 	console.log("running api service server...");
@@ -47,6 +48,7 @@ const createServer = (): Application => {
 	app.use(`${base}/seller`, apiRouter);
 	app.use(`${base}/mock`, mockRouter);
 	app.use(`${base}/test`, testRoutes);
+	app.use(`${base}/form`, formRouter);
 
 	// Health Check
 	app.get(`${base}/health`, (req: Request, res: Response) => {

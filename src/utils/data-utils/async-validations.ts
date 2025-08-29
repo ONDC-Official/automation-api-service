@@ -17,7 +17,9 @@ export function validateAsyncContext(
 	loggingMeta: any
 ) {
 	logger.info("Validating Transaction History", loggingMeta);
-	const flowPayloads = transactionData.apiList;
+	const flowPayloads = transactionData.apiList.filter(
+		(item) => item.entryType === "API"
+	) as ApiData[];
 	const allResponse = flowPayloads.map((payload) => payload.response);
 
 	if (

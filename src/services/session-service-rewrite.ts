@@ -302,6 +302,7 @@ export class TransactionCacheService {
 		if (await this.checkIfTransactionExists(key)) {
 			const transaction = await this.loadTransactionThatExists(key);
 			transaction.apiList.push({
+				entryType: "API",
 				action: requestBody.context.action,
 				messageId: requestBody.context.message_id,
 				payloadId: payloadID,
@@ -335,12 +336,26 @@ export class TransactionCacheService {
 			type: request.defaultMode ? "default" : "manual",
 			messageIds: [],
 			apiList: [],
+			referenceData: {},
 		};
 		await RedisService.setKey(transSubKey, JSON.stringify(transaction));
 		return transaction;
 	};
 	createTransactionKey = (transactionId: string, subscriberUrl: string) => {
 		return `${transactionId.trim()}::${subscriberUrl.trim()}`;
+	};
+	overrideTransaction = async (
+		subscriberUrl: string,
+		transactionId: string,
+		transaction: TransactionCache
+	) => {
+		const key = this.createTransactionKey(transactionId, subscriberUrl);
+		await RedisService.setKey(key, JSON.stringify(transaction));
+		await setFlowStatusService(transactionId, subscriberUrl, "AVAILABLE");
+		logger.info(`Transaction with id ${transactionId} overridden`, {
+			transactionId: transactionId,
+			subscriberUrl: subscriberUrl,
+		});
 	};
 }
 

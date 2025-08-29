@@ -95,7 +95,7 @@ export function getHintMessage(properties?: RequestProperties) {
 	}
 	const history = properties.transactionHistory;
 	const nackCount = history.apiList.filter(
-		(s) => s.response?.message?.ack?.status !== "ACK"
+		(s) => s.entryType === "API" && s.response?.message?.ack?.status !== "ACK"
 	).length;
 	let message = "Hints: \n";
 	if (nackCount >= 1) {

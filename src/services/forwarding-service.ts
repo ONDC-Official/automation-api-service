@@ -13,9 +13,17 @@ export class CommunicationService {
 		requestProperties?: RequestProperties
 	) => {
 		let url = process.env.MOCK_SERVER_URL;
+		if (!url) {
+			throw new Error("Mock server url not defined");
+		}
 		const domain = process.env.DOMAIN;
 		const version = process.env.VERSION;
-		url = `${url}/${domain}/${version}`;
+		if (url.includes("localhost")) {
+			url = `${url}/${domain}`;
+		} else {
+			url = `${url}/${domain}/${version}`;
+		}
+
 		const action = requestProperties?.action ?? body.context.action;
 		if (requestProperties?.defaultMode === false) {
 			url = `${url}/manual/${action}`;

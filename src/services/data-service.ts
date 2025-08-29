@@ -80,7 +80,7 @@ export class DataService {
 			logger.info(
 				`Data saved to DB with payloadID: ${requestId}`,
 				loggingMeta,
-				{ response: res.data }
+				{ response: JSON.stringify(res.data) }
 			);
 		} catch (error: any) {
 			logger.error(
