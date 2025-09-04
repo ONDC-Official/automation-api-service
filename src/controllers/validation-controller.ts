@@ -298,7 +298,7 @@ export class ValidationController {
 			return;
 		}
 		const profiler = logger.startTimer();
-		const l1Result = performL1validations(action, body, true);
+		const l1Result = performL1validations(action, body);
 		profiler.done({
 			message: `L1 validations completed in: `,
 			...getLoggerMetaData(req),
@@ -406,7 +406,7 @@ export class ValidationController {
 		const { action } = req.params;
 		const body = req.body;
 		const profiler = logger.startTimer();
-		const l1Result = performL1validations(action, { ...body }, true);
+		const l1Result = performL1validations(action, body);
 		profiler.done({
 			message: `Single L1 validations completed in: `,
 			...getLoggerMetaData(req),

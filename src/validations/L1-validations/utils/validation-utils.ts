@@ -4,14 +4,16 @@ function areUnique(operand: string[]) {
 }
 
 function arePresent(operand: string[]) {
-    return noneIn(operand, ["", "null", "undefined"]) && operand.length > 0;
+    return noneIn(operand, ["null", "undefined"]) && operand.length > 0;
 }
 
 function allIn(left: string[], right: string[]) {
+    if (left.length === 0 && right.length !== 0) return false;
     return left.every((v) => right.includes(v));
 }
 
 function anyIn(left: string[], right: string[]) {
+    if (left.length === 0 && right.length !== 0) return false;
     return left.some((v) => right.includes(v));
 }
 
@@ -81,6 +83,7 @@ function lessThan(left: string[], right: string[]): boolean {
 }
 
 function followRegex(left: string[], regexArray: string[]) {
+    if (left.length === 0 && regexArray.length !== 0) return false;
     for (const regex of regexArray) {
         const re = new RegExp(regex);
         if (left.some((v) => !re.test(v))) return false;
