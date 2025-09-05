@@ -303,9 +303,7 @@ export class ValidationController {
 			message: `L1 validations completed in: `,
 			...getLoggerMetaData(req),
 		});
-		const invalidResult = l1Result.filter(
-			(result) => !result.valid && result.code !== 200
-		);
+		const invalidResult = l1Result.filter((result) => !result.valid);
 		if (invalidResult.length > 0) {
 			const error = invalidResult[0].description;
 			const code = invalidResult[0].code as number;
@@ -360,9 +358,7 @@ export class ValidationController {
 				message: `L1 custom validations completed in: `,
 				...getLoggerMetaData(req),
 			});
-			const invalidResult = l1CustomResult.filter(
-				(result) => !result.valid && result.code !== 200
-			);
+			const invalidResult = l1CustomResult.filter((result) => !result.valid);
 			if (invalidResult.length > 0) {
 				const error = invalidResult[0].description;
 				const code = invalidResult[0].code as number;
