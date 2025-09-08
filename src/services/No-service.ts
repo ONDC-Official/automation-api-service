@@ -41,16 +41,17 @@ export async function postLogsToNoService(
 				Authorization: `Bearer ${noToken}`,
 			},
 		});
-		logger.info("Logs posted to No-service", res.data, loggerMeta);
+		logger.info(
+			"Logs posted to No-service for type " + type,
+			{ noResponse: res.data },
+			loggerMeta
+		);
 	} catch (err) {
 		logger.error(
-			"Error in posting logs to No-service",
-			{
-				type: type ?? "undefined",
-				payload: payload ?? "undefined",
-			},
-			err
+			"Error in posting logs to No-service for type " + type,
+			loggerMeta
 		);
+		logger.error("Error in posting logs to No-service", {}, err);
 		return;
 	}
 }
