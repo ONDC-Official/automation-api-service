@@ -9,7 +9,7 @@ import { ApiServiceRequest } from "../types/request-types";
 import { TransactionCacheService } from "../services/session-service-rewrite";
 import otelTracing from "../services/tracing-service";
 import { getLoggerMetaData } from "../utils/loggingUtils";
-import { getNoType, postLogsToNoService } from "../services/No-service";
+import { sendLogsToNo } from "../services/No-service";
 
 const router = express();
 // router.use(express.json());
@@ -60,16 +60,7 @@ function modifyExpressSend(
 					req?.requestProperties?.subscriberUrl
 				);
 				dbController.savePayloadInDb(req, body, false, statusCode, payloadID);
-				postLogsToNoService(
-					getNoType("request", req.body),
-					req.body,
-					getLoggerMetaData(req)
-				);
-				postLogsToNoService(
-					getNoType("response", req.body),
-					body,
-					getLoggerMetaData(req)
-				);
+				sendLogsToNo(req, body);
 				logger.info(
 					"Now responding back to the client",
 					getLoggerMetaData(req),

@@ -1,6 +1,33 @@
 import logger from "@ondc/automation-logger";
 import axios from "../utils/axios";
-import e from "express";
+import { ApiServiceRequest } from "../types/request-types";
+import { getLoggerMetaData } from "../utils/loggingUtils";
+
+export function sendLogsToNo(req: ApiServiceRequest, body: any) {
+	if (req.body.context) {
+		postLogsToNoService(
+			getNoType("request", req.body),
+			req.body,
+			getLoggerMetaData(req)
+		);
+		if (!body.context) {
+			postLogsToNoService(
+				getNoType("response", req.body),
+				{ ...body, context: req.body.context },
+				getLoggerMetaData(req)
+			);
+		} else {
+			postLogsToNoService(
+				getNoType("response", body),
+				body,
+				getLoggerMetaData(req)
+			);
+		}
+	} else {
+		logger.warning("Context not found in the payload skipping NO logs");
+	}
+}
+
 export async function postLogsToNoService(
 	type: string | undefined,
 	payload: any,
