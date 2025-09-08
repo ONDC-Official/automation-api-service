@@ -61,12 +61,12 @@ function modifyExpressSend(
 				);
 				dbController.savePayloadInDb(req, body, false, statusCode, payloadID);
 				postLogsToNoService(
-					getNoType("response", req.body),
+					getNoType("request", req.body),
 					req.body,
 					getLoggerMetaData(req)
 				);
 				postLogsToNoService(
-					getNoType("response", body),
+					getNoType("response", req.body),
 					body,
 					getLoggerMetaData(req)
 				);

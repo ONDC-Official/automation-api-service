@@ -2,12 +2,15 @@ import logger from "@ondc/automation-logger";
 import axios from "../utils/axios";
 import e from "express";
 export async function postLogsToNoService(
-	type: string,
+	type: string | undefined,
 	payload: any,
 	loggerMeta: any
 ) {
 	try {
-		logger.info("Posting logs to No", type, loggerMeta);
+		logger.info("Posting logs to No", { type }, loggerMeta);
+		if (!type) {
+			throw new Error("Type is undefined");
+		}
 		if (process.env.HOSTED_ENV !== "STAGING") {
 			logger.info(
 				"Skipping posting logs to No in non-staging environment",
@@ -43,8 +46,8 @@ export async function postLogsToNoService(
 		logger.error(
 			"Error in posting logs to No-service",
 			{
-				type: type,
-				payload: payload,
+				type: type ?? "undefined",
+				payload: payload ?? "undefined",
 			},
 			err
 		);
@@ -52,9 +55,17 @@ export async function postLogsToNoService(
 	}
 }
 
-export function getNoType(dataType: "request" | "response", payload: any) {
+export function getNoType(
+	dataType: "request" | "response",
+	payload: any
+): string | undefined {
 	const action = payload?.context?.action;
-	if (!action) return undefined;
+	if (!action) {
+		logger.error("Action not found in payload, cannot determine No type", {
+			payload,
+		});
+		return undefined;
+	}
 	if (dataType === "request") {
 		return action;
 	} else if (dataType === "response") {
