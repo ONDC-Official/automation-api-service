@@ -19,6 +19,7 @@ const validationController = new ValidationController();
 const sessionController = new SessionController();
 import otelTracing from "../services/tracing-service";
 import { getLoggerMetaData } from "../utils/loggingUtils";
+import { getNoType, postLogsToNoService } from "../services/No-service";
 
 router.post(
 	"/:action",
@@ -58,6 +59,16 @@ function modifyExpressSend(
 					req?.requestProperties?.subscriberUrl
 				);
 				dbController.savePayloadInDb(req, body, true, statusCode, payloadID);
+				postLogsToNoService(
+					getNoType("response", req.body),
+					req.body,
+					getLoggerMetaData(req)
+				);
+				postLogsToNoService(
+					getNoType("response", body),
+					body,
+					getLoggerMetaData(req)
+				);
 				logger.info("Now responding back to the mock", getLoggerMetaData(req), {
 					response: body,
 					code: statusCode,
