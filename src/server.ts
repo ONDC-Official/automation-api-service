@@ -18,7 +18,17 @@ const createServer = (): Application => {
 
 	// Middleware
 	// app.use(express.json({ limit: "50mb" }));
-	app.use(gzipOrJsonBodyParser({ limit: "50mb" }));
+
+	
+	app.use((req, res, next) => {
+	// Only apply body parsing on methods that usually have bodies
+	if (["POST", "PUT", "PATCH", "DELETE"].includes(req.method)) {
+		return gzipOrJsonBodyParser({ limit: "50mb" })(req, res, next);
+	}
+	next();
+	});
+
+
 	app.use(logger.getCorrelationIdMiddleware());
 	app.use(cors());
 
