@@ -12,3 +12,7 @@ export function getLoggerMetaData(req: ApiServiceRequest) {
 		correlationId: req.correlationId,
 	};
 }
+
+export function getL1Key(req: ApiServiceRequest) {
+	return `L1_VAL:${req.requestProperties?.subscriberUrl}:${req.requestProperties?.transactionId}`;
+}

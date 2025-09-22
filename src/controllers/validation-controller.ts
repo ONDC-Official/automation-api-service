@@ -16,7 +16,8 @@ import { isHeaderValid } from "ondc-crypto-sdk-nodejs";
 import { computeSubscriberUri } from "../utils/subscriber-utils";
 import { ApiServiceRequest } from "../types/request-types";
 import { performL1CustomValidations } from "../validations/L1-custom-validations";
-import { getLoggerMetaData } from "../utils/loggingUtils";
+import { getL1Key, getLoggerMetaData } from "../utils/loggingUtils";
+import { l1ValidationsStore } from "../models/storage-interface-implementations";
 
 export class ValidationController {
 	validateRequestBodyNp = async (
@@ -298,7 +299,11 @@ export class ValidationController {
 			return;
 		}
 		const profiler = logger.startTimer();
-		const l1Result = performL1validations(action, body);
+		const l1Result = await performL1validations(action, body, {
+			stateFullValidations: true,
+			uniqueKey: getL1Key(req),
+			store: l1ValidationsStore,
+		});
 		profiler.done({
 			message: `L1 validations completed in: `,
 			...getLoggerMetaData(req),
@@ -402,7 +407,12 @@ export class ValidationController {
 		const { action } = req.params;
 		const body = req.body;
 		const profiler = logger.startTimer();
-		const l1Result = performL1validations(action, body);
+		// const l1Result = performL1validations(action, body);
+		const l1Result = await performL1validations(action, body, {
+			stateFullValidations: true,
+			uniqueKey: "single_test_key",
+			store: l1ValidationsStore,
+		});
 		profiler.done({
 			message: `Single L1 validations completed in: `,
 			...getLoggerMetaData(req),

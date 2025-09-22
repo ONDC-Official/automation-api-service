@@ -8,8 +8,10 @@ import { SessionController } from "../controllers/session-controller";
 import { ApiServiceRequest } from "../types/request-types";
 import { TransactionCacheService } from "../services/session-service-rewrite";
 import otelTracing from "../services/tracing-service";
-import { getLoggerMetaData } from "../utils/loggingUtils";
+import { getL1Key, getLoggerMetaData } from "../utils/loggingUtils";
 import { sendLogsToNo } from "../services/No-service";
+import { l1ValidationsStore } from "../models/storage-interface-implementations";
+import { performL1validationsSave } from "../validations/L1-validations";
 
 const router = express();
 // router.use(express.json());
@@ -58,6 +60,14 @@ function modifyExpressSend(
 					req.body,
 					body,
 					req?.requestProperties?.subscriberUrl
+				);
+
+				const action = req.requestProperties?.action || "unknown_action";
+				performL1validationsSave(
+					action,
+					getL1Key(req),
+					req.body,
+					l1ValidationsStore
 				);
 				dbController.savePayloadInDb(req, body, false, statusCode, payloadID);
 				sendLogsToNo(req, body);

@@ -6,8 +6,8 @@ import {
     validationOutput,
 } from "../types/test-config";
 
-export default function on_status(input: validationInput): validationOutput {
-    let totalResults = on_statusValidations(input);
+export default function on_update(input: validationInput): validationOutput {
+    let totalResults = on_updateValidations(input);
 
     if (input.config._debug === false) {
         totalResults.forEach((r) => {
@@ -24,7 +24,7 @@ export default function on_status(input: validationInput): validationOutput {
         const res = totalResults.filter((r) => r.valid === false);
         if (res.length === 0) {
             const targetSuccess = totalResults.find(
-                (r) => r.testName === "on_statusValidations",
+                (r) => r.testName === "on_updateValidations",
             );
             if (!targetSuccess) {
                 throw new Error("Critical: Overall test result not found");
@@ -37,24 +37,24 @@ export default function on_status(input: validationInput): validationOutput {
     return totalResults;
 }
 
-function on_statusValidations(input: validationInput): validationOutput {
+function on_updateValidations(input: validationInput): validationOutput {
     const scope = payloadUtils.getJsonPath(input.payload, "$");
     let subResults: validationOutput = [];
     let valid = true;
     for (const testObj of scope) {
         testObj._EXTERNAL = input.externalData;
 
-        function ON_STATUS_CONTEXT(input: validationInput): validationOutput {
+        function ON_UPDATE_CONTEXT(input: validationInput): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
             let subResults: validationOutput = [];
             let valid = true;
             for (const testObj of scope) {
                 testObj._EXTERNAL = input.externalData;
-                const action = ["on_status"];
+                const action = ["on_update"];
                 const domain = ["ONDC:TRV13"];
                 const version = ["2.0.0"];
 
-                function REQUIRED_ON_STATUS_CONTEXT(
+                function REQUIRED_ON_UPDATE_CONTEXT(
                     input: validationInput,
                 ): validationOutput {
                     const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -78,7 +78,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     testObj,
                                     "$.context.domain",
                                 );
-                                const action = ["on_status"];
+                                const action = ["on_update"];
                                 const domain = ["ONDC:TRV13"];
                                 const version = ["2.0.0"];
 
@@ -96,7 +96,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.context.domain must be present in the payload`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REQUIRED_CONTEXT_DOMAIN","attr":"$.context.domain","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
+{"_NAME_":"REQUIRED_CONTEXT_DOMAIN","attr":"$.context.domain","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
 `,
                                             },
                                         },
@@ -112,7 +112,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_CONTEXT_DOMAIN","attr":"$.context.domain","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
+{"_NAME_":"REQUIRED_CONTEXT_DOMAIN","attr":"$.context.domain","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
 `,
                                     },
                                 },
@@ -134,7 +134,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     testObj,
                                     "$.context.action",
                                 );
-                                const action = ["on_status"];
+                                const action = ["on_update"];
                                 const domain = ["ONDC:TRV13"];
                                 const version = ["2.0.0"];
 
@@ -152,7 +152,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.context.action must be present in the payload`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REQUIRED_CONTEXT_ACTION","attr":"$.context.action","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
+{"_NAME_":"REQUIRED_CONTEXT_ACTION","attr":"$.context.action","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
 `,
                                             },
                                         },
@@ -168,7 +168,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_CONTEXT_ACTION","attr":"$.context.action","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
+{"_NAME_":"REQUIRED_CONTEXT_ACTION","attr":"$.context.action","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
 `,
                                     },
                                 },
@@ -190,7 +190,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     testObj,
                                     "$.context.version",
                                 );
-                                const action = ["on_status"];
+                                const action = ["on_update"];
                                 const domain = ["ONDC:TRV13"];
                                 const version = ["2.0.0"];
 
@@ -209,7 +209,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.context.version must be present in the payload`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REQUIRED_CONTEXT_VERSION","attr":"$.context.version","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
+{"_NAME_":"REQUIRED_CONTEXT_VERSION","attr":"$.context.version","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
 `,
                                             },
                                         },
@@ -225,7 +225,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_CONTEXT_VERSION","attr":"$.context.version","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
+{"_NAME_":"REQUIRED_CONTEXT_VERSION","attr":"$.context.version","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
 `,
                                     },
                                 },
@@ -247,7 +247,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     testObj,
                                     "$.context.message_id",
                                 );
-                                const action = ["on_status"];
+                                const action = ["on_update"];
                                 const domain = ["ONDC:TRV13"];
                                 const version = ["2.0.0"];
 
@@ -266,7 +266,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.context.message_id must be present in the payload`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REQUIRED_CONTEXT_MESSAGE_ID","attr":"$.context.message_id","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
+{"_NAME_":"REQUIRED_CONTEXT_MESSAGE_ID","attr":"$.context.message_id","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
 `,
                                             },
                                         },
@@ -282,7 +282,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_CONTEXT_MESSAGE_ID","attr":"$.context.message_id","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
+{"_NAME_":"REQUIRED_CONTEXT_MESSAGE_ID","attr":"$.context.message_id","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
 `,
                                     },
                                 },
@@ -304,7 +304,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     testObj,
                                     "$.context.transaction_id",
                                 );
-                                const action = ["on_status"];
+                                const action = ["on_update"];
                                 const domain = ["ONDC:TRV13"];
                                 const version = ["2.0.0"];
 
@@ -323,7 +323,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.context.transaction_id must be present in the payload`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REQUIRED_CONTEXT_TRANSACTION_ID","attr":"$.context.transaction_id","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
+{"_NAME_":"REQUIRED_CONTEXT_TRANSACTION_ID","attr":"$.context.transaction_id","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
 `,
                                             },
                                         },
@@ -339,7 +339,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_CONTEXT_TRANSACTION_ID","attr":"$.context.transaction_id","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
+{"_NAME_":"REQUIRED_CONTEXT_TRANSACTION_ID","attr":"$.context.transaction_id","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
 `,
                                     },
                                 },
@@ -364,7 +364,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                 const reg = [
                                     "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
                                 ];
-                                const action = ["on_status"];
+                                const action = ["on_update"];
                                 const domain = ["ONDC:TRV13"];
                                 const version = ["2.0.0"];
 
@@ -385,7 +385,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - All elements of $.context.timestamp must follow every regex in ["^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$"]`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REGEX_CONTEXT_TIMESTAMP","attr":"$.context.timestamp","reg":["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"],"_RETURN_":"attr follow regex reg","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
+{"_NAME_":"REGEX_CONTEXT_TIMESTAMP","attr":"$.context.timestamp","reg":["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"],"_RETURN_":"attr follow regex reg","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
 `,
                                             },
                                         },
@@ -401,7 +401,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REGEX_CONTEXT_TIMESTAMP","attr":"$.context.timestamp","reg":["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"],"_RETURN_":"attr follow regex reg","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
+{"_NAME_":"REGEX_CONTEXT_TIMESTAMP","attr":"$.context.timestamp","reg":["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"],"_RETURN_":"attr follow regex reg","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}
 `,
                                     },
                                 },
@@ -430,12 +430,12 @@ function on_statusValidations(input: validationInput): validationOutput {
                     }
                     return [
                         {
-                            testName: "REQUIRED_ON_STATUS_CONTEXT",
+                            testName: "REQUIRED_ON_UPDATE_CONTEXT",
                             valid: valid,
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_ON_STATUS_CONTEXT","_RETURN_":[{"_NAME_":"REQUIRED_CONTEXT_DOMAIN","attr":"$.context.domain","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_ACTION","attr":"$.context.action","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_VERSION","attr":"$.context.version","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_MESSAGE_ID","attr":"$.context.message_id","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_TRANSACTION_ID","attr":"$.context.transaction_id","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REGEX_CONTEXT_TIMESTAMP","attr":"$.context.timestamp","reg":["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"],"_RETURN_":"attr follow regex reg","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}]}
+{"_NAME_":"REQUIRED_ON_UPDATE_CONTEXT","_RETURN_":[{"_NAME_":"REQUIRED_CONTEXT_DOMAIN","attr":"$.context.domain","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_ACTION","attr":"$.context.action","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_VERSION","attr":"$.context.version","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_MESSAGE_ID","attr":"$.context.message_id","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_TRANSACTION_ID","attr":"$.context.transaction_id","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REGEX_CONTEXT_TIMESTAMP","attr":"$.context.timestamp","reg":["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"],"_RETURN_":"attr follow regex reg","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}]}
 `,
                             },
                         },
@@ -444,7 +444,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                 }
 
                 const testFunctions: testFunctionArray = [
-                    REQUIRED_ON_STATUS_CONTEXT,
+                    REQUIRED_ON_UPDATE_CONTEXT,
                 ];
 
                 let allResults: validationOutput = [];
@@ -459,27 +459,27 @@ function on_statusValidations(input: validationInput): validationOutput {
             }
             return [
                 {
-                    testName: "ON_STATUS_CONTEXT",
+                    testName: "ON_UPDATE_CONTEXT",
                     valid: valid,
                     code: valid ? 200 : 30000,
                     _debugInfo: {
                         fedConfig: `
-{"_NAME_":"ON_STATUS_CONTEXT","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"],"_RETURN_":[{"_NAME_":"REQUIRED_ON_STATUS_CONTEXT","_RETURN_":[{"_NAME_":"REQUIRED_CONTEXT_DOMAIN","attr":"$.context.domain","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_ACTION","attr":"$.context.action","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_VERSION","attr":"$.context.version","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_MESSAGE_ID","attr":"$.context.message_id","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_TRANSACTION_ID","attr":"$.context.transaction_id","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REGEX_CONTEXT_TIMESTAMP","attr":"$.context.timestamp","reg":["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"],"_RETURN_":"attr follow regex reg","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}]}]}
+{"_NAME_":"ON_UPDATE_CONTEXT","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"],"_RETURN_":[{"_NAME_":"REQUIRED_ON_UPDATE_CONTEXT","_RETURN_":[{"_NAME_":"REQUIRED_CONTEXT_DOMAIN","attr":"$.context.domain","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_ACTION","attr":"$.context.action","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_VERSION","attr":"$.context.version","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_MESSAGE_ID","attr":"$.context.message_id","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_TRANSACTION_ID","attr":"$.context.transaction_id","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REGEX_CONTEXT_TIMESTAMP","attr":"$.context.timestamp","reg":["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"],"_RETURN_":"attr follow regex reg","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}]}]}
 `,
                     },
                 },
                 ...subResults,
             ];
         }
-        function ON_STATUS_ORDER(input: validationInput): validationOutput {
+        function ON_UPDATE_ORDER(input: validationInput): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
             let subResults: validationOutput = [];
             let valid = true;
             for (const testObj of scope) {
                 testObj._EXTERNAL = input.externalData;
-                const action = ["on_status"];
+                const action = ["on_update"];
 
-                function REQUIRED_ON_STATUS_ORDER(
+                function REQUIRED_ON_UPDATE_ORDER(
                     input: validationInput,
                 ): validationOutput {
                     const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -503,7 +503,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     testObj,
                                     "$.message.order.id",
                                 );
-                                const action = ["on_status"];
+                                const action = ["on_update"];
 
                                 const validate = validations.arePresent(attr);
 
@@ -519,7 +519,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.id must be present in the payload`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REQUIRED_ORDER_ID","attr":"$.message.order.id","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_ORDER_ID","attr":"$.message.order.id","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                             },
                                         },
@@ -535,7 +535,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_ORDER_ID","attr":"$.message.order.id","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_ORDER_ID","attr":"$.message.order.id","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -557,7 +557,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     testObj,
                                     "$.message.order.status",
                                 );
-                                const action = ["on_status"];
+                                const action = ["on_update"];
 
                                 const validate = validations.arePresent(attr);
 
@@ -573,7 +573,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.status must be present in the payload`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REQUIRED_ORDER_STATUS","attr":"$.message.order.status","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_ORDER_STATUS","attr":"$.message.order.status","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                             },
                                         },
@@ -589,7 +589,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_ORDER_STATUS","attr":"$.message.order.status","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_ORDER_STATUS","attr":"$.message.order.status","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -611,7 +611,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     testObj,
                                     "$.message.order.updated_at",
                                 );
-                                const action = ["on_status"];
+                                const action = ["on_update"];
 
                                 const validate = validations.arePresent(attr);
 
@@ -628,7 +628,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.updated_at must be present in the payload`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REQUIRED_ORDER_UPDATED_AT","attr":"$.message.order.updated_at","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_ORDER_UPDATED_AT","attr":"$.message.order.updated_at","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                             },
                                         },
@@ -644,7 +644,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_ORDER_UPDATED_AT","attr":"$.message.order.updated_at","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_ORDER_UPDATED_AT","attr":"$.message.order.updated_at","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -670,19 +670,19 @@ function on_statusValidations(input: validationInput): validationOutput {
                     }
                     return [
                         {
-                            testName: "REQUIRED_ON_STATUS_ORDER",
+                            testName: "REQUIRED_ON_UPDATE_ORDER",
                             valid: valid,
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_ON_STATUS_ORDER","_RETURN_":[{"_NAME_":"REQUIRED_ORDER_ID","attr":"$.message.order.id","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_ORDER_STATUS","attr":"$.message.order.status","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_ORDER_UPDATED_AT","attr":"$.message.order.updated_at","_RETURN_":"attr are present","action":["on_status"]}]}
+{"_NAME_":"REQUIRED_ON_UPDATE_ORDER","_RETURN_":[{"_NAME_":"REQUIRED_ORDER_ID","attr":"$.message.order.id","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_ORDER_STATUS","attr":"$.message.order.status","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_ORDER_UPDATED_AT","attr":"$.message.order.updated_at","_RETURN_":"attr are present","action":["on_update"]}]}
 `,
                             },
                         },
                         ...subResults,
                     ];
                 }
-                function VALID_ENUM_ON_STATUS_ORDER(
+                function VALID_ENUM_ON_UPDATE_ORDER(
                     input: validationInput,
                 ): validationOutput {
                     const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -707,13 +707,15 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     "$.message.order.status",
                                 );
                                 const enumList = [
-                                    "SOFT_CANCEL",
-                                    "CONFIRM_CANCEL",
+                                    "SOFT-CANCEL",
+                                    "CONFIRM-CANCEL",
+                                    "SOFT-UPDATE",
+                                    "CONFIRM-UPDATE",
                                     "ACTIVE",
                                     "COMPLETE",
                                     "CANCELLED",
                                 ];
-                                const action = ["on_status"];
+                                const action = ["on_update"];
 
                                 const validate = validations.anyIn(
                                     attr,
@@ -729,10 +731,10 @@ function on_statusValidations(input: validationInput): validationOutput {
                                             code: 30000,
                                             description: `#### **VALID_ENUM_ORDER_STATUS**
 
-- At least one of $.message.order.status must be in ["SOFT_CANCEL", "CONFIRM_CANCEL", "ACTIVE", "COMPLETE", "CANCELLED"]`,
+- At least one of $.message.order.status must be in ["SOFT-CANCEL", "CONFIRM-CANCEL", "SOFT-UPDATE", "CONFIRM-UPDATE", "ACTIVE", "COMPLETE", "CANCELLED"]`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"VALID_ENUM_ORDER_STATUS","attr":"$.message.order.status","enumList":["SOFT_CANCEL","CONFIRM_CANCEL","ACTIVE","COMPLETE","CANCELLED"],"_RETURN_":"attr any in enumList","action":["on_status"]}
+{"_NAME_":"VALID_ENUM_ORDER_STATUS","attr":"$.message.order.status","enumList":["SOFT-CANCEL","CONFIRM-CANCEL","SOFT-UPDATE","CONFIRM-UPDATE","ACTIVE","COMPLETE","CANCELLED"],"_RETURN_":"attr any in enumList","action":["on_update"]}
 `,
                                             },
                                         },
@@ -748,14 +750,14 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"VALID_ENUM_ORDER_STATUS","attr":"$.message.order.status","enumList":["SOFT_CANCEL","CONFIRM_CANCEL","ACTIVE","COMPLETE","CANCELLED"],"_RETURN_":"attr any in enumList","action":["on_status"]}
+{"_NAME_":"VALID_ENUM_ORDER_STATUS","attr":"$.message.order.status","enumList":["SOFT-CANCEL","CONFIRM-CANCEL","SOFT-UPDATE","CONFIRM-UPDATE","ACTIVE","COMPLETE","CANCELLED"],"_RETURN_":"attr any in enumList","action":["on_update"]}
 `,
                                     },
                                 },
                                 ...subResults,
                             ];
                         }
-                        function REGEX_ON_STATUS_UPDATED_AT(
+                        function REGEX_ON_UPDATE_UPDATED_AT(
                             input: validationInput,
                         ): validationOutput {
                             const scope = payloadUtils.getJsonPath(
@@ -773,7 +775,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                 const reg = [
                                     "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
                                 ];
-                                const action = ["on_status"];
+                                const action = ["on_update"];
 
                                 const validate = validations.followRegex(
                                     attr,
@@ -785,15 +787,15 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     return [
                                         {
                                             testName:
-                                                "REGEX_ON_STATUS_UPDATED_AT",
+                                                "REGEX_ON_UPDATE_UPDATED_AT",
                                             valid: false,
                                             code: 30000,
-                                            description: `#### **REGEX_ON_STATUS_UPDATED_AT**
+                                            description: `#### **REGEX_ON_UPDATE_UPDATED_AT**
 
 - All elements of $.message.order.updated_at must follow every regex in ["^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$"]`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REGEX_ON_STATUS_UPDATED_AT","attr":"$.message.order.updated_at","reg":["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"],"_RETURN_":"attr follow regex reg","action":["on_status"]}
+{"_NAME_":"REGEX_ON_UPDATE_UPDATED_AT","attr":"$.message.order.updated_at","reg":["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"],"_RETURN_":"attr follow regex reg","action":["on_update"]}
 `,
                                             },
                                         },
@@ -804,12 +806,12 @@ function on_statusValidations(input: validationInput): validationOutput {
                             }
                             return [
                                 {
-                                    testName: "REGEX_ON_STATUS_UPDATED_AT",
+                                    testName: "REGEX_ON_UPDATE_UPDATED_AT",
                                     valid: valid,
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REGEX_ON_STATUS_UPDATED_AT","attr":"$.message.order.updated_at","reg":["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"],"_RETURN_":"attr follow regex reg","action":["on_status"]}
+{"_NAME_":"REGEX_ON_UPDATE_UPDATED_AT","attr":"$.message.order.updated_at","reg":["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"],"_RETURN_":"attr follow regex reg","action":["on_update"]}
 `,
                                     },
                                 },
@@ -819,7 +821,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 
                         const testFunctions: testFunctionArray = [
                             VALID_ENUM_ORDER_STATUS,
-                            REGEX_ON_STATUS_UPDATED_AT,
+                            REGEX_ON_UPDATE_UPDATED_AT,
                         ];
 
                         let allResults: validationOutput = [];
@@ -834,12 +836,12 @@ function on_statusValidations(input: validationInput): validationOutput {
                     }
                     return [
                         {
-                            testName: "VALID_ENUM_ON_STATUS_ORDER",
+                            testName: "VALID_ENUM_ON_UPDATE_ORDER",
                             valid: valid,
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"VALID_ENUM_ON_STATUS_ORDER","_RETURN_":[{"_NAME_":"VALID_ENUM_ORDER_STATUS","attr":"$.message.order.status","enumList":["SOFT_CANCEL","CONFIRM_CANCEL","ACTIVE","COMPLETE","CANCELLED"],"_RETURN_":"attr any in enumList","action":["on_status"]},{"_NAME_":"REGEX_ON_STATUS_UPDATED_AT","attr":"$.message.order.updated_at","reg":["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"],"_RETURN_":"attr follow regex reg","action":["on_status"]}]}
+{"_NAME_":"VALID_ENUM_ON_UPDATE_ORDER","_RETURN_":[{"_NAME_":"VALID_ENUM_ORDER_STATUS","attr":"$.message.order.status","enumList":["SOFT-CANCEL","CONFIRM-CANCEL","SOFT-UPDATE","CONFIRM-UPDATE","ACTIVE","COMPLETE","CANCELLED"],"_RETURN_":"attr any in enumList","action":["on_update"]},{"_NAME_":"REGEX_ON_UPDATE_UPDATED_AT","attr":"$.message.order.updated_at","reg":["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"],"_RETURN_":"attr follow regex reg","action":["on_update"]}]}
 `,
                             },
                         },
@@ -848,8 +850,8 @@ function on_statusValidations(input: validationInput): validationOutput {
                 }
 
                 const testFunctions: testFunctionArray = [
-                    REQUIRED_ON_STATUS_ORDER,
-                    VALID_ENUM_ON_STATUS_ORDER,
+                    REQUIRED_ON_UPDATE_ORDER,
+                    VALID_ENUM_ON_UPDATE_ORDER,
                 ];
 
                 let allResults: validationOutput = [];
@@ -864,25 +866,25 @@ function on_statusValidations(input: validationInput): validationOutput {
             }
             return [
                 {
-                    testName: "ON_STATUS_ORDER",
+                    testName: "ON_UPDATE_ORDER",
                     valid: valid,
                     code: valid ? 200 : 30000,
                     _debugInfo: {
                         fedConfig: `
-{"_NAME_":"ON_STATUS_ORDER","action":["on_status"],"_RETURN_":[{"_NAME_":"REQUIRED_ON_STATUS_ORDER","_RETURN_":[{"_NAME_":"REQUIRED_ORDER_ID","attr":"$.message.order.id","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_ORDER_STATUS","attr":"$.message.order.status","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_ORDER_UPDATED_AT","attr":"$.message.order.updated_at","_RETURN_":"attr are present","action":["on_status"]}]},{"_NAME_":"VALID_ENUM_ON_STATUS_ORDER","_RETURN_":[{"_NAME_":"VALID_ENUM_ORDER_STATUS","attr":"$.message.order.status","enumList":["SOFT_CANCEL","CONFIRM_CANCEL","ACTIVE","COMPLETE","CANCELLED"],"_RETURN_":"attr any in enumList","action":["on_status"]},{"_NAME_":"REGEX_ON_STATUS_UPDATED_AT","attr":"$.message.order.updated_at","reg":["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"],"_RETURN_":"attr follow regex reg","action":["on_status"]}]}]}
+{"_NAME_":"ON_UPDATE_ORDER","action":["on_update"],"_RETURN_":[{"_NAME_":"REQUIRED_ON_UPDATE_ORDER","_RETURN_":[{"_NAME_":"REQUIRED_ORDER_ID","attr":"$.message.order.id","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_ORDER_STATUS","attr":"$.message.order.status","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_ORDER_UPDATED_AT","attr":"$.message.order.updated_at","_RETURN_":"attr are present","action":["on_update"]}]},{"_NAME_":"VALID_ENUM_ON_UPDATE_ORDER","_RETURN_":[{"_NAME_":"VALID_ENUM_ORDER_STATUS","attr":"$.message.order.status","enumList":["SOFT-CANCEL","CONFIRM-CANCEL","SOFT-UPDATE","CONFIRM-UPDATE","ACTIVE","COMPLETE","CANCELLED"],"_RETURN_":"attr any in enumList","action":["on_update"]},{"_NAME_":"REGEX_ON_UPDATE_UPDATED_AT","attr":"$.message.order.updated_at","reg":["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"],"_RETURN_":"attr follow regex reg","action":["on_update"]}]}]}
 `,
                     },
                 },
                 ...subResults,
             ];
         }
-        function ON_STATUS_ITEMS(input: validationInput): validationOutput {
+        function ON_UPDATE_ITEMS(input: validationInput): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
             let subResults: validationOutput = [];
             let valid = true;
             for (const testObj of scope) {
                 testObj._EXTERNAL = input.externalData;
-                const action = ["on_status"];
+                const action = ["on_update"];
 
                 function REQUIRED_ITEMS(
                     input: validationInput,
@@ -908,7 +910,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     testObj,
                                     "$.message.order.items[*].id",
                                 );
-                                const action = ["on_status"];
+                                const action = ["on_update"];
 
                                 const validate = validations.arePresent(attr);
 
@@ -925,7 +927,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.items[*].id must be present in the payload`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REQUIRED_MESSAGE_ITEMS_ID","attr":"$.message.order.items[*].id","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_MESSAGE_ITEMS_ID","attr":"$.message.order.items[*].id","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                             },
                                         },
@@ -941,7 +943,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_MESSAGE_ITEMS_ID","attr":"$.message.order.items[*].id","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_MESSAGE_ITEMS_ID","attr":"$.message.order.items[*].id","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -963,7 +965,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     testObj,
                                     "$.message.order.items[*].add_ons[*].id",
                                 );
-                                const action = ["on_status"];
+                                const action = ["on_update"];
 
                                 const validate = validations.arePresent(attr);
 
@@ -980,7 +982,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.items[*].add_ons[*].id must be present in the payload`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REQUIRED_MESSAGE_ITEMS_ADD_ONS","attr":"$.message.order.items[*].add_ons[*].id","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_MESSAGE_ITEMS_ADD_ONS","attr":"$.message.order.items[*].add_ons[*].id","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                             },
                                         },
@@ -996,7 +998,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_MESSAGE_ITEMS_ADD_ONS","attr":"$.message.order.items[*].add_ons[*].id","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_MESSAGE_ITEMS_ADD_ONS","attr":"$.message.order.items[*].add_ons[*].id","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -1018,7 +1020,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     testObj,
                                     "$.message.order.items[*].location_ids[*]",
                                 );
-                                const action = ["on_status"];
+                                const action = ["on_update"];
 
                                 const validate = validations.arePresent(attr);
 
@@ -1035,7 +1037,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.items[*].location_ids[*] must be present in the payload`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REQUIRED_ITEMS_LOCATIONS","attr":"$.message.order.items[*].location_ids[*]","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_ITEMS_LOCATIONS","attr":"$.message.order.items[*].location_ids[*]","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                             },
                                         },
@@ -1051,7 +1053,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_ITEMS_LOCATIONS","attr":"$.message.order.items[*].location_ids[*]","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_ITEMS_LOCATIONS","attr":"$.message.order.items[*].location_ids[*]","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -1073,7 +1075,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     testObj,
                                     "$.message.order.items[*].quantity.selected.count",
                                 );
-                                const action = ["on_status"];
+                                const action = ["on_update"];
 
                                 const validate = validations.arePresent(attr);
 
@@ -1089,7 +1091,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.items[*].quantity.selected.count must be present in the payload`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REQUIRED_ITEMS_QUANTITY","attr":"$.message.order.items[*].quantity.selected.count","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_ITEMS_QUANTITY","attr":"$.message.order.items[*].quantity.selected.count","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                             },
                                         },
@@ -1105,7 +1107,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_ITEMS_QUANTITY","attr":"$.message.order.items[*].quantity.selected.count","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_ITEMS_QUANTITY","attr":"$.message.order.items[*].quantity.selected.count","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -1127,7 +1129,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     testObj,
                                     "$.message.order.items[*].add_ons[*].id",
                                 );
-                                const action = ["on_status"];
+                                const action = ["on_update"];
 
                                 const validate = validations.arePresent(attr);
 
@@ -1143,7 +1145,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.items[*].add_ons[*].id must be present in the payload`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REQUIRED_ITEMS_ADDONS","attr":"$.message.order.items[*].add_ons[*].id","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_ITEMS_ADDONS","attr":"$.message.order.items[*].add_ons[*].id","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                             },
                                         },
@@ -1159,7 +1161,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_ITEMS_ADDONS","attr":"$.message.order.items[*].add_ons[*].id","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_ITEMS_ADDONS","attr":"$.message.order.items[*].add_ons[*].id","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -1192,7 +1194,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_ITEMS","_RETURN_":[{"_NAME_":"REQUIRED_MESSAGE_ITEMS_ID","attr":"$.message.order.items[*].id","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_MESSAGE_ITEMS_ADD_ONS","attr":"$.message.order.items[*].add_ons[*].id","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_ITEMS_LOCATIONS","attr":"$.message.order.items[*].location_ids[*]","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_ITEMS_QUANTITY","attr":"$.message.order.items[*].quantity.selected.count","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_ITEMS_ADDONS","attr":"$.message.order.items[*].add_ons[*].id","_RETURN_":"attr are present","action":["on_status"]}]}
+{"_NAME_":"REQUIRED_ITEMS","_RETURN_":[{"_NAME_":"REQUIRED_MESSAGE_ITEMS_ID","attr":"$.message.order.items[*].id","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_MESSAGE_ITEMS_ADD_ONS","attr":"$.message.order.items[*].add_ons[*].id","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_ITEMS_LOCATIONS","attr":"$.message.order.items[*].location_ids[*]","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_ITEMS_QUANTITY","attr":"$.message.order.items[*].quantity.selected.count","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_ITEMS_ADDONS","attr":"$.message.order.items[*].add_ons[*].id","_RETURN_":"attr are present","action":["on_update"]}]}
 `,
                             },
                         },
@@ -1214,19 +1216,19 @@ function on_statusValidations(input: validationInput): validationOutput {
             }
             return [
                 {
-                    testName: "ON_STATUS_ITEMS",
+                    testName: "ON_UPDATE_ITEMS",
                     valid: valid,
                     code: valid ? 200 : 30000,
                     _debugInfo: {
                         fedConfig: `
-{"_NAME_":"ON_STATUS_ITEMS","action":["on_status"],"_RETURN_":[{"_NAME_":"REQUIRED_ITEMS","_RETURN_":[{"_NAME_":"REQUIRED_MESSAGE_ITEMS_ID","attr":"$.message.order.items[*].id","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_MESSAGE_ITEMS_ADD_ONS","attr":"$.message.order.items[*].add_ons[*].id","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_ITEMS_LOCATIONS","attr":"$.message.order.items[*].location_ids[*]","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_ITEMS_QUANTITY","attr":"$.message.order.items[*].quantity.selected.count","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_ITEMS_ADDONS","attr":"$.message.order.items[*].add_ons[*].id","_RETURN_":"attr are present","action":["on_status"]}]}]}
+{"_NAME_":"ON_UPDATE_ITEMS","action":["on_update"],"_RETURN_":[{"_NAME_":"REQUIRED_ITEMS","_RETURN_":[{"_NAME_":"REQUIRED_MESSAGE_ITEMS_ID","attr":"$.message.order.items[*].id","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_MESSAGE_ITEMS_ADD_ONS","attr":"$.message.order.items[*].add_ons[*].id","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_ITEMS_LOCATIONS","attr":"$.message.order.items[*].location_ids[*]","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_ITEMS_QUANTITY","attr":"$.message.order.items[*].quantity.selected.count","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_ITEMS_ADDONS","attr":"$.message.order.items[*].add_ons[*].id","_RETURN_":"attr are present","action":["on_update"]}]}]}
 `,
                     },
                 },
                 ...subResults,
             ];
         }
-        function ON_STATUS_ORDER_FULFILLMENTS(
+        function ON_UPDATE_ORDER_FULFILLMENTS(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -1234,7 +1236,7 @@ function on_statusValidations(input: validationInput): validationOutput {
             let valid = true;
             for (const testObj of scope) {
                 testObj._EXTERNAL = input.externalData;
-                const action = ["on_status"];
+                const action = ["on_update"];
 
                 function REQUIRED_FULFILLMENT_ID(
                     input: validationInput,
@@ -1248,7 +1250,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.fulfillments[*].id",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -1264,7 +1266,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.fulfillments[*].id must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_FULFILLMENT_ID","attr":"$.message.order.fulfillments[*].id","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_FULFILLMENT_ID","attr":"$.message.order.fulfillments[*].id","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -1280,7 +1282,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_FULFILLMENT_ID","attr":"$.message.order.fulfillments[*].id","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_FULFILLMENT_ID","attr":"$.message.order.fulfillments[*].id","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -1299,7 +1301,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.fulfillments[*].customer.person.name",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -1315,7 +1317,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.fulfillments[*].customer.person.name must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_CUSTOMER_NAME","attr":"$.message.order.fulfillments[*].customer.person.name","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_CUSTOMER_NAME","attr":"$.message.order.fulfillments[*].customer.person.name","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -1331,7 +1333,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_CUSTOMER_NAME","attr":"$.message.order.fulfillments[*].customer.person.name","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_CUSTOMER_NAME","attr":"$.message.order.fulfillments[*].customer.person.name","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -1350,7 +1352,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.fulfillments[*].customer.person.age",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -1366,7 +1368,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.fulfillments[*].customer.person.age must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_CUSTOMER_AGE","attr":"$.message.order.fulfillments[*].customer.person.age","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_CUSTOMER_AGE","attr":"$.message.order.fulfillments[*].customer.person.age","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -1382,7 +1384,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_CUSTOMER_AGE","attr":"$.message.order.fulfillments[*].customer.person.age","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_CUSTOMER_AGE","attr":"$.message.order.fulfillments[*].customer.person.age","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -1401,7 +1403,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.fulfillments[*].customer.person.dob",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -1417,7 +1419,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.fulfillments[*].customer.person.dob must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_CUSTOMER_DOB","attr":"$.message.order.fulfillments[*].customer.person.dob","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_CUSTOMER_DOB","attr":"$.message.order.fulfillments[*].customer.person.dob","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -1433,7 +1435,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_CUSTOMER_DOB","attr":"$.message.order.fulfillments[*].customer.person.dob","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_CUSTOMER_DOB","attr":"$.message.order.fulfillments[*].customer.person.dob","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -1452,7 +1454,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.fulfillments[*].customer.person.gender",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -1468,7 +1470,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.fulfillments[*].customer.person.gender must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_CUSTOMER_GENDER","attr":"$.message.order.fulfillments[*].customer.person.gender","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_CUSTOMER_GENDER","attr":"$.message.order.fulfillments[*].customer.person.gender","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -1484,7 +1486,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_CUSTOMER_GENDER","attr":"$.message.order.fulfillments[*].customer.person.gender","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_CUSTOMER_GENDER","attr":"$.message.order.fulfillments[*].customer.person.gender","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -1503,7 +1505,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.fulfillments[*].customer.contact.phone",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -1519,7 +1521,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.fulfillments[*].customer.contact.phone must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_CUSTOMER_CONTACT","attr":"$.message.order.fulfillments[*].customer.contact.phone","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_CUSTOMER_CONTACT","attr":"$.message.order.fulfillments[*].customer.contact.phone","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -1535,7 +1537,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_CUSTOMER_CONTACT","attr":"$.message.order.fulfillments[*].customer.contact.phone","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_CUSTOMER_CONTACT","attr":"$.message.order.fulfillments[*].customer.contact.phone","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -1554,7 +1556,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.fulfillments[*].customer.contact.email",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -1570,7 +1572,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.fulfillments[*].customer.contact.email must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_CUSTOMER_CONTACT_EMAIL","attr":"$.message.order.fulfillments[*].customer.contact.email","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_CUSTOMER_CONTACT_EMAIL","attr":"$.message.order.fulfillments[*].customer.contact.email","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -1586,7 +1588,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_CUSTOMER_CONTACT_EMAIL","attr":"$.message.order.fulfillments[*].customer.contact.email","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_CUSTOMER_CONTACT_EMAIL","attr":"$.message.order.fulfillments[*].customer.contact.email","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -1616,25 +1618,25 @@ function on_statusValidations(input: validationInput): validationOutput {
             }
             return [
                 {
-                    testName: "ON_STATUS_ORDER_FULFILLMENTS",
+                    testName: "ON_UPDATE_ORDER_FULFILLMENTS",
                     valid: valid,
                     code: valid ? 200 : 30000,
                     _debugInfo: {
                         fedConfig: `
-{"_NAME_":"ON_STATUS_ORDER_FULFILLMENTS","action":["on_status"],"_RETURN_":[{"_NAME_":"REQUIRED_FULFILLMENT_ID","attr":"$.message.order.fulfillments[*].id","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_CUSTOMER_NAME","attr":"$.message.order.fulfillments[*].customer.person.name","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_CUSTOMER_AGE","attr":"$.message.order.fulfillments[*].customer.person.age","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_CUSTOMER_DOB","attr":"$.message.order.fulfillments[*].customer.person.dob","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_CUSTOMER_GENDER","attr":"$.message.order.fulfillments[*].customer.person.gender","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_CUSTOMER_CONTACT","attr":"$.message.order.fulfillments[*].customer.contact.phone","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_CUSTOMER_CONTACT_EMAIL","attr":"$.message.order.fulfillments[*].customer.contact.email","_RETURN_":"attr are present","action":["on_status"]}]}
+{"_NAME_":"ON_UPDATE_ORDER_FULFILLMENTS","action":["on_update"],"_RETURN_":[{"_NAME_":"REQUIRED_FULFILLMENT_ID","attr":"$.message.order.fulfillments[*].id","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_CUSTOMER_NAME","attr":"$.message.order.fulfillments[*].customer.person.name","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_CUSTOMER_AGE","attr":"$.message.order.fulfillments[*].customer.person.age","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_CUSTOMER_DOB","attr":"$.message.order.fulfillments[*].customer.person.dob","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_CUSTOMER_GENDER","attr":"$.message.order.fulfillments[*].customer.person.gender","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_CUSTOMER_CONTACT","attr":"$.message.order.fulfillments[*].customer.contact.phone","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_CUSTOMER_CONTACT_EMAIL","attr":"$.message.order.fulfillments[*].customer.contact.email","_RETURN_":"attr are present","action":["on_update"]}]}
 `,
                     },
                 },
                 ...subResults,
             ];
         }
-        function ON_STATUS_PROVIDER(input: validationInput): validationOutput {
+        function ON_UPDATE_PROVIDER(input: validationInput): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
             let subResults: validationOutput = [];
             let valid = true;
             for (const testObj of scope) {
                 testObj._EXTERNAL = input.externalData;
-                const action = ["on_status"];
+                const action = ["on_update"];
 
                 function REQUIRED_PROVIDER_ID(
                     input: validationInput,
@@ -1648,7 +1650,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.provider.id",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -1664,7 +1666,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.provider.id must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_PROVIDER_ID","attr":"$.message.order.provider.id","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_PROVIDER_ID","attr":"$.message.order.provider.id","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -1680,7 +1682,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_PROVIDER_ID","attr":"$.message.order.provider.id","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_PROVIDER_ID","attr":"$.message.order.provider.id","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -1702,19 +1704,19 @@ function on_statusValidations(input: validationInput): validationOutput {
             }
             return [
                 {
-                    testName: "ON_STATUS_PROVIDER",
+                    testName: "ON_UPDATE_PROVIDER",
                     valid: valid,
                     code: valid ? 200 : 30000,
                     _debugInfo: {
                         fedConfig: `
-{"_NAME_":"ON_STATUS_PROVIDER","action":["on_status"],"_RETURN_":[{"_NAME_":"REQUIRED_PROVIDER_ID","attr":"$.message.order.provider.id","_RETURN_":"attr are present","action":["on_status"]}]}
+{"_NAME_":"ON_UPDATE_PROVIDER","action":["on_update"],"_RETURN_":[{"_NAME_":"REQUIRED_PROVIDER_ID","attr":"$.message.order.provider.id","_RETURN_":"attr are present","action":["on_update"]}]}
 `,
                     },
                 },
                 ...subResults,
             ];
         }
-        function ON_STATUS_ORDER_QUOTE(
+        function ON_UPDATE_ORDER_QUOTE(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -1722,7 +1724,7 @@ function on_statusValidations(input: validationInput): validationOutput {
             let valid = true;
             for (const testObj of scope) {
                 testObj._EXTERNAL = input.externalData;
-                const action = ["on_status"];
+                const action = ["on_update"];
 
                 function REQUIRED_QUOTE_PRICE(
                     input: validationInput,
@@ -1736,7 +1738,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.quote.price.value",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -1752,7 +1754,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.quote.price.value must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_QUOTE_PRICE","attr":"$.message.order.quote.price.value","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_QUOTE_PRICE","attr":"$.message.order.quote.price.value","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -1768,7 +1770,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_QUOTE_PRICE","attr":"$.message.order.quote.price.value","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_QUOTE_PRICE","attr":"$.message.order.quote.price.value","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -1787,7 +1789,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.quote.price.currency",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -1803,7 +1805,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.quote.price.currency must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_QUOTE_CURRENCY","attr":"$.message.order.quote.price.currency","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_QUOTE_CURRENCY","attr":"$.message.order.quote.price.currency","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -1819,7 +1821,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_QUOTE_CURRENCY","attr":"$.message.order.quote.price.currency","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_QUOTE_CURRENCY","attr":"$.message.order.quote.price.currency","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -1838,7 +1840,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.quote.breakup[*].price.value",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -1854,7 +1856,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.quote.breakup[*].price.value must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_QUOTE_BREAKUP","attr":"$.message.order.quote.breakup[*].price.value","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_QUOTE_BREAKUP","attr":"$.message.order.quote.breakup[*].price.value","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -1870,7 +1872,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_QUOTE_BREAKUP","attr":"$.message.order.quote.breakup[*].price.value","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_QUOTE_BREAKUP","attr":"$.message.order.quote.breakup[*].price.value","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -1889,7 +1891,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.quote.breakup[*].price.currency",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -1906,7 +1908,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.quote.breakup[*].price.currency must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_QUOTE_BREAKUP_PRICE_CURRENCY","attr":"$.message.order.quote.breakup[*].price.currency","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_QUOTE_BREAKUP_PRICE_CURRENCY","attr":"$.message.order.quote.breakup[*].price.currency","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -1922,7 +1924,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_QUOTE_BREAKUP_PRICE_CURRENCY","attr":"$.message.order.quote.breakup[*].price.currency","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_QUOTE_BREAKUP_PRICE_CURRENCY","attr":"$.message.order.quote.breakup[*].price.currency","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -1941,7 +1943,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.quote.breakup[*].title",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -1957,7 +1959,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.quote.breakup[*].title must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_QUOTE_BREAKUP_TITLE","attr":"$.message.order.quote.breakup[*].title","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_QUOTE_BREAKUP_TITLE","attr":"$.message.order.quote.breakup[*].title","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -1973,7 +1975,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_QUOTE_BREAKUP_TITLE","attr":"$.message.order.quote.breakup[*].title","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_QUOTE_BREAKUP_TITLE","attr":"$.message.order.quote.breakup[*].title","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -1992,7 +1994,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.quote.ttl",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -2008,7 +2010,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.quote.ttl must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_QUOTE_TTL","attr":"$.message.order.quote.ttl","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_QUOTE_TTL","attr":"$.message.order.quote.ttl","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -2024,7 +2026,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_QUOTE_TTL","attr":"$.message.order.quote.ttl","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_QUOTE_TTL","attr":"$.message.order.quote.ttl","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -2053,25 +2055,25 @@ function on_statusValidations(input: validationInput): validationOutput {
             }
             return [
                 {
-                    testName: "ON_STATUS_ORDER_QUOTE",
+                    testName: "ON_UPDATE_ORDER_QUOTE",
                     valid: valid,
                     code: valid ? 200 : 30000,
                     _debugInfo: {
                         fedConfig: `
-{"_NAME_":"ON_STATUS_ORDER_QUOTE","action":["on_status"],"_RETURN_":[{"_NAME_":"REQUIRED_QUOTE_PRICE","attr":"$.message.order.quote.price.value","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_QUOTE_CURRENCY","attr":"$.message.order.quote.price.currency","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_QUOTE_BREAKUP","attr":"$.message.order.quote.breakup[*].price.value","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_QUOTE_BREAKUP_PRICE_CURRENCY","attr":"$.message.order.quote.breakup[*].price.currency","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_QUOTE_BREAKUP_TITLE","attr":"$.message.order.quote.breakup[*].title","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_QUOTE_TTL","attr":"$.message.order.quote.ttl","_RETURN_":"attr are present","action":["on_status"]}]}
+{"_NAME_":"ON_UPDATE_ORDER_QUOTE","action":["on_update"],"_RETURN_":[{"_NAME_":"REQUIRED_QUOTE_PRICE","attr":"$.message.order.quote.price.value","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_QUOTE_CURRENCY","attr":"$.message.order.quote.price.currency","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_QUOTE_BREAKUP","attr":"$.message.order.quote.breakup[*].price.value","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_QUOTE_BREAKUP_PRICE_CURRENCY","attr":"$.message.order.quote.breakup[*].price.currency","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_QUOTE_BREAKUP_TITLE","attr":"$.message.order.quote.breakup[*].title","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_QUOTE_TTL","attr":"$.message.order.quote.ttl","_RETURN_":"attr are present","action":["on_update"]}]}
 `,
                     },
                 },
                 ...subResults,
             ];
         }
-        function ON_STATUS_PAYMENTS(input: validationInput): validationOutput {
+        function ON_UPDATE_PAYMENTS(input: validationInput): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
             let subResults: validationOutput = [];
             let valid = true;
             for (const testObj of scope) {
                 testObj._EXTERNAL = input.externalData;
-                const action = ["on_status"];
+                const action = ["on_update"];
 
                 function REQUIRED_PAYMENT_ID(
                     input: validationInput,
@@ -2085,7 +2087,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.payments[*].id",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -2101,7 +2103,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.payments[*].id must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_PAYMENT_ID","attr":"$.message.order.payments[*].id","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_PAYMENT_ID","attr":"$.message.order.payments[*].id","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -2117,7 +2119,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_PAYMENT_ID","attr":"$.message.order.payments[*].id","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_PAYMENT_ID","attr":"$.message.order.payments[*].id","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -2136,7 +2138,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.payments[*].type",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -2152,7 +2154,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.payments[*].type must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_PAYMENT_TYPE","attr":"$.message.order.payments[*].type","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_PAYMENT_TYPE","attr":"$.message.order.payments[*].type","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -2168,7 +2170,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_PAYMENT_TYPE","attr":"$.message.order.payments[*].type","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_PAYMENT_TYPE","attr":"$.message.order.payments[*].type","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -2192,7 +2194,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             "ON-FULFILLMENT",
                             "PART-PAYMENT",
                         ];
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.allIn(attr, enumList);
 
@@ -2208,7 +2210,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - All elements of $.message.order.payments[*].type must be in ["PRE-ORDER", "ON-FULFILLMENT", "PART-PAYMENT"]`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"VALID_PAYMENT_TYPES","attr":"$.message.order.payments[*].type","enumList":["PRE-ORDER","ON-FULFILLMENT","PART-PAYMENT"],"_RETURN_":"attr all in enumList","action":["on_status"]}
+{"_NAME_":"VALID_PAYMENT_TYPES","attr":"$.message.order.payments[*].type","enumList":["PRE-ORDER","ON-FULFILLMENT","PART-PAYMENT"],"_RETURN_":"attr all in enumList","action":["on_update"]}
 `,
                                     },
                                 },
@@ -2224,7 +2226,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"VALID_PAYMENT_TYPES","attr":"$.message.order.payments[*].type","enumList":["PRE-ORDER","ON-FULFILLMENT","PART-PAYMENT"],"_RETURN_":"attr all in enumList","action":["on_status"]}
+{"_NAME_":"VALID_PAYMENT_TYPES","attr":"$.message.order.payments[*].type","enumList":["PRE-ORDER","ON-FULFILLMENT","PART-PAYMENT"],"_RETURN_":"attr all in enumList","action":["on_update"]}
 `,
                             },
                         },
@@ -2243,7 +2245,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.payments[*].status",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -2259,7 +2261,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.payments[*].status must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_PAYMENT_STATUS","attr":"$.message.order.payments[*].status","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_PAYMENT_STATUS","attr":"$.message.order.payments[*].status","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -2275,7 +2277,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_PAYMENT_STATUS","attr":"$.message.order.payments[*].status","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_PAYMENT_STATUS","attr":"$.message.order.payments[*].status","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -2295,7 +2297,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             "$.message.order.payments[*].status",
                         );
                         const enumList = ["PAID", "NOT-PAID"];
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.allIn(attr, enumList);
 
@@ -2311,7 +2313,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - All elements of $.message.order.payments[*].status must be in ["PAID", "NOT-PAID"]`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"VALID_PAYMENT_STATUS","attr":"$.message.order.payments[*].status","enumList":["PAID","NOT-PAID"],"_RETURN_":"attr all in enumList","action":["on_status"]}
+{"_NAME_":"VALID_PAYMENT_STATUS","attr":"$.message.order.payments[*].status","enumList":["PAID","NOT-PAID"],"_RETURN_":"attr all in enumList","action":["on_update"]}
 `,
                                     },
                                 },
@@ -2327,7 +2329,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"VALID_PAYMENT_STATUS","attr":"$.message.order.payments[*].status","enumList":["PAID","NOT-PAID"],"_RETURN_":"attr all in enumList","action":["on_status"]}
+{"_NAME_":"VALID_PAYMENT_STATUS","attr":"$.message.order.payments[*].status","enumList":["PAID","NOT-PAID"],"_RETURN_":"attr all in enumList","action":["on_update"]}
 `,
                             },
                         },
@@ -2359,7 +2361,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     "$.message.order.payments[*].status",
                                 );
                                 const enumList = ["PAID", "NOT-PAID"];
-                                const action = ["on_status"];
+                                const action = ["on_update"];
 
                                 const validate = validations.anyIn(
                                     attr,
@@ -2379,7 +2381,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - At least one of $.message.order.payments[*].status must be in ["PAID", "NOT-PAID"]`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"VALID_ENUM_PAYMENTS_STATUS","attr":"$.message.order.payments[*].status","enumList":["PAID","NOT-PAID"],"_RETURN_":"attr any in enumList","action":["on_status"]}
+{"_NAME_":"VALID_ENUM_PAYMENTS_STATUS","attr":"$.message.order.payments[*].status","enumList":["PAID","NOT-PAID"],"_RETURN_":"attr any in enumList","action":["on_update"]}
 `,
                                             },
                                         },
@@ -2395,7 +2397,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"VALID_ENUM_PAYMENTS_STATUS","attr":"$.message.order.payments[*].status","enumList":["PAID","NOT-PAID"],"_RETURN_":"attr any in enumList","action":["on_status"]}
+{"_NAME_":"VALID_ENUM_PAYMENTS_STATUS","attr":"$.message.order.payments[*].status","enumList":["PAID","NOT-PAID"],"_RETURN_":"attr any in enumList","action":["on_update"]}
 `,
                                     },
                                 },
@@ -2423,7 +2425,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     "ON-FULFILLMENT",
                                     "POST-FULFILLMENT",
                                 ];
-                                const action = ["on_status"];
+                                const action = ["on_update"];
 
                                 const validate = validations.anyIn(
                                     attr,
@@ -2443,7 +2445,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - At least one of $.message.order.payments[*].type must be in ["PRE-ORDER", "PART-PAYMENT", "ON-FULFILLMENT", "POST-FULFILLMENT"]`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"VALID_ENUM_PAYMENTS_TYPE","attr":"$.message.order.payments[*].type","enumList":["PRE-ORDER","PART-PAYMENT","ON-FULFILLMENT","POST-FULFILLMENT"],"_RETURN_":"attr any in enumList","action":["on_status"]}
+{"_NAME_":"VALID_ENUM_PAYMENTS_TYPE","attr":"$.message.order.payments[*].type","enumList":["PRE-ORDER","PART-PAYMENT","ON-FULFILLMENT","POST-FULFILLMENT"],"_RETURN_":"attr any in enumList","action":["on_update"]}
 `,
                                             },
                                         },
@@ -2459,7 +2461,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"VALID_ENUM_PAYMENTS_TYPE","attr":"$.message.order.payments[*].type","enumList":["PRE-ORDER","PART-PAYMENT","ON-FULFILLMENT","POST-FULFILLMENT"],"_RETURN_":"attr any in enumList","action":["on_status"]}
+{"_NAME_":"VALID_ENUM_PAYMENTS_TYPE","attr":"$.message.order.payments[*].type","enumList":["PRE-ORDER","PART-PAYMENT","ON-FULFILLMENT","POST-FULFILLMENT"],"_RETURN_":"attr any in enumList","action":["on_update"]}
 `,
                                     },
                                 },
@@ -2489,7 +2491,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"VALID_ENUM_PAYMENTS","_RETURN_":[{"_NAME_":"VALID_ENUM_PAYMENTS_STATUS","attr":"$.message.order.payments[*].status","enumList":["PAID","NOT-PAID"],"_RETURN_":"attr any in enumList","action":["on_status"]},{"_NAME_":"VALID_ENUM_PAYMENTS_TYPE","attr":"$.message.order.payments[*].type","enumList":["PRE-ORDER","PART-PAYMENT","ON-FULFILLMENT","POST-FULFILLMENT"],"_RETURN_":"attr any in enumList","action":["on_status"]}]}
+{"_NAME_":"VALID_ENUM_PAYMENTS","_RETURN_":[{"_NAME_":"VALID_ENUM_PAYMENTS_STATUS","attr":"$.message.order.payments[*].status","enumList":["PAID","NOT-PAID"],"_RETURN_":"attr any in enumList","action":["on_update"]},{"_NAME_":"VALID_ENUM_PAYMENTS_TYPE","attr":"$.message.order.payments[*].type","enumList":["PRE-ORDER","PART-PAYMENT","ON-FULFILLMENT","POST-FULFILLMENT"],"_RETURN_":"attr any in enumList","action":["on_update"]}]}
 `,
                             },
                         },
@@ -2525,7 +2527,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     "ADV-DEPOSIT",
                                     "FINAL-PAYMENT",
                                 ];
-                                const action = ["on_status"];
+                                const action = ["on_update"];
 
                                 const validate = validations.anyIn(
                                     attr,
@@ -2545,7 +2547,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - At least one of $.message.order.payments[*].tags[*].descriptor.code must be in ["LINKED-PAYMENTS", "ADV-DEPOSIT", "FINAL-PAYMENT"]`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REQUIRED_LINKED_PAYMENT_TAG","attr":"$.message.order.payments[*].tags[*].descriptor.code","enumList":["LINKED-PAYMENTS","ADV-DEPOSIT","FINAL-PAYMENT"],"_RETURN_":"attr any in enumList","action":["on_status"]}
+{"_NAME_":"REQUIRED_LINKED_PAYMENT_TAG","attr":"$.message.order.payments[*].tags[*].descriptor.code","enumList":["LINKED-PAYMENTS","ADV-DEPOSIT","FINAL-PAYMENT"],"_RETURN_":"attr any in enumList","action":["on_update"]}
 `,
                                             },
                                         },
@@ -2561,7 +2563,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_LINKED_PAYMENT_TAG","attr":"$.message.order.payments[*].tags[*].descriptor.code","enumList":["LINKED-PAYMENTS","ADV-DEPOSIT","FINAL-PAYMENT"],"_RETURN_":"attr any in enumList","action":["on_status"]}
+{"_NAME_":"REQUIRED_LINKED_PAYMENT_TAG","attr":"$.message.order.payments[*].tags[*].descriptor.code","enumList":["LINKED-PAYMENTS","ADV-DEPOSIT","FINAL-PAYMENT"],"_RETURN_":"attr any in enumList","action":["on_update"]}
 `,
                                     },
                                 },
@@ -2590,7 +2592,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_PAYMENTS_LINKED_TAGS","_RETURN_":[{"_NAME_":"REQUIRED_LINKED_PAYMENT_TAG","attr":"$.message.order.payments[*].tags[*].descriptor.code","enumList":["LINKED-PAYMENTS","ADV-DEPOSIT","FINAL-PAYMENT"],"_RETURN_":"attr any in enumList","action":["on_status"]}]}
+{"_NAME_":"REQUIRED_PAYMENTS_LINKED_TAGS","_RETURN_":[{"_NAME_":"REQUIRED_LINKED_PAYMENT_TAG","attr":"$.message.order.payments[*].tags[*].descriptor.code","enumList":["LINKED-PAYMENTS","ADV-DEPOSIT","FINAL-PAYMENT"],"_RETURN_":"attr any in enumList","action":["on_update"]}]}
 `,
                             },
                         },
@@ -2620,19 +2622,19 @@ function on_statusValidations(input: validationInput): validationOutput {
             }
             return [
                 {
-                    testName: "ON_STATUS_PAYMENTS",
+                    testName: "ON_UPDATE_PAYMENTS",
                     valid: valid,
                     code: valid ? 200 : 30000,
                     _debugInfo: {
                         fedConfig: `
-{"_NAME_":"ON_STATUS_PAYMENTS","action":["on_status"],"_RETURN_":[{"_NAME_":"REQUIRED_PAYMENT_ID","attr":"$.message.order.payments[*].id","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_PAYMENT_TYPE","attr":"$.message.order.payments[*].type","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"VALID_PAYMENT_TYPES","attr":"$.message.order.payments[*].type","enumList":["PRE-ORDER","ON-FULFILLMENT","PART-PAYMENT"],"_RETURN_":"attr all in enumList","action":["on_status"]},{"_NAME_":"REQUIRED_PAYMENT_STATUS","attr":"$.message.order.payments[*].status","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"VALID_PAYMENT_STATUS","attr":"$.message.order.payments[*].status","enumList":["PAID","NOT-PAID"],"_RETURN_":"attr all in enumList","action":["on_status"]},{"_NAME_":"VALID_ENUM_PAYMENTS","_RETURN_":[{"_NAME_":"VALID_ENUM_PAYMENTS_STATUS","attr":"$.message.order.payments[*].status","enumList":["PAID","NOT-PAID"],"_RETURN_":"attr any in enumList","action":["on_status"]},{"_NAME_":"VALID_ENUM_PAYMENTS_TYPE","attr":"$.message.order.payments[*].type","enumList":["PRE-ORDER","PART-PAYMENT","ON-FULFILLMENT","POST-FULFILLMENT"],"_RETURN_":"attr any in enumList","action":["on_status"]}]},{"_NAME_":"REQUIRED_PAYMENTS_LINKED_TAGS","_RETURN_":[{"_NAME_":"REQUIRED_LINKED_PAYMENT_TAG","attr":"$.message.order.payments[*].tags[*].descriptor.code","enumList":["LINKED-PAYMENTS","ADV-DEPOSIT","FINAL-PAYMENT"],"_RETURN_":"attr any in enumList","action":["on_status"]}]}]}
+{"_NAME_":"ON_UPDATE_PAYMENTS","action":["on_update"],"_RETURN_":[{"_NAME_":"REQUIRED_PAYMENT_ID","attr":"$.message.order.payments[*].id","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_PAYMENT_TYPE","attr":"$.message.order.payments[*].type","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"VALID_PAYMENT_TYPES","attr":"$.message.order.payments[*].type","enumList":["PRE-ORDER","ON-FULFILLMENT","PART-PAYMENT"],"_RETURN_":"attr all in enumList","action":["on_update"]},{"_NAME_":"REQUIRED_PAYMENT_STATUS","attr":"$.message.order.payments[*].status","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"VALID_PAYMENT_STATUS","attr":"$.message.order.payments[*].status","enumList":["PAID","NOT-PAID"],"_RETURN_":"attr all in enumList","action":["on_update"]},{"_NAME_":"VALID_ENUM_PAYMENTS","_RETURN_":[{"_NAME_":"VALID_ENUM_PAYMENTS_STATUS","attr":"$.message.order.payments[*].status","enumList":["PAID","NOT-PAID"],"_RETURN_":"attr any in enumList","action":["on_update"]},{"_NAME_":"VALID_ENUM_PAYMENTS_TYPE","attr":"$.message.order.payments[*].type","enumList":["PRE-ORDER","PART-PAYMENT","ON-FULFILLMENT","POST-FULFILLMENT"],"_RETURN_":"attr any in enumList","action":["on_update"]}]},{"_NAME_":"REQUIRED_PAYMENTS_LINKED_TAGS","_RETURN_":[{"_NAME_":"REQUIRED_LINKED_PAYMENT_TAG","attr":"$.message.order.payments[*].tags[*].descriptor.code","enumList":["LINKED-PAYMENTS","ADV-DEPOSIT","FINAL-PAYMENT"],"_RETURN_":"attr any in enumList","action":["on_update"]}]}]}
 `,
                     },
                 },
                 ...subResults,
             ];
         }
-        function ON_STATUS_ORDER_BILLING(
+        function ON_UPDATE_ORDER_BILLING(
             input: validationInput,
         ): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
@@ -2640,7 +2642,7 @@ function on_statusValidations(input: validationInput): validationOutput {
             let valid = true;
             for (const testObj of scope) {
                 testObj._EXTERNAL = input.externalData;
-                const action = ["on_status"];
+                const action = ["on_update"];
 
                 function REQUIRED_BILLING_NAME(
                     input: validationInput,
@@ -2654,7 +2656,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.billing.name",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -2670,7 +2672,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.billing.name must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_BILLING_NAME","attr":"$.message.order.billing.name","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_BILLING_NAME","attr":"$.message.order.billing.name","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -2686,7 +2688,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_BILLING_NAME","attr":"$.message.order.billing.name","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_BILLING_NAME","attr":"$.message.order.billing.name","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -2705,7 +2707,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.billing.address",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -2721,7 +2723,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.billing.address must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_BILLING_ADDRESS","attr":"$.message.order.billing.address","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_BILLING_ADDRESS","attr":"$.message.order.billing.address","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -2737,7 +2739,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_BILLING_ADDRESS","attr":"$.message.order.billing.address","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_BILLING_ADDRESS","attr":"$.message.order.billing.address","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -2756,7 +2758,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.billing.state.name",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -2772,7 +2774,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.billing.state.name must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_BILLING_STATE_NAME","attr":"$.message.order.billing.state.name","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_BILLING_STATE_NAME","attr":"$.message.order.billing.state.name","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -2788,7 +2790,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_BILLING_STATE_NAME","attr":"$.message.order.billing.state.name","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_BILLING_STATE_NAME","attr":"$.message.order.billing.state.name","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -2807,7 +2809,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.billing.city.name",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -2823,7 +2825,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.billing.city.name must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_BILLING_CITY_NAME","attr":"$.message.order.billing.city.name","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_BILLING_CITY_NAME","attr":"$.message.order.billing.city.name","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -2839,7 +2841,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_BILLING_CITY_NAME","attr":"$.message.order.billing.city.name","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_BILLING_CITY_NAME","attr":"$.message.order.billing.city.name","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -2858,7 +2860,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.billing.organization.descriptor.name",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -2875,7 +2877,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.billing.organization.descriptor.name must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_BILLING_ORGANIZATION_DESCRIPTOR_NAME","attr":"$.message.order.billing.organization.descriptor.name","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_BILLING_ORGANIZATION_DESCRIPTOR_NAME","attr":"$.message.order.billing.organization.descriptor.name","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -2892,7 +2894,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_BILLING_ORGANIZATION_DESCRIPTOR_NAME","attr":"$.message.order.billing.organization.descriptor.name","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_BILLING_ORGANIZATION_DESCRIPTOR_NAME","attr":"$.message.order.billing.organization.descriptor.name","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -2911,7 +2913,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.billing.organization.address",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -2928,7 +2930,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.billing.organization.address must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_BILLING_ORGANIZATION_ADDRESS","attr":"$.message.order.billing.organization.address","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_BILLING_ORGANIZATION_ADDRESS","attr":"$.message.order.billing.organization.address","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -2944,7 +2946,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_BILLING_ORGANIZATION_ADDRESS","attr":"$.message.order.billing.organization.address","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_BILLING_ORGANIZATION_ADDRESS","attr":"$.message.order.billing.organization.address","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -2963,7 +2965,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.billing.email",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -2979,7 +2981,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.billing.email must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_BILLING_EMAIL","attr":"$.message.order.billing.email","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_BILLING_EMAIL","attr":"$.message.order.billing.email","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -2995,7 +2997,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_BILLING_EMAIL","attr":"$.message.order.billing.email","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_BILLING_EMAIL","attr":"$.message.order.billing.email","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -3014,7 +3016,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.billing.phone",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -3030,7 +3032,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.billing.phone must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_BILLING_PHONE","attr":"$.message.order.billing.phone","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_BILLING_PHONE","attr":"$.message.order.billing.phone","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -3046,7 +3048,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_BILLING_PHONE","attr":"$.message.order.billing.phone","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_BILLING_PHONE","attr":"$.message.order.billing.phone","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -3065,7 +3067,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             testObj,
                             "$.message.order.billing.tax_id",
                         );
-                        const action = ["on_status"];
+                        const action = ["on_update"];
 
                         const validate = validations.arePresent(attr);
 
@@ -3081,7 +3083,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.billing.tax_id must be present in the payload`,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_BILLING_TAX_ID","attr":"$.message.order.billing.tax_id","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_BILLING_TAX_ID","attr":"$.message.order.billing.tax_id","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -3097,7 +3099,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_BILLING_TAX_ID","attr":"$.message.order.billing.tax_id","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_BILLING_TAX_ID","attr":"$.message.order.billing.tax_id","_RETURN_":"attr are present","action":["on_update"]}
 `,
                             },
                         },
@@ -3129,25 +3131,25 @@ function on_statusValidations(input: validationInput): validationOutput {
             }
             return [
                 {
-                    testName: "ON_STATUS_ORDER_BILLING",
+                    testName: "ON_UPDATE_ORDER_BILLING",
                     valid: valid,
                     code: valid ? 200 : 30000,
                     _debugInfo: {
                         fedConfig: `
-{"_NAME_":"ON_STATUS_ORDER_BILLING","action":["on_status"],"_RETURN_":[{"_NAME_":"REQUIRED_BILLING_NAME","attr":"$.message.order.billing.name","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_BILLING_ADDRESS","attr":"$.message.order.billing.address","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_BILLING_STATE_NAME","attr":"$.message.order.billing.state.name","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_BILLING_CITY_NAME","attr":"$.message.order.billing.city.name","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_BILLING_ORGANIZATION_DESCRIPTOR_NAME","attr":"$.message.order.billing.organization.descriptor.name","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_BILLING_ORGANIZATION_ADDRESS","attr":"$.message.order.billing.organization.address","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_BILLING_EMAIL","attr":"$.message.order.billing.email","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_BILLING_PHONE","attr":"$.message.order.billing.phone","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_BILLING_TAX_ID","attr":"$.message.order.billing.tax_id","_RETURN_":"attr are present","action":["on_status"]}]}
+{"_NAME_":"ON_UPDATE_ORDER_BILLING","action":["on_update"],"_RETURN_":[{"_NAME_":"REQUIRED_BILLING_NAME","attr":"$.message.order.billing.name","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_BILLING_ADDRESS","attr":"$.message.order.billing.address","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_BILLING_STATE_NAME","attr":"$.message.order.billing.state.name","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_BILLING_CITY_NAME","attr":"$.message.order.billing.city.name","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_BILLING_ORGANIZATION_DESCRIPTOR_NAME","attr":"$.message.order.billing.organization.descriptor.name","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_BILLING_ORGANIZATION_ADDRESS","attr":"$.message.order.billing.organization.address","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_BILLING_EMAIL","attr":"$.message.order.billing.email","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_BILLING_PHONE","attr":"$.message.order.billing.phone","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_BILLING_TAX_ID","attr":"$.message.order.billing.tax_id","_RETURN_":"attr are present","action":["on_update"]}]}
 `,
                     },
                 },
                 ...subResults,
             ];
         }
-        function ON_STATUS_TAGS(input: validationInput): validationOutput {
+        function ON_UPDATE_TAGS(input: validationInput): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
             let subResults: validationOutput = [];
             let valid = true;
             for (const testObj of scope) {
                 testObj._EXTERNAL = input.externalData;
-                const action = ["on_status"];
+                const action = ["on_update"];
 
                 function REQUIRED_TAGS(
                     input: validationInput,
@@ -3173,7 +3175,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     testObj,
                                     "$.message.order.tags[*].descriptor.code",
                                 );
-                                const action = ["on_status"];
+                                const action = ["on_update"];
 
                                 const validate = validations.arePresent(attr);
 
@@ -3190,7 +3192,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.tags[*].descriptor.code must be present in the payload`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REQUIRED_TAGS_DESCRIPTOR_CODE","attr":"$.message.order.tags[*].descriptor.code","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_TAGS_DESCRIPTOR_CODE","attr":"$.message.order.tags[*].descriptor.code","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                             },
                                         },
@@ -3206,7 +3208,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_TAGS_DESCRIPTOR_CODE","attr":"$.message.order.tags[*].descriptor.code","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_TAGS_DESCRIPTOR_CODE","attr":"$.message.order.tags[*].descriptor.code","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -3228,7 +3230,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     testObj,
                                     "$.message.order.tags[*].list[*].descriptor.code",
                                 );
-                                const action = ["on_status"];
+                                const action = ["on_update"];
 
                                 const validate = validations.arePresent(attr);
 
@@ -3245,7 +3247,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.tags[*].list[*].descriptor.code must be present in the payload`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REQUIRED_TAGS_LIST_DESCRIPTOR_CODE","attr":"$.message.order.tags[*].list[*].descriptor.code","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_TAGS_LIST_DESCRIPTOR_CODE","attr":"$.message.order.tags[*].list[*].descriptor.code","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                             },
                                         },
@@ -3262,7 +3264,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_TAGS_LIST_DESCRIPTOR_CODE","attr":"$.message.order.tags[*].list[*].descriptor.code","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_TAGS_LIST_DESCRIPTOR_CODE","attr":"$.message.order.tags[*].list[*].descriptor.code","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -3284,7 +3286,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     testObj,
                                     "$.message.order.tags[*].list[*].value",
                                 );
-                                const action = ["on_status"];
+                                const action = ["on_update"];
 
                                 const validate = validations.arePresent(attr);
 
@@ -3301,7 +3303,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.tags[*].list[*].value must be present in the payload`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REQUIRED_TAGS_LIST_VALUE","attr":"$.message.order.tags[*].list[*].value","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_TAGS_LIST_VALUE","attr":"$.message.order.tags[*].list[*].value","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                             },
                                         },
@@ -3317,7 +3319,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_TAGS_LIST_VALUE","attr":"$.message.order.tags[*].list[*].value","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_TAGS_LIST_VALUE","attr":"$.message.order.tags[*].list[*].value","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -3348,7 +3350,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_TAGS","_RETURN_":[{"_NAME_":"REQUIRED_TAGS_DESCRIPTOR_CODE","attr":"$.message.order.tags[*].descriptor.code","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_TAGS_LIST_DESCRIPTOR_CODE","attr":"$.message.order.tags[*].list[*].descriptor.code","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_TAGS_LIST_VALUE","attr":"$.message.order.tags[*].list[*].value","_RETURN_":"attr are present","action":["on_status"]}]}
+{"_NAME_":"REQUIRED_TAGS","_RETURN_":[{"_NAME_":"REQUIRED_TAGS_DESCRIPTOR_CODE","attr":"$.message.order.tags[*].descriptor.code","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_TAGS_LIST_DESCRIPTOR_CODE","attr":"$.message.order.tags[*].list[*].descriptor.code","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_TAGS_LIST_VALUE","attr":"$.message.order.tags[*].list[*].value","_RETURN_":"attr are present","action":["on_update"]}]}
 `,
                             },
                         },
@@ -3370,25 +3372,25 @@ function on_statusValidations(input: validationInput): validationOutput {
             }
             return [
                 {
-                    testName: "ON_STATUS_TAGS",
+                    testName: "ON_UPDATE_TAGS",
                     valid: valid,
                     code: valid ? 200 : 30000,
                     _debugInfo: {
                         fedConfig: `
-{"_NAME_":"ON_STATUS_TAGS","action":["on_status"],"_RETURN_":[{"_NAME_":"REQUIRED_TAGS","_RETURN_":[{"_NAME_":"REQUIRED_TAGS_DESCRIPTOR_CODE","attr":"$.message.order.tags[*].descriptor.code","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_TAGS_LIST_DESCRIPTOR_CODE","attr":"$.message.order.tags[*].list[*].descriptor.code","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_TAGS_LIST_VALUE","attr":"$.message.order.tags[*].list[*].value","_RETURN_":"attr are present","action":["on_status"]}]}]}
+{"_NAME_":"ON_UPDATE_TAGS","action":["on_update"],"_RETURN_":[{"_NAME_":"REQUIRED_TAGS","_RETURN_":[{"_NAME_":"REQUIRED_TAGS_DESCRIPTOR_CODE","attr":"$.message.order.tags[*].descriptor.code","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_TAGS_LIST_DESCRIPTOR_CODE","attr":"$.message.order.tags[*].list[*].descriptor.code","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_TAGS_LIST_VALUE","attr":"$.message.order.tags[*].list[*].value","_RETURN_":"attr are present","action":["on_update"]}]}]}
 `,
                     },
                 },
                 ...subResults,
             ];
         }
-        function ON_STATUS_DOCUMENTS(input: validationInput): validationOutput {
+        function ON_UPDATE_DOCUMENTS(input: validationInput): validationOutput {
             const scope = payloadUtils.getJsonPath(input.payload, "$");
             let subResults: validationOutput = [];
             let valid = true;
             for (const testObj of scope) {
                 testObj._EXTERNAL = input.externalData;
-                const action = ["on_status"];
+                const action = ["on_update"];
 
                 function REQUIRED_DOCUMENTS(
                     input: validationInput,
@@ -3414,7 +3416,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     testObj,
                                     "$.message.order.documents[*].descriptor.code",
                                 );
-                                const action = ["on_status"];
+                                const action = ["on_update"];
 
                                 const validate = validations.arePresent(attr);
 
@@ -3431,7 +3433,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.documents[*].descriptor.code must be present in the payload`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REQUIRED_DOCUMENTS_DESCRIPTOR_CODE","attr":"$.message.order.documents[*].descriptor.code","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_DOCUMENTS_DESCRIPTOR_CODE","attr":"$.message.order.documents[*].descriptor.code","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                             },
                                         },
@@ -3448,7 +3450,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_DOCUMENTS_DESCRIPTOR_CODE","attr":"$.message.order.documents[*].descriptor.code","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_DOCUMENTS_DESCRIPTOR_CODE","attr":"$.message.order.documents[*].descriptor.code","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -3470,7 +3472,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     testObj,
                                     "$.message.order.documents[*].url",
                                 );
-                                const action = ["on_status"];
+                                const action = ["on_update"];
 
                                 const validate = validations.arePresent(attr);
 
@@ -3486,7 +3488,7 @@ function on_statusValidations(input: validationInput): validationOutput {
 - $.message.order.documents[*].url must be present in the payload`,
                                             _debugInfo: {
                                                 fedConfig: `
-{"_NAME_":"REQUIRED_DOCUMENTS_URL","attr":"$.message.order.documents[*].url","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_DOCUMENTS_URL","attr":"$.message.order.documents[*].url","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                             },
                                         },
@@ -3502,7 +3504,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                                     code: valid ? 200 : 30000,
                                     _debugInfo: {
                                         fedConfig: `
-{"_NAME_":"REQUIRED_DOCUMENTS_URL","attr":"$.message.order.documents[*].url","_RETURN_":"attr are present","action":["on_status"]}
+{"_NAME_":"REQUIRED_DOCUMENTS_URL","attr":"$.message.order.documents[*].url","_RETURN_":"attr are present","action":["on_update"]}
 `,
                                     },
                                 },
@@ -3532,7 +3534,7 @@ function on_statusValidations(input: validationInput): validationOutput {
                             code: valid ? 200 : 30000,
                             _debugInfo: {
                                 fedConfig: `
-{"_NAME_":"REQUIRED_DOCUMENTS","_RETURN_":[{"_NAME_":"REQUIRED_DOCUMENTS_DESCRIPTOR_CODE","attr":"$.message.order.documents[*].descriptor.code","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_DOCUMENTS_URL","attr":"$.message.order.documents[*].url","_RETURN_":"attr are present","action":["on_status"]}]}
+{"_NAME_":"REQUIRED_DOCUMENTS","_RETURN_":[{"_NAME_":"REQUIRED_DOCUMENTS_DESCRIPTOR_CODE","attr":"$.message.order.documents[*].descriptor.code","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_DOCUMENTS_URL","attr":"$.message.order.documents[*].url","_RETURN_":"attr are present","action":["on_update"]}]}
 `,
                             },
                         },
@@ -3554,12 +3556,12 @@ function on_statusValidations(input: validationInput): validationOutput {
             }
             return [
                 {
-                    testName: "ON_STATUS_DOCUMENTS",
+                    testName: "ON_UPDATE_DOCUMENTS",
                     valid: valid,
                     code: valid ? 200 : 30000,
                     _debugInfo: {
                         fedConfig: `
-{"_NAME_":"ON_STATUS_DOCUMENTS","action":["on_status"],"_RETURN_":[{"_NAME_":"REQUIRED_DOCUMENTS","_RETURN_":[{"_NAME_":"REQUIRED_DOCUMENTS_DESCRIPTOR_CODE","attr":"$.message.order.documents[*].descriptor.code","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_DOCUMENTS_URL","attr":"$.message.order.documents[*].url","_RETURN_":"attr are present","action":["on_status"]}]}]}
+{"_NAME_":"ON_UPDATE_DOCUMENTS","action":["on_update"],"_RETURN_":[{"_NAME_":"REQUIRED_DOCUMENTS","_RETURN_":[{"_NAME_":"REQUIRED_DOCUMENTS_DESCRIPTOR_CODE","attr":"$.message.order.documents[*].descriptor.code","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_DOCUMENTS_URL","attr":"$.message.order.documents[*].url","_RETURN_":"attr are present","action":["on_update"]}]}]}
 `,
                     },
                 },
@@ -3568,16 +3570,16 @@ function on_statusValidations(input: validationInput): validationOutput {
         }
 
         const testFunctions: testFunctionArray = [
-            ON_STATUS_CONTEXT,
-            ON_STATUS_ORDER,
-            ON_STATUS_ITEMS,
-            ON_STATUS_ORDER_FULFILLMENTS,
-            ON_STATUS_PROVIDER,
-            ON_STATUS_ORDER_QUOTE,
-            ON_STATUS_PAYMENTS,
-            ON_STATUS_ORDER_BILLING,
-            ON_STATUS_TAGS,
-            ON_STATUS_DOCUMENTS,
+            ON_UPDATE_CONTEXT,
+            ON_UPDATE_ORDER,
+            ON_UPDATE_ITEMS,
+            ON_UPDATE_ORDER_FULFILLMENTS,
+            ON_UPDATE_PROVIDER,
+            ON_UPDATE_ORDER_QUOTE,
+            ON_UPDATE_PAYMENTS,
+            ON_UPDATE_ORDER_BILLING,
+            ON_UPDATE_TAGS,
+            ON_UPDATE_DOCUMENTS,
         ];
 
         let allResults: validationOutput = [];
@@ -3592,12 +3594,12 @@ function on_statusValidations(input: validationInput): validationOutput {
     }
     return [
         {
-            testName: "on_statusValidations",
+            testName: "on_updateValidations",
             valid: valid,
             code: valid ? 200 : 30000,
             _debugInfo: {
                 fedConfig: `
-{"_NAME_":"on_statusValidations","_RETURN_":[{"_NAME_":"ON_STATUS_CONTEXT","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"],"_RETURN_":[{"_NAME_":"REQUIRED_ON_STATUS_CONTEXT","_RETURN_":[{"_NAME_":"REQUIRED_CONTEXT_DOMAIN","attr":"$.context.domain","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_ACTION","attr":"$.context.action","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_VERSION","attr":"$.context.version","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_MESSAGE_ID","attr":"$.context.message_id","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_TRANSACTION_ID","attr":"$.context.transaction_id","_RETURN_":"attr are present","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REGEX_CONTEXT_TIMESTAMP","attr":"$.context.timestamp","reg":["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"],"_RETURN_":"attr follow regex reg","action":["on_status"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}]}]},{"_NAME_":"ON_STATUS_ORDER","action":["on_status"],"_RETURN_":[{"_NAME_":"REQUIRED_ON_STATUS_ORDER","_RETURN_":[{"_NAME_":"REQUIRED_ORDER_ID","attr":"$.message.order.id","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_ORDER_STATUS","attr":"$.message.order.status","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_ORDER_UPDATED_AT","attr":"$.message.order.updated_at","_RETURN_":"attr are present","action":["on_status"]}]},{"_NAME_":"VALID_ENUM_ON_STATUS_ORDER","_RETURN_":[{"_NAME_":"VALID_ENUM_ORDER_STATUS","attr":"$.message.order.status","enumList":["SOFT_CANCEL","CONFIRM_CANCEL","ACTIVE","COMPLETE","CANCELLED"],"_RETURN_":"attr any in enumList","action":["on_status"]},{"_NAME_":"REGEX_ON_STATUS_UPDATED_AT","attr":"$.message.order.updated_at","reg":["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"],"_RETURN_":"attr follow regex reg","action":["on_status"]}]}]},{"_NAME_":"ON_STATUS_ITEMS","action":["on_status"],"_RETURN_":[{"_NAME_":"REQUIRED_ITEMS","_RETURN_":[{"_NAME_":"REQUIRED_MESSAGE_ITEMS_ID","attr":"$.message.order.items[*].id","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_MESSAGE_ITEMS_ADD_ONS","attr":"$.message.order.items[*].add_ons[*].id","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_ITEMS_LOCATIONS","attr":"$.message.order.items[*].location_ids[*]","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_ITEMS_QUANTITY","attr":"$.message.order.items[*].quantity.selected.count","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_ITEMS_ADDONS","attr":"$.message.order.items[*].add_ons[*].id","_RETURN_":"attr are present","action":["on_status"]}]}]},{"_NAME_":"ON_STATUS_ORDER_FULFILLMENTS","action":["on_status"],"_RETURN_":[{"_NAME_":"REQUIRED_FULFILLMENT_ID","attr":"$.message.order.fulfillments[*].id","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_CUSTOMER_NAME","attr":"$.message.order.fulfillments[*].customer.person.name","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_CUSTOMER_AGE","attr":"$.message.order.fulfillments[*].customer.person.age","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_CUSTOMER_DOB","attr":"$.message.order.fulfillments[*].customer.person.dob","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_CUSTOMER_GENDER","attr":"$.message.order.fulfillments[*].customer.person.gender","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_CUSTOMER_CONTACT","attr":"$.message.order.fulfillments[*].customer.contact.phone","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_CUSTOMER_CONTACT_EMAIL","attr":"$.message.order.fulfillments[*].customer.contact.email","_RETURN_":"attr are present","action":["on_status"]}]},{"_NAME_":"ON_STATUS_PROVIDER","action":["on_status"],"_RETURN_":[{"_NAME_":"REQUIRED_PROVIDER_ID","attr":"$.message.order.provider.id","_RETURN_":"attr are present","action":["on_status"]}]},{"_NAME_":"ON_STATUS_ORDER_QUOTE","action":["on_status"],"_RETURN_":[{"_NAME_":"REQUIRED_QUOTE_PRICE","attr":"$.message.order.quote.price.value","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_QUOTE_CURRENCY","attr":"$.message.order.quote.price.currency","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_QUOTE_BREAKUP","attr":"$.message.order.quote.breakup[*].price.value","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_QUOTE_BREAKUP_PRICE_CURRENCY","attr":"$.message.order.quote.breakup[*].price.currency","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_QUOTE_BREAKUP_TITLE","attr":"$.message.order.quote.breakup[*].title","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_QUOTE_TTL","attr":"$.message.order.quote.ttl","_RETURN_":"attr are present","action":["on_status"]}]},{"_NAME_":"ON_STATUS_PAYMENTS","action":["on_status"],"_RETURN_":[{"_NAME_":"REQUIRED_PAYMENT_ID","attr":"$.message.order.payments[*].id","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_PAYMENT_TYPE","attr":"$.message.order.payments[*].type","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"VALID_PAYMENT_TYPES","attr":"$.message.order.payments[*].type","enumList":["PRE-ORDER","ON-FULFILLMENT","PART-PAYMENT"],"_RETURN_":"attr all in enumList","action":["on_status"]},{"_NAME_":"REQUIRED_PAYMENT_STATUS","attr":"$.message.order.payments[*].status","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"VALID_PAYMENT_STATUS","attr":"$.message.order.payments[*].status","enumList":["PAID","NOT-PAID"],"_RETURN_":"attr all in enumList","action":["on_status"]},{"_NAME_":"VALID_ENUM_PAYMENTS","_RETURN_":[{"_NAME_":"VALID_ENUM_PAYMENTS_STATUS","attr":"$.message.order.payments[*].status","enumList":["PAID","NOT-PAID"],"_RETURN_":"attr any in enumList","action":["on_status"]},{"_NAME_":"VALID_ENUM_PAYMENTS_TYPE","attr":"$.message.order.payments[*].type","enumList":["PRE-ORDER","PART-PAYMENT","ON-FULFILLMENT","POST-FULFILLMENT"],"_RETURN_":"attr any in enumList","action":["on_status"]}]},{"_NAME_":"REQUIRED_PAYMENTS_LINKED_TAGS","_RETURN_":[{"_NAME_":"REQUIRED_LINKED_PAYMENT_TAG","attr":"$.message.order.payments[*].tags[*].descriptor.code","enumList":["LINKED-PAYMENTS","ADV-DEPOSIT","FINAL-PAYMENT"],"_RETURN_":"attr any in enumList","action":["on_status"]}]}]},{"_NAME_":"ON_STATUS_ORDER_BILLING","action":["on_status"],"_RETURN_":[{"_NAME_":"REQUIRED_BILLING_NAME","attr":"$.message.order.billing.name","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_BILLING_ADDRESS","attr":"$.message.order.billing.address","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_BILLING_STATE_NAME","attr":"$.message.order.billing.state.name","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_BILLING_CITY_NAME","attr":"$.message.order.billing.city.name","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_BILLING_ORGANIZATION_DESCRIPTOR_NAME","attr":"$.message.order.billing.organization.descriptor.name","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_BILLING_ORGANIZATION_ADDRESS","attr":"$.message.order.billing.organization.address","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_BILLING_EMAIL","attr":"$.message.order.billing.email","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_BILLING_PHONE","attr":"$.message.order.billing.phone","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_BILLING_TAX_ID","attr":"$.message.order.billing.tax_id","_RETURN_":"attr are present","action":["on_status"]}]},{"_NAME_":"ON_STATUS_TAGS","action":["on_status"],"_RETURN_":[{"_NAME_":"REQUIRED_TAGS","_RETURN_":[{"_NAME_":"REQUIRED_TAGS_DESCRIPTOR_CODE","attr":"$.message.order.tags[*].descriptor.code","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_TAGS_LIST_DESCRIPTOR_CODE","attr":"$.message.order.tags[*].list[*].descriptor.code","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_TAGS_LIST_VALUE","attr":"$.message.order.tags[*].list[*].value","_RETURN_":"attr are present","action":["on_status"]}]}]},{"_NAME_":"ON_STATUS_DOCUMENTS","action":["on_status"],"_RETURN_":[{"_NAME_":"REQUIRED_DOCUMENTS","_RETURN_":[{"_NAME_":"REQUIRED_DOCUMENTS_DESCRIPTOR_CODE","attr":"$.message.order.documents[*].descriptor.code","_RETURN_":"attr are present","action":["on_status"]},{"_NAME_":"REQUIRED_DOCUMENTS_URL","attr":"$.message.order.documents[*].url","_RETURN_":"attr are present","action":["on_status"]}]}]}]}
+{"_NAME_":"on_updateValidations","_RETURN_":[{"_NAME_":"ON_UPDATE_CONTEXT","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"],"_RETURN_":[{"_NAME_":"REQUIRED_ON_UPDATE_CONTEXT","_RETURN_":[{"_NAME_":"REQUIRED_CONTEXT_DOMAIN","attr":"$.context.domain","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_ACTION","attr":"$.context.action","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_VERSION","attr":"$.context.version","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_MESSAGE_ID","attr":"$.context.message_id","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REQUIRED_CONTEXT_TRANSACTION_ID","attr":"$.context.transaction_id","_RETURN_":"attr are present","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]},{"_NAME_":"REGEX_CONTEXT_TIMESTAMP","attr":"$.context.timestamp","reg":["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"],"_RETURN_":"attr follow regex reg","action":["on_update"],"domain":["ONDC:TRV13"],"version":["2.0.0"]}]}]},{"_NAME_":"ON_UPDATE_ORDER","action":["on_update"],"_RETURN_":[{"_NAME_":"REQUIRED_ON_UPDATE_ORDER","_RETURN_":[{"_NAME_":"REQUIRED_ORDER_ID","attr":"$.message.order.id","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_ORDER_STATUS","attr":"$.message.order.status","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_ORDER_UPDATED_AT","attr":"$.message.order.updated_at","_RETURN_":"attr are present","action":["on_update"]}]},{"_NAME_":"VALID_ENUM_ON_UPDATE_ORDER","_RETURN_":[{"_NAME_":"VALID_ENUM_ORDER_STATUS","attr":"$.message.order.status","enumList":["SOFT-CANCEL","CONFIRM-CANCEL","SOFT-UPDATE","CONFIRM-UPDATE","ACTIVE","COMPLETE","CANCELLED"],"_RETURN_":"attr any in enumList","action":["on_update"]},{"_NAME_":"REGEX_ON_UPDATE_UPDATED_AT","attr":"$.message.order.updated_at","reg":["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"],"_RETURN_":"attr follow regex reg","action":["on_update"]}]}]},{"_NAME_":"ON_UPDATE_ITEMS","action":["on_update"],"_RETURN_":[{"_NAME_":"REQUIRED_ITEMS","_RETURN_":[{"_NAME_":"REQUIRED_MESSAGE_ITEMS_ID","attr":"$.message.order.items[*].id","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_MESSAGE_ITEMS_ADD_ONS","attr":"$.message.order.items[*].add_ons[*].id","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_ITEMS_LOCATIONS","attr":"$.message.order.items[*].location_ids[*]","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_ITEMS_QUANTITY","attr":"$.message.order.items[*].quantity.selected.count","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_ITEMS_ADDONS","attr":"$.message.order.items[*].add_ons[*].id","_RETURN_":"attr are present","action":["on_update"]}]}]},{"_NAME_":"ON_UPDATE_ORDER_FULFILLMENTS","action":["on_update"],"_RETURN_":[{"_NAME_":"REQUIRED_FULFILLMENT_ID","attr":"$.message.order.fulfillments[*].id","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_CUSTOMER_NAME","attr":"$.message.order.fulfillments[*].customer.person.name","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_CUSTOMER_AGE","attr":"$.message.order.fulfillments[*].customer.person.age","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_CUSTOMER_DOB","attr":"$.message.order.fulfillments[*].customer.person.dob","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_CUSTOMER_GENDER","attr":"$.message.order.fulfillments[*].customer.person.gender","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_CUSTOMER_CONTACT","attr":"$.message.order.fulfillments[*].customer.contact.phone","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_CUSTOMER_CONTACT_EMAIL","attr":"$.message.order.fulfillments[*].customer.contact.email","_RETURN_":"attr are present","action":["on_update"]}]},{"_NAME_":"ON_UPDATE_PROVIDER","action":["on_update"],"_RETURN_":[{"_NAME_":"REQUIRED_PROVIDER_ID","attr":"$.message.order.provider.id","_RETURN_":"attr are present","action":["on_update"]}]},{"_NAME_":"ON_UPDATE_ORDER_QUOTE","action":["on_update"],"_RETURN_":[{"_NAME_":"REQUIRED_QUOTE_PRICE","attr":"$.message.order.quote.price.value","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_QUOTE_CURRENCY","attr":"$.message.order.quote.price.currency","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_QUOTE_BREAKUP","attr":"$.message.order.quote.breakup[*].price.value","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_QUOTE_BREAKUP_PRICE_CURRENCY","attr":"$.message.order.quote.breakup[*].price.currency","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_QUOTE_BREAKUP_TITLE","attr":"$.message.order.quote.breakup[*].title","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_QUOTE_TTL","attr":"$.message.order.quote.ttl","_RETURN_":"attr are present","action":["on_update"]}]},{"_NAME_":"ON_UPDATE_PAYMENTS","action":["on_update"],"_RETURN_":[{"_NAME_":"REQUIRED_PAYMENT_ID","attr":"$.message.order.payments[*].id","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_PAYMENT_TYPE","attr":"$.message.order.payments[*].type","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"VALID_PAYMENT_TYPES","attr":"$.message.order.payments[*].type","enumList":["PRE-ORDER","ON-FULFILLMENT","PART-PAYMENT"],"_RETURN_":"attr all in enumList","action":["on_update"]},{"_NAME_":"REQUIRED_PAYMENT_STATUS","attr":"$.message.order.payments[*].status","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"VALID_PAYMENT_STATUS","attr":"$.message.order.payments[*].status","enumList":["PAID","NOT-PAID"],"_RETURN_":"attr all in enumList","action":["on_update"]},{"_NAME_":"VALID_ENUM_PAYMENTS","_RETURN_":[{"_NAME_":"VALID_ENUM_PAYMENTS_STATUS","attr":"$.message.order.payments[*].status","enumList":["PAID","NOT-PAID"],"_RETURN_":"attr any in enumList","action":["on_update"]},{"_NAME_":"VALID_ENUM_PAYMENTS_TYPE","attr":"$.message.order.payments[*].type","enumList":["PRE-ORDER","PART-PAYMENT","ON-FULFILLMENT","POST-FULFILLMENT"],"_RETURN_":"attr any in enumList","action":["on_update"]}]},{"_NAME_":"REQUIRED_PAYMENTS_LINKED_TAGS","_RETURN_":[{"_NAME_":"REQUIRED_LINKED_PAYMENT_TAG","attr":"$.message.order.payments[*].tags[*].descriptor.code","enumList":["LINKED-PAYMENTS","ADV-DEPOSIT","FINAL-PAYMENT"],"_RETURN_":"attr any in enumList","action":["on_update"]}]}]},{"_NAME_":"ON_UPDATE_ORDER_BILLING","action":["on_update"],"_RETURN_":[{"_NAME_":"REQUIRED_BILLING_NAME","attr":"$.message.order.billing.name","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_BILLING_ADDRESS","attr":"$.message.order.billing.address","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_BILLING_STATE_NAME","attr":"$.message.order.billing.state.name","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_BILLING_CITY_NAME","attr":"$.message.order.billing.city.name","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_BILLING_ORGANIZATION_DESCRIPTOR_NAME","attr":"$.message.order.billing.organization.descriptor.name","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_BILLING_ORGANIZATION_ADDRESS","attr":"$.message.order.billing.organization.address","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_BILLING_EMAIL","attr":"$.message.order.billing.email","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_BILLING_PHONE","attr":"$.message.order.billing.phone","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_BILLING_TAX_ID","attr":"$.message.order.billing.tax_id","_RETURN_":"attr are present","action":["on_update"]}]},{"_NAME_":"ON_UPDATE_TAGS","action":["on_update"],"_RETURN_":[{"_NAME_":"REQUIRED_TAGS","_RETURN_":[{"_NAME_":"REQUIRED_TAGS_DESCRIPTOR_CODE","attr":"$.message.order.tags[*].descriptor.code","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_TAGS_LIST_DESCRIPTOR_CODE","attr":"$.message.order.tags[*].list[*].descriptor.code","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_TAGS_LIST_VALUE","attr":"$.message.order.tags[*].list[*].value","_RETURN_":"attr are present","action":["on_update"]}]}]},{"_NAME_":"ON_UPDATE_DOCUMENTS","action":["on_update"],"_RETURN_":[{"_NAME_":"REQUIRED_DOCUMENTS","_RETURN_":[{"_NAME_":"REQUIRED_DOCUMENTS_DESCRIPTOR_CODE","attr":"$.message.order.documents[*].descriptor.code","_RETURN_":"attr are present","action":["on_update"]},{"_NAME_":"REQUIRED_DOCUMENTS_URL","attr":"$.message.order.documents[*].url","_RETURN_":"attr are present","action":["on_update"]}]}]}]}
 `,
             },
         },

@@ -66,7 +66,7 @@ export class SessionController {
 				"L0 Validations passed, now running L1 validations",
 				getLoggerMetaData(req)
 			);
-			const l1Result = performL1validations(action, body);
+			const l1Result = await performL1validations(action, body);
 			const invalidResult = l1Result.filter(
 				(result) => !result.valid && result.code !== 200
 			);

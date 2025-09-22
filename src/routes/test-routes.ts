@@ -10,6 +10,9 @@ const validationController = new ValidationController();
 
 import path from "path";
 
+import { l1ValidationsStore } from "../models/storage-interface-implementations";
+import { performL1validationsSave } from "../validations/L1-validations";
+
 router.use(
 	express.static(path.resolve(__dirname, "../validations/L1-validations/page"))
 );
@@ -18,7 +21,13 @@ router.post(
 	validationController.validateRequestBodyNp,
 	validationController.validateL0,
 	validationController.validateSingleL1,
-	(req, res, next) => {
+	async (req, res, next) => {
+		await performL1validationsSave(
+			req.params.action,
+			"single_test_key",
+			req.body,
+			l1ValidationsStore
+		);
 		res.send(setAckResponse(req.body, true));
 	}
 );

@@ -3,6 +3,7 @@ import { config } from "./config/serverConfig";
 import logger from "@ondc/automation-logger";
 import { RedisService } from "ondc-automation-cache-lib";
 import { configPromise } from "./config/supported-actions";
+import { l1ValidationsStore } from "./models/storage-interface-implementations";
 
 configPromise
 	.then(() => {
@@ -15,12 +16,14 @@ configPromise
 		});
 		// Graceful Shutdown
 		process.on("SIGTERM", () => {
+			l1ValidationsStore.stopCleanup();
 			logger.info("SIGTERM signal received: closing HTTP server");
 			server.close(() => {
 				logger.info("HTTP server closed");
 			});
 		});
 		process.on("SIGINT", () => {
+			l1ValidationsStore.stopCleanup();
 			logger.info("SIGINT signal received: closing HTTP server");
 			server.close(() => {
 				logger.info("HTTP server closed");
