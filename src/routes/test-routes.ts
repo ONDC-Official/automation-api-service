@@ -22,12 +22,6 @@ router.post(
 	validationController.validateL0,
 	validationController.validateSingleL1,
 	async (req, res, next) => {
-		await performL1validationsSave(
-			req.params.action,
-			"single_test_key",
-			req.body,
-			l1ValidationsStore
-		);
 		res.send(setAckResponse(req.body, true));
 	}
 );

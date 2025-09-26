@@ -407,12 +407,7 @@ export class ValidationController {
 		const { action } = req.params;
 		const body = req.body;
 		const profiler = logger.startTimer();
-		// const l1Result = performL1validations(action, body);
-		const l1Result = await performL1validations(action, body, {
-			stateFullValidations: true,
-			uniqueKey: "single_test_key",
-			store: l1ValidationsStore,
-		});
+		const l1Result = await performL1validations(action, body);
 		profiler.done({
 			message: `Single L1 validations completed in: `,
 			...getLoggerMetaData(req),
