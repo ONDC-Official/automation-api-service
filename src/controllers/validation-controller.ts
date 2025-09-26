@@ -409,7 +409,7 @@ export class ValidationController {
 		const profiler = logger.startTimer();
 		const l1Result = await performL1validations(action, body);
 		profiler.done({
-			message: `Single L1 validations completed in: `,
+			message: `Single L1 validations completed in time: `,
 			...getLoggerMetaData(req),
 		});
 		const isValid = l1Result.every((result) => result.valid);
