@@ -18,18 +18,16 @@ export class CommunicationService {
 		}
 		const domain = process.env.DOMAIN;
 		const version = process.env.VERSION;
+		if (requestProperties?.sessionData?.usecaseId === "PLAYGROUND-FLOW") {
+			url = `${url}/playground`;
+		}
 		if (url.includes("localhost")) {
 			url = `${url}/${domain}`;
 		} else {
 			url = `${url}/${domain}/${version}`;
 		}
-
 		const action = requestProperties?.action ?? body.context.action;
-		if (requestProperties?.defaultMode === false) {
-			url = `${url}/manual/${action}`;
-		} else {
-			url = `${url}/mock/${action}`;
-		}
+		url = `${url}/manual/${action}`;
 		logger.info("Forwarding request to Mock server to url " + url, loggingMeta);
 		return await axios.post(url, body, {
 			headers: {

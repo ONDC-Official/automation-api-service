@@ -65,6 +65,7 @@ export interface SessionCache {
 	subscriberUrl: string;
 	env: "STAGING" | "PRE-PRODUCTION" | "LOGGED-IN";
 	sessionDifficulty: SessionDifficulty;
+	usecaseId: string;
 }
 
 export interface RequestProperties {
