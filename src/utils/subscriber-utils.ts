@@ -47,5 +47,6 @@ export function computeSubscriberUri(
 		action,
 		fromMock,
 	});
+	subUrl = subUrl.replace(/\/+$/, ""); // Remove trailing slashes
 	return { subUrl, partType };
 }
