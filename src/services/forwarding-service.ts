@@ -20,11 +20,12 @@ export class CommunicationService {
 		const version = process.env.VERSION;
 		if (requestProperties?.sessionData?.usecaseId === "PLAYGROUND-FLOW") {
 			url = `${url}/playground`;
-		}
-		if (url.includes("localhost")) {
-			url = `${url}/${domain}`;
 		} else {
-			url = `${url}/${domain}/${version}`;
+			if (url.includes("localhost")) {
+				url = `${url}/${domain}`;
+			} else {
+				url = `${url}/${domain}/${version}`;
+			}
 		}
 		const action = requestProperties?.action ?? body.context.action;
 		url = `${url}/manual/${action}`;
