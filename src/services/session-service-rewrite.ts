@@ -342,6 +342,8 @@ export class TransactionCacheService {
 		return transaction;
 	};
 	createTransactionKey = (transactionId: string, subscriberUrl: string) => {
+		// remove trailing slash from subscriber url
+		subscriberUrl = subscriberUrl.replace(/\/$/, "");
 		return `${transactionId.trim()}::${subscriberUrl.trim()}`;
 	};
 	overrideTransaction = async (
