@@ -19,8 +19,16 @@ export class CommunicationService {
 		const domain = process.env.DOMAIN;
 		const version = process.env.VERSION;
 		if (requestProperties?.sessionData?.usecaseId === "PLAYGROUND-FLOW") {
+			logger.info(
+				"Using playground flow to forward request to Mock server",
+				loggingMeta
+			);
 			url = `${url}/playground`;
 		} else {
+			logger.info(
+				"Using standard flow to forward request to Mock server",
+				loggingMeta
+			);
 			if (url.includes("localhost")) {
 				url = `${url}/${domain}`;
 			} else {
