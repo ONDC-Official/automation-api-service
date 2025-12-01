@@ -24,12 +24,12 @@ export class CommunicationController {
 				req.requestProperties
 			);
 			logger.info(
-				`Successfully forwarded request to mock server for action: ${req.params.action}`,
+				`Successfully forwarded request to mock server for action: ${req.params?.action}`,
 				getLoggerMetaData(req)
 			);
 		} catch (error: any) {
 			logger.error(
-				`Error in forwarding request to mock server for action: ${req.params.action}`,
+				`Error in forwarding request to mock server for action: ${req.params?.action}`,
 				getLoggerMetaData(req),
 				error
 			);

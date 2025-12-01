@@ -472,6 +472,7 @@ export class ValidationController {
 					);
 					req.preparedResponse = preparedResponse;
 					next();
+					return;
 				}
 			}
 			logger.info("Context validations passed", getLoggerMetaData(req));
