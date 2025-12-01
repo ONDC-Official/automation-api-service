@@ -26,6 +26,7 @@ export interface ApiData {
 	messageId: string;
 	response: any;
 	timestamp: string;
+	ttl?: number;
 }
 
 export interface FormApiType {
@@ -80,6 +81,7 @@ export interface RequestProperties {
 	env: "STAGING" | "PRE-PRODUCTION" | "LOGGED-IN";
 	transactionHistory?: TransactionCache;
 	sessionData?: SessionCache;
+	requestSource?: "MOCK_SERVER" | "NP" | "OTHER";
 }
 
 export type EnvType = "STAGING" | "PRE-PRODUCTION" | "LOGGED-IN";

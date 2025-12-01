@@ -3,4 +3,5 @@ import { Request } from "express";
 
 export interface ApiServiceRequest extends Request {
 	requestProperties?: RequestProperties;
+	preparedResponse?: any;
 }

@@ -1,8 +1,6 @@
 import { Request } from "express";
 import { DataService } from "../services/data-service";
 import { computeSubscriberUri } from "../utils/subscriber-utils";
-import { saveLog } from "../utils/data-utils/cache-utils";
-import { ApiServiceRequest } from "../types/request-types";
 import logger from "@ondc/automation-logger";
 import { getLoggerMetaData } from "../utils/loggingUtils";
 export class DataController {

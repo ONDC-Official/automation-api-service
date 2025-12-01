@@ -8,6 +8,7 @@ import {
 } from "../types/cache-types";
 import { BecknContext } from "../models/beckn-types";
 import { setFlowStatusService } from "./mock-flow-status";
+import { isoDurationToSeconds } from "../utils/generic";
 
 export class SessionManagementService {
 	transactionService: TransactionCacheService;
@@ -309,6 +310,7 @@ export class TransactionCacheService {
 				payloadId: payloadID,
 				response: responseBody,
 				timestamp: requestBody.context.timestamp,
+				ttl: isoDurationToSeconds(requestBody.context.ttl ?? "PT10M"),
 			});
 			transaction.latestAction = requestBody.context.action;
 			transaction.latestTimestamp = requestBody.context.timestamp;
