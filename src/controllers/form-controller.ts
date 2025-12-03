@@ -25,12 +25,14 @@ export async function htmlFormController(req: Request, res: Response) {
 			);
 			return;
 		}
+		logger.info("formDataaa", formData);
 		await htmlFormService(
 			formData.transaction_id,
 			formData.subscriber_url,
 			formData.form_action_id,
 			getLoggerMetaData(req),
-			formData.submission_id,
+			formData.form_type,
+			formData.submissionId,
 			formData.error
 		);
 		res.status(200).send("Form submitted successfully");
