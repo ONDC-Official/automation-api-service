@@ -455,18 +455,25 @@ export class ValidationController {
 					...getLoggerMetaData(req),
 					errors: contextValidations.error,
 				});
-				res
-					.status(200)
-					.send(
-						setAckResponse(
-							false,
-							req.body,
-							contextValidations.error,
-							"400",
-							req.requestProperties
-						)
+				const preparedResponse = setAckResponse(
+					false,
+					req.body,
+					contextValidations.error,
+					"400",
+					req.requestProperties
+				);
+				if (!contextValidations.forwardRequest) {
+					res.status(200).send(preparedResponse);
+					return;
+				} else {
+					logger.info(
+						"Forwarding request despite context validation failure",
+						getLoggerMetaData(req)
 					);
-				return;
+					req.preparedResponse = preparedResponse;
+					next();
+					return;
+				}
 			}
 			logger.info("Context validations passed", getLoggerMetaData(req));
 			next();

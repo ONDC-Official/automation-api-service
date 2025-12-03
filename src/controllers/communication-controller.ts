@@ -3,7 +3,6 @@ import { Response } from "express";
 import logger from "@ondc/automation-logger";
 import { CommunicationService } from "../services/forwarding-service";
 import { BecknContext } from "../models/beckn-types";
-import { saveLog } from "../utils/data-utils/cache-utils";
 import { ApiServiceRequest } from "../types/request-types";
 import { getLoggerMetaData } from "../utils/loggingUtils";
 
@@ -15,31 +14,22 @@ export class CommunicationController {
 	}
 
 	forwardToMockServer = async (req: ApiServiceRequest, res: Response) => {
-		if (req.requestProperties?.defaultMode) {
-			logger.info(
-				`Default mode is enabled, skipping mock server for action: ${req.params.action}`,
-				getLoggerMetaData(req)
-			);
-			res.status(204).send();
-			return;
-		}
-		res.status(200).send(setAckResponse(true, req.body));
-		const sessionId = req.requestProperties?.sessionId ?? "unknown";
+		const responseToSend =
+			req.preparedResponse ?? setAckResponse(true, req.body);
+		res.status(200).send(responseToSend);
 		try {
-			await saveLog(sessionId, "Forwarding request to mock server");
 			await new CommunicationService().forwardApiToMock(
 				req.body,
 				getLoggerMetaData(req),
 				req.requestProperties
 			);
-			await saveLog(sessionId, "Successfully forwarded request to mock server");
 			logger.info(
-				`Successfully forwarded request to mock server for action: ${req.params.action}`,
+				`Successfully forwarded request to mock server for action: ${req.params?.action}`,
 				getLoggerMetaData(req)
 			);
 		} catch (error: any) {
 			logger.error(
-				`Error in forwarding request to mock server for action: ${req.params.action}`,
+				`Error in forwarding request to mock server for action: ${req.params?.action}`,
 				getLoggerMetaData(req),
 				error
 			);
@@ -50,7 +40,6 @@ export class CommunicationController {
 		req: ApiServiceRequest,
 		res: Response
 	) => {
-		const sessionId = req.requestProperties?.sessionId ?? "unknown";
 		try {
 			if (!req.requestProperties) {
 				logger.error(

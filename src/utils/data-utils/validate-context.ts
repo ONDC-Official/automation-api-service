@@ -1,5 +1,8 @@
 import { BecknContext } from "../../models/beckn-types";
-import { validateAsyncContext } from "./async-validations";
+import {
+	ContextValidationResult,
+	validateAsyncContext,
+} from "./async-validations";
 import logger from "@ondc/automation-logger";
 import { RequestProperties } from "../../types/cache-types";
 import { TransactionCacheService } from "../../services/session-service-rewrite";
@@ -8,10 +11,7 @@ export async function performContextValidations(
 	context: BecknContext,
 	apiProperties: RequestProperties,
 	loggingMeta: any
-): Promise<{
-	valid: boolean;
-	error?: string;
-}> {
+): Promise<ContextValidationResult> {
 	logger.info(`Running Context Validations`, loggingMeta);
 	const transService = new TransactionCacheService();
 	let transactionData = await transService.tryLoadTransaction(
@@ -42,11 +42,13 @@ export async function performContextValidations(
 			return {
 				valid: false,
 				error: errorMessage,
+				forwardRequest: false,
 			};
 		}
 	} else {
 		logger.info("Skipping timestamp validation as difficulty.", loggingMeta);
 	}
+
 	return validateAsyncContext(
 		context,
 		transactionData,
