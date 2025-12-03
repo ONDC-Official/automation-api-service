@@ -5,14 +5,18 @@ export async function htmlFormService(
 	subscriberUrl: string,
 	formId: string,
 	loggerMeta: any,
+	formType: "HTML_FORM" | "DYNAMIC_FORM",
 	submissionId?: string,
 	error?: any
+
 ) {
-	logger.info("Processing HTML form submission", loggerMeta, {
+	logger.info("Processing form submission", loggerMeta, {
 		transactionId,
 		subscriberUrl,
 		submissionId,
 		formId,
+		formType
+
 	});
 	const transactService = new TransactionCacheService();
 	const transactionData = await transactService.tryLoadTransaction(
@@ -28,13 +32,14 @@ export async function htmlFormService(
 		submissionId: submissionId,
 		error: error,
 		timestamp: new Date().toISOString(),
-		formType: "HTML_FORM",
+		formType
 	});
 	await transactService.overrideTransaction(
 		subscriberUrl,
 		transactionId,
 		transactionData
 	);
+	logger.info("transactionData=>>>>>>>>>>>", transactionData);
 	logger.info("HTML form submission processed successfully", loggerMeta, {
 		transactionId,
 		subscriberUrl,

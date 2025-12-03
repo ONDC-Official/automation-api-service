@@ -31,7 +31,7 @@ export interface ApiData {
 
 export interface FormApiType {
 	entryType: "FORM";
-	formType: "HTML_FORM" | "RES_FROM";
+	formType: "HTML_FORM" | "DYNAMIC_FORM";
 	formId: string;
 	submissionId?: string;
 	timestamp: string;
