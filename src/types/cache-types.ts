@@ -26,6 +26,7 @@ export interface ApiData {
 	messageId: string;
 	response: any;
 	timestamp: string;
+	realTimestamp: string;
 	ttl?: number;
 }
 

@@ -244,7 +244,7 @@ export function validateTtl(
 		};
 	}
 	const latestContext = matchingContexts.reduce((latest, current) => {
-		return new Date(latest.timestamp) > new Date(current.timestamp)
+		return new Date(latest.realTimestamp) > new Date(current.realTimestamp)
 			? latest
 			: current;
 	});
@@ -256,9 +256,9 @@ export function validateTtl(
 		);
 		return { valid: true, forwardRequest: true };
 	}
-	const previousTimestamp = new Date(latestContext.timestamp).getTime(); // milliseconds since epoch
+	const previousTimestamp = new Date(latestContext.realTimestamp).getTime(); // milliseconds since epoch
 	const ttlExpiry = previousTimestamp + ttl * 1000; // Convert ttl to milliseconds
-	const currentTimestamp = Math.floor(new Date(subject.timestamp).getTime());
+	const currentTimestamp = Date.now();
 	if (currentTimestamp > ttlExpiry) {
 		logger.warning(
 			`TTL expired for ${action}. Current timestamp: ${currentTimestamp}, TTL expiry: ${ttlExpiry}`,

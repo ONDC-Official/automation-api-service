@@ -310,6 +310,7 @@ export class TransactionCacheService {
 				payloadId: payloadID,
 				response: responseBody,
 				timestamp: requestBody.context.timestamp,
+				realTimestamp: new Date().toISOString(),
 				ttl: isoDurationToSeconds(requestBody.context.ttl ?? "PT10M"),
 			});
 			transaction.latestAction = requestBody.context.action;
