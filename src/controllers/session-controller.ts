@@ -10,6 +10,7 @@ import { setAckResponse, setInternalServerNack } from "../utils/ackUtils";
 import { getLoggerMetaData } from "../utils/loggingUtils";
 import { performL0Validations } from "../validations/L0-validations/schemaValidations";
 import { performL1validations } from "../validations/L1-validations";
+import { getActionParam } from "../utils/getActionParam";
 
 export class SessionController {
 	sessionService: SessionManagementService;
@@ -23,7 +24,7 @@ export class SessionController {
 		next: NextFunction
 	) => {
 		try {
-			const action = req.params.action;
+			const action = getActionParam(req);
 			const body = req.body;
 			const sub = computeSubscriberUri(body.context, action, false);
 			const properties = await this.sessionService.receiveRequestFromNp(
@@ -116,7 +117,7 @@ export class SessionController {
 		next: NextFunction
 	) => {
 		try {
-			const action = req.params.action;
+			const action = getActionParam(req);
 			const body = req.body;
 			const sub = computeSubscriberUri(body.context, action, true);
 			if (req.query.subscriber_url) {

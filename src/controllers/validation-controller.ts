@@ -18,6 +18,7 @@ import { ApiServiceRequest } from "../types/request-types";
 import { performL1CustomValidations } from "../validations/L1-custom-validations";
 import { getL1Key, getLoggerMetaData } from "../utils/loggingUtils";
 import { l1ValidationsStore } from "../models/storage-interface-implementations";
+import { getActionParam } from "../utils/getActionParam";
 
 export class ValidationController {
 	validateRequestBodyNp = async (
@@ -40,7 +41,7 @@ export class ValidationController {
 				.send(setBadRequestNack(": Invalid request body is not a valid JSON"));
 			return;
 		}
-		const action = req.params.action;
+		const action = getActionParam(req);
 		if (!body) {
 			logger.warning("Invalid request body", getLoggerMetaData(req));
 			res.status(200).send(setBadRequestNack(": Invalid request body"));
@@ -255,30 +256,44 @@ export class ValidationController {
 
 	// Middleware: L0 validations
 	validateL0(req: ApiServiceRequest, res: Response, next: NextFunction) {
-		const { action } = req.params;
-		const body = req.body;
-		logger.info("Running L0 validations", getLoggerMetaData(req));
-		const l0Result = performL0Validations(body, action, getLoggerMetaData(req));
-		if (!l0Result.valid) {
-			logger.error("L0 validations failed", {
-				...getLoggerMetaData(req),
-				errors: l0Result.errors,
-			});
-			res
-				.status(200)
-				.send(
-					setAckResponse(
-						false,
-						req.body,
-						l0Result.errors,
-						"400",
-						req.requestProperties
-					)
-				);
+		try {
+			const action = getActionParam(req);
+			const body = req.body;
+			logger.info("Running L0 validations", getLoggerMetaData(req));
+			const l0Result = performL0Validations(
+				body,
+				action,
+				getLoggerMetaData(req)
+			);
+			if (!l0Result.valid) {
+				logger.error("L0 validations failed", {
+					...getLoggerMetaData(req),
+					errors: l0Result.errors,
+				});
+				res
+					.status(200)
+					.send(
+						setAckResponse(
+							false,
+							req.body,
+							l0Result.errors,
+							"400",
+							req.requestProperties
+						)
+					);
+				return;
+			}
+			logger.info("L0 validations passed", getLoggerMetaData(req));
+			next();
+		} catch (error: any) {
+			logger.error(
+				"Error while performing L0 validations",
+				getLoggerMetaData(req),
+				error
+			);
+			res.status(200).send(setInternalServerNack);
 			return;
 		}
-		logger.info("L0 validations passed", getLoggerMetaData(req));
-		next();
 	}
 
 	validateL1 = async (
@@ -286,51 +301,62 @@ export class ValidationController {
 		res: Response,
 		next: NextFunction
 	) => {
-		logger.info("Performing L1 validations", getLoggerMetaData(req));
-		const { action } = req.params;
-		const body = req.body;
+		try {
+			logger.info("Performing L1 validations", getLoggerMetaData(req));
+			const action = getActionParam(req);
+			const body = req.body;
 
-		if (
-			req.requestProperties &&
-			!req.requestProperties.difficulty.protocolValidations
-		) {
-			logger.info("L1 validations are disabled", getLoggerMetaData(req));
-			next();
-			return;
-		}
-		const profiler = logger.startTimer();
-		const l1Result = await performL1validations(action, body, {
-			stateFullValidations: true,
-			uniqueKey: getL1Key(req),
-			store: l1ValidationsStore,
-		});
-		profiler.done({
-			message: `L1 validations completed in: `,
-			...getLoggerMetaData(req),
-		});
-		const invalidResult = l1Result.filter((result) => !result.valid);
-		if (invalidResult.length > 0) {
-			const error = invalidResult[0].description;
-			const code = invalidResult[0].code as number;
-			logger.warning("L1 validations failed", {
-				...getLoggerMetaData(req),
-				errors: error,
+			if (
+				req.requestProperties &&
+				!req.requestProperties.difficulty.protocolValidations
+			) {
+				logger.info("L1 validations are disabled", getLoggerMetaData(req));
+				next();
+				return;
+			}
+			const profiler = logger.startTimer();
+			const l1Result = await performL1validations(action, body, {
+				stateFullValidations: true,
+				uniqueKey: getL1Key(req),
+				store: l1ValidationsStore,
 			});
-			res
-				.status(200)
-				.send(
-					setAckResponse(
-						false,
-						req.body,
-						error,
-						code.toString(),
-						req.requestProperties
-					)
-				);
-			return;
+			profiler.done({
+				message: `L1 validations completed in: `,
+				...getLoggerMetaData(req),
+			});
+			const invalidResult = l1Result.filter((result) => !result.valid);
+			if (invalidResult.length > 0) {
+				const error = invalidResult[0].description;
+				const code = invalidResult[0].code as number;
+				logger.warning("L1 validations failed", {
+					...getLoggerMetaData(req),
+					errors: error,
+				});
+				res
+					.status(200)
+					.send(
+						setAckResponse(
+							false,
+							req.body,
+							error,
+							code.toString(),
+							req.requestProperties
+						)
+					);
+				return;
+			}
+			logger.info("L1 validations passed", getLoggerMetaData(req));
+			next();
+		} catch (error: any) {
+			logger.error(
+				"Error in L1 validations",
+				{
+					...getLoggerMetaData(req),
+				},
+				error
+			);
+			next();
 		}
-		logger.info("L1 validations passed", getLoggerMetaData(req));
-		next();
 	};
 
 	validateL1Custom = async (
@@ -340,7 +366,7 @@ export class ValidationController {
 	) => {
 		try {
 			logger.info("Performing L1 custom validations", getLoggerMetaData(req));
-			const { action } = req.params;
+			const action = getActionParam(req);
 			const body = req.body;
 			if (
 				req.requestProperties &&
@@ -403,29 +429,40 @@ export class ValidationController {
 		res: Response,
 		next: NextFunction
 	) => {
-		logger.info("Performing single L1 validations", getLoggerMetaData(req));
-		const { action } = req.params;
-		const body = req.body;
-		const profiler = logger.startTimer();
-		const l1Result = await performL1validations(action, body);
-		profiler.done({
-			message: `Single L1 validations completed in time: `,
-			...getLoggerMetaData(req),
-		});
-		const isValid = l1Result.every((result) => result.valid);
-		if (!isValid) {
-			const allErrors = l1Result
-				.filter((result) => !result.valid)
-				.map((result) => result.description)
-				.join("\n");
-			const code = l1Result[0].code as number;
-			res
-				.status(200)
-				.send(setAckResponse(false, req.body, allErrors, code.toString()));
-			return;
+		try {
+			logger.info("Performing single L1 validations", getLoggerMetaData(req));
+			const action = getActionParam(req);
+			const body = req.body;
+			const profiler = logger.startTimer();
+			const l1Result = await performL1validations(action, body);
+			profiler.done({
+				message: `Single L1 validations completed in time: `,
+				...getLoggerMetaData(req),
+			});
+			const isValid = l1Result.every((result) => result.valid);
+			if (!isValid) {
+				const allErrors = l1Result
+					.filter((result) => !result.valid)
+					.map((result) => result.description)
+					.join("\n");
+				const code = l1Result[0].code as number;
+				res
+					.status(200)
+					.send(setAckResponse(false, req.body, allErrors, code.toString()));
+				return;
+			}
+			logger.info("L1 validations passed", getLoggerMetaData(req));
+			next();
+		} catch (error: any) {
+			logger.error(
+				"Error in single L1 validations",
+				{
+					...getLoggerMetaData(req),
+				},
+				error
+			);
+			next();
 		}
-		logger.info("L1 validations passed", getLoggerMetaData(req));
-		next();
 	};
 
 	// Middleware: Context validations

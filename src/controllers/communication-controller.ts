@@ -5,6 +5,7 @@ import { CommunicationService } from "../services/forwarding-service";
 import { BecknContext } from "../models/beckn-types";
 import { ApiServiceRequest } from "../types/request-types";
 import { getLoggerMetaData } from "../utils/loggingUtils";
+import { getActionParam } from "../utils/getActionParam";
 
 export class CommunicationController {
 	communicationService: CommunicationService;
@@ -75,7 +76,7 @@ export class CommunicationController {
 
 				const response = await this.communicationService.forwardApiToNp(
 					req.body,
-					req.params.action,
+					getActionParam(req),
 					getLoggerMetaData(req),
 					undefined,
 					req.requestProperties
@@ -111,7 +112,7 @@ export class CommunicationController {
 				);
 				const response = await this.communicationService.forwardApiToNp(
 					req.body,
-					req.params.action,
+					getActionParam(req),
 					getLoggerMetaData(req),
 					subUrl,
 					req.requestProperties

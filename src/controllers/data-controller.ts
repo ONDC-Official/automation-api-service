@@ -3,6 +3,7 @@ import { DataService } from "../services/data-service";
 import { computeSubscriberUri } from "../utils/subscriber-utils";
 import logger from "@ondc/automation-logger";
 import { getLoggerMetaData } from "../utils/loggingUtils";
+import { getActionParam } from "../utils/getActionParam";
 export class DataController {
 	dbUrl: string;
 	dataService: DataService;
@@ -26,38 +27,39 @@ export class DataController {
 		code: number,
 		reqId: string
 	) {
-		let url = computeSubscriberUri(
-			req.body.context,
-			req.params.action,
-			fromMock
-		).subUrl;
-		if (fromMock) {
-			url = (req.query.subscriber_url as string) ?? url;
-		}
-		const auth = req.headers.authorization ?? "no-auth";
-		logger.info("Trying to save payload data to DB", getLoggerMetaData(req));
-		this.dataService
-			.saveSessionToDB(
-				url,
-				req.body,
-				auth,
-				responseBody,
-				code,
-				reqId,
-				getLoggerMetaData(req)
-			)
-			.then(() =>
-				logger.info(
-					`Completed trying saving data to DB ${req.params.action}`,
+		try {
+			const action = getActionParam(req);
+			let url = computeSubscriberUri(req.body.context, action, fromMock).subUrl;
+			if (fromMock) {
+				url = (req.query.subscriber_url as string) ?? url;
+			}
+			const auth = req.headers.authorization ?? "no-auth";
+			logger.info("Trying to save payload data to DB", getLoggerMetaData(req));
+			this.dataService
+				.saveSessionToDB(
+					url,
+					req.body,
+					auth,
+					responseBody,
+					code,
+					reqId,
 					getLoggerMetaData(req)
 				)
-			)
-			.catch((err) => {
-				logger.error(
-					`Error in trying to save payload data to database for action: ${req.params.action}`,
-					getLoggerMetaData(req),
-					err
-				);
-			});
+				.then(() =>
+					logger.info(
+						`Completed trying saving data to DB ${req.params.action}`,
+						getLoggerMetaData(req)
+					)
+				)
+				.catch((err) => {
+					logger.error(
+						`Error in trying to save payload data to database for action: ${req.params.action}`,
+						getLoggerMetaData(req),
+						err
+					);
+				});
+		} catch (err) {
+			logger.error(`Error in savePayloadInDb`, getLoggerMetaData(req), err);
+		}
 	}
 }
