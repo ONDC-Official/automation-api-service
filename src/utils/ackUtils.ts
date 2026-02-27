@@ -41,6 +41,15 @@ export const setAckResponse = (
 		resp.context = body.context ?? {};
 	}
 
+	if (resp.error) {
+		const { error: err, message, ...rest } = resp;
+		return {
+			error: err,
+			message,
+			...rest,
+		} as AckResponse;
+	}
+
 	return resp;
 };
 export const setInternalServerNack = {
