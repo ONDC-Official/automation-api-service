@@ -72,6 +72,7 @@ async function getPublicKeys(
 	env: EnvType,
 	loggerMeta: any
 ): Promise<string> {
+	console.log("env in the getPublicKeys",env)
 	logger.info("Getting public keys", loggerMeta);
 	try {
 		const { subscriberId, ukId } =
@@ -112,6 +113,7 @@ async function performLookup(
 		baseUrl = config.registry.IN_HOUSE_REGISTRY;
 	}
 	const url = `${baseUrl}lookup`;
+	console.log("full url",url)
 	const data = {
 		subscriber_id: subId,
 		ukId: ukId,
