@@ -23,67 +23,82 @@ const dbController = new DataController();
 const sessionController = new SessionController();
 
 router.post(
-	"/:action",
-	otelTracing(
-		"body.context.transaction_id",
-		"body.session_id",
-		"body.context.bap_id",
-		"body.context.bpp_id"
-	),
-	validationController.validateRequestBodyNp,
-	sessionController.receiveNewRequestFromNp,
-	sessionController.createTransaction,
-	modifyExpressSend,
-	validationController.validateSignatureNp,
-	validationController.validateL0,
-	validationController.validateL1,
-	validationController.validateL1Custom,
-	validationController.validateContextFromNp,
-	commController.forwardToMockServer
+    "/:action",
+    otelTracing(
+        "body.context.transaction_id",
+        "body.session_id",
+        "body.context.bap_id",
+        "body.context.bpp_id",
+    ),
+    validationController.validateRequestBodyNp,
+    sessionController.receiveNewRequestFromNp,
+    sessionController.createTransaction,
+    modifyExpressSend,
+    validationController.validateSignatureNp,
+    validationController.validateL0,
+    validationController.validateL1,
+    validationController.validateL1Custom,
+    validationController.validateContextFromNp,
+    commController.forwardToMockServer,
 );
 
 function modifyExpressSend(
-	req: ApiServiceRequest,
-	res: Response,
-	next: NextFunction
+    req: ApiServiceRequest,
+    res: Response,
+    next: NextFunction,
 ) {
-	if (!res.locals.isSendWrapped) {
-		res.locals.isSendWrapped = true; // Flag to indicate the wrapping is done
-		const originalSend = res.send;
-		res.send = function (body) {
-			if (!res.locals.isCacheUpdated) {
-				res.locals.isCacheUpdated = true; // Flag to ensure cache update happens only once
-				const statusCode = res.statusCode;
-				const payloadID = uuidV4();
-				new TransactionCacheService().updateTransactionCache(
-					payloadID,
-					req.body,
-					body,
-					req?.requestProperties?.subscriberUrl
-				);
+    if (!res.locals.isSendWrapped) {
+        res.locals.isSendWrapped = true; // Flag to indicate the wrapping is done
+        const originalSend = res.send;
+        res.send = function (body) {
+            if (!res.locals.isCacheUpdated) {
+                res.locals.isCacheUpdated = true; // Flag to ensure cache update happens only once
+                const statusCode = res.statusCode;
+                const payloadID = uuidV4();
+                new TransactionCacheService().updateTransactionCache(
+                    payloadID,
+                    req.body,
+                    body,
+                    req?.requestProperties?.subscriberUrl,
+                );
 
-				const action = req.requestProperties?.action || "unknown_action";
-				performL1validationsSave(
-					action,
-					getL1Key(req),
-					req.body,
-					l1ValidationsStore
-				);
-				dbController.savePayloadInDb(req, body, false, statusCode, payloadID);
-				sendLogsToNo(req, body);
-				logger.info(
-					"Now responding back to the client",
-					getLoggerMetaData(req),
-					{
-						response: body,
-						code: statusCode,
-					}
-				);
-			}
-			return originalSend.call(this, body); // Call the original send method
-		};
-	}
-	next();
+                const action =
+                    req.requestProperties?.action || "unknown_action";
+                try {
+                    dbController.savePayloadInDb(
+                        req,
+                        body,
+                        false,
+                        statusCode,
+                        payloadID,
+                    );
+                    performL1validationsSave(
+                        action,
+                        getL1Key(req),
+                        req.body,
+                        l1ValidationsStore,
+                    );
+                    sendLogsToNo(req, body);
+                    logger.info(
+                        "Now responding back to the client",
+                        getLoggerMetaData(req),
+                        {
+                            response: body,
+                            code: statusCode,
+                        },
+                    );
+                } catch (err) {
+                    logger.error(
+                        "Error in saving payload or sending logs to NO",
+                        getLoggerMetaData(req),
+                        err as Error,
+                    );
+                }
+            }
+            return originalSend.call(this, body); // Call the original send method
+        };
+    }
+    next();
 }
 
 export default router;
