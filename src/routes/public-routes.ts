@@ -77,7 +77,13 @@ function modifyExpressSend(
                         getL1Key(req),
                         req.body,
                         l1ValidationsStore,
-                    );
+                    ).catch((err) => {
+                        logger.error(
+                            "Error in performing L1 validations save",
+                            getLoggerMetaData(req),
+                            err as Error,
+                        );
+                    });
                     sendLogsToNo(req, body);
                     logger.info(
                         "Now responding back to the client",
