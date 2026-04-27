@@ -11,6 +11,9 @@ const createAuthHeader = async (
 ) => {
 	try {
 		logger.info("Creating Authorization Header", loggerMeta);
+		logger.info("Payload for auth header", payload);
+		logger.info("Workbench subscriber_id: , process.env.UKID);
+	
 		const subId =
 			env === "LOGGED-IN"
 				? process.env.WORKBENCH_SUBSCRIBER_ID
