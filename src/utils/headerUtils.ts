@@ -10,7 +10,6 @@ const createAuthHeader = async (
 	loggerMeta: any
 ) => {
 	try {
-		logger.info("Creating Authorization Header", loggerMeta);
 		logger.info("Payload for auth header ", payload);
 		logger.info("Workbench unique key id ", process.env.UKID);
 	
