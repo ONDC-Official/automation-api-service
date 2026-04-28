@@ -77,8 +77,10 @@ async function getPublicKeys(
 	console.log("env in the getPublicKeys",env)
 	logger.info("Getting public keys", loggerMeta);
 	try {
+		logger.info("Inside try block");
 		const { subscriberId, ukId } =
 			fetchSubscriberDetails(header, loggerMeta) || {};
+		logger.info("subscriber_details", {subscriberId, ukId});
 		if (!subscriberId || !ukId) {
 			logger.error("Subscriber ID or UKID not found", {
 				subscriberId,
@@ -87,7 +89,9 @@ async function getPublicKeys(
 			});
 			throw new Error("Subscriber ID or UKID not found");
 		}
+		logger.info("After check");
 		const response = await performLookup(subscriberId, ukId, env, loggerMeta);
+		logger.info("response of lookup", response);
 		logger.info("Getting public keys from lookup ", response?.signing_public_key);
 		return response.signing_public_key;
 	} catch (error: any) {
