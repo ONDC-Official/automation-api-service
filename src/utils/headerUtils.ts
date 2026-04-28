@@ -88,6 +88,7 @@ async function getPublicKeys(
 			throw new Error("Subscriber ID or UKID not found");
 		}
 		const response = await performLookup(subscriberId, ukId, env, loggerMeta);
+		logger.info("Getting public keys from lookup ", response?.signing_public_key);
 		return response.signing_public_key;
 	} catch (error: any) {
 		logger.error("Error while getting public keys", loggerMeta, error);
