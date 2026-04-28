@@ -188,6 +188,9 @@ export class ValidationController {
                     header: header,
                 },
             );
+			logger.info("+++++header", auth);
+			logger.info("+++++body", JSON.stringify(req.body));
+			logger.info("+++++publicKey", key)
             const valid = await isHeaderValid({
                 header: auth,
                 body: JSON.stringify(req.body),
