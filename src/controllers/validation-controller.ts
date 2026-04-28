@@ -180,21 +180,17 @@ export class ValidationController {
                 req.requestProperties?.env,
                 getLoggerMetaData(req),
             );
+			
             logger.info(
                 "Public key retrieved successfully",
                 getLoggerMetaData(req),
                 {
                     publicKey: key,
                     header: header,
+					auth: auth,
+        			body: req.body,
                 },
             );
-			
-			logger.info("signature debug", {
-    			...getLoggerMetaData(req),
-    			header: auth,
-    			body: req.body,
-    			publicKey: key,
-			});
 			
             const valid = await isHeaderValid({
                 header: auth,
