@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import logger from "@ondc/automation-logger";
 import { getLoggerMetaData } from "../utils/loggingUtils";
-import { htmlFormService } from "../services/form-service";
+import { htmlFormService, callbackFormService } from "../services/form-service";
 
 export async function htmlFormController(req: Request, res: Response) {
 	try {
@@ -43,5 +43,45 @@ export async function htmlFormController(req: Request, res: Response) {
 			error
 		);
 		res.status(500).send("Internal Server Error");
+	}
+}
+
+export async function callbackController(req: Request, res: Response) {
+	try {
+		const { transaction_id, success, message } = req.body ?? {};
+
+		logger.info("Callback received", getLoggerMetaData(req), {
+			transaction_id,
+			success,
+			message,
+		});
+
+		if (!transaction_id) {
+			res.status(400).json({
+				success: false,
+				message: "Missing required field: transaction_id",
+			});
+			return;
+		}
+
+		await callbackFormService(
+			transaction_id,
+			success,
+			message,
+			getLoggerMetaData(req)
+		);
+
+		res.status(200).json({
+			success: true,
+			message: "Callback received and recorded",
+			transaction_id,
+			timestamp: new Date().toISOString(),
+		});
+	} catch (error: any) {
+		logger.error("Error in callback", getLoggerMetaData(req), error);
+		res.status(500).json({
+			success: false,
+			message: `Error processing callback: ${error.message}`,
+		});
 	}
 }

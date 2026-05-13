@@ -1,5 +1,6 @@
 import { TransactionCacheService } from "./session-service-rewrite";
 import logger from "@ondc/automation-logger";
+import { RedisService } from "ondc-automation-cache-lib";
 export async function htmlFormService(
 	transactionId: string,
 	subscriberUrl: string,
@@ -45,5 +46,28 @@ export async function htmlFormService(
 		subscriberUrl,
 		submissionId,
 		formId,
+	});
+}
+
+export async function callbackFormService(
+	transaction_id: string,
+	success: boolean | string,
+	message: string,
+	loggerMeta: any
+): Promise<void> {
+	const completionKey = `form_completed:${transaction_id}`;
+	await RedisService.setKey(
+		completionKey,
+		JSON.stringify({
+			completed: true,
+			success: success ?? false,
+			message: message ?? "",
+			timestamp: new Date().toISOString(),
+		}),
+		3600
+	);
+	logger.info("Completion flag set in Redis", loggerMeta, {
+		transaction_id,
+		key: completionKey,
 	});
 }
