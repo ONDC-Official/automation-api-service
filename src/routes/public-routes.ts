@@ -22,6 +22,20 @@ const commController = new CommunicationController();
 const dbController = new DataController();
 const sessionController = new SessionController();
 
+// -----------------------------------------------------------------------
+// Public callback endpoint — no Beckn validation, no session, no forwarding
+// POST /{base}/buyer/callback
+// -----------------------------------------------------------------------
+router.post("/callback", (req: ApiServiceRequest, res: Response) => {
+	const { success, message } = req.body ?? {};
+	logger.info("Callback endpoint hit", { success, message });
+	res.status(200).json({
+		success: success ?? false,
+		message: message ?? "No message provided",
+		timestamp: new Date().toISOString(),
+	});
+});
+
 router.post(
     "/:action",
     otelTracing(
