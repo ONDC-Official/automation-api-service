@@ -12,6 +12,7 @@ import { getL1Key, getLoggerMetaData } from "../utils/loggingUtils";
 import { sendLogsToNo } from "../services/No-service";
 import { l1ValidationsStore } from "../models/storage-interface-implementations";
 import { performL1validationsSave } from "../validations/L1-validations";
+import { callbackController } from "../controllers/form-controller";
 
 const router = express();
 // router.use(express.json());
@@ -22,19 +23,9 @@ const commController = new CommunicationController();
 const dbController = new DataController();
 const sessionController = new SessionController();
 
-// -----------------------------------------------------------------------
-// Public callback endpoint — no Beckn validation, no session, no forwarding
 // POST /{base}/buyer/callback
-// -----------------------------------------------------------------------
-router.post("/callback", (req: ApiServiceRequest, res: Response) => {
-	const { success, message } = req.body ?? {};
-	logger.info("Callback endpoint hit", { success, message });
-	res.status(200).json({
-		success: success ?? false,
-		message: message ?? "No message provided",
-		timestamp: new Date().toISOString(),
-	});
-});
+// Body: { transaction_id: string, success: boolean|string, message: string }
+router.post("/callback", callbackController);
 
 router.post(
     "/:action",
