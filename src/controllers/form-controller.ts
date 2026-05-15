@@ -48,18 +48,19 @@ export async function htmlFormController(req: Request, res: Response) {
 
 export async function callbackController(req: Request, res: Response) {
 	try {
-		const { transaction_id, success, message } = req.body ?? {};
+		const { transaction_id, success, message, form_id } = req.body ?? {};
 
 		logger.info("Callback received", getLoggerMetaData(req), {
 			transaction_id,
 			success,
 			message,
+			form_id,
 		});
 
-		if (!transaction_id) {
+		if (!transaction_id || !form_id) {
 			res.status(400).json({
 				success: false,
-				message: "Missing required field: transaction_id",
+				message: "Missing required fields: transaction_id and form_id",
 			});
 			return;
 		}
@@ -68,6 +69,7 @@ export async function callbackController(req: Request, res: Response) {
 			transaction_id,
 			success,
 			message,
+			form_id,
 			getLoggerMetaData(req)
 		);
 
