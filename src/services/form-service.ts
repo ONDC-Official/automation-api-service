@@ -53,15 +53,17 @@ export async function callbackFormService(
 	transaction_id: string,
 	success: boolean | string,
 	message: string,
+	form_id: string | undefined,
 	loggerMeta: any
 ): Promise<void> {
-	const completionKey = `form_completed:${transaction_id}`;
+	const completionKey = `form_completed:${transaction_id}:${form_id}`;
 	await RedisService.setKey(
 		completionKey,
 		JSON.stringify({
 			completed: true,
 			success: success ?? false,
 			message: message ?? "",
+			form_id: form_id ?? null,
 			timestamp: new Date().toISOString(),
 		}),
 		3600
@@ -69,5 +71,6 @@ export async function callbackFormService(
 	logger.info("Completion flag set in Redis", loggerMeta, {
 		transaction_id,
 		key: completionKey,
+		form_id,
 	});
 }
