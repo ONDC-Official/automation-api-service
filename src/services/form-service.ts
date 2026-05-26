@@ -56,7 +56,7 @@ export async function callbackFormService(
 	form_id: string | undefined,
 	loggerMeta: any
 ): Promise<void> {
-	const completionKey = `form_completed:${transaction_id}:${form_id}`;
+	const completionKey = `form_completed:${transaction_id}`;
 	await RedisService.setKey(
 		completionKey,
 		JSON.stringify({
